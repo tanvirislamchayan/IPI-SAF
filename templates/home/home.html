@@ -1,0 +1,1354 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block start %}
+
+
+<main class="container mb-3"> 
+    <div class="container bangla-content">
+        <div class="card">
+            <div class="card-body">
+                <form class="needs-validation" novalidate method="post"
+                      action="{% url 'save-info' %}" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      {% include "base/messages.html" %}
+                    <div class="row">
+                        <div class="col-md-2 d-none d-sm-block d-sm-none d-md-block text-center">
+                            <img src="{% static 'src/image/logo.jpg' %}" alt="IPI Logo" class="img-thumbnail">
+                        </div>
+                        <div class="col-md-10 col-sm-12 text-center">
+                            <h3 style="font-weight:bolder;">ইমেজ পলিটেকনিক ইন্সটিটিউট, রংপুর</h3>
+                            <span style="font-weight:bolder;">ইমেজ টাওয়ার, খামার মোড়, কলেজ রোড, রংপুর।</span><br>
+                            <span style="font-weight:bolder;">যোগাযোগঃ ০১৭০৪১৯৬১৫০, ০১৭৫৫০৬৭২১০</span>
+
+                            <p style="color:green; font-weight:bolder;font-size: 15px;">কারিগরি শিক্ষা অধিদপ্তর এর স্টাইপেন্ড MIS সফটওয়্যারে উপবৃত্তির জন্য শিক্ষার্থী আবেদন ফরম
+                                (SAF)
+                                
+                            </p>
+                        </div>
+                        <div class="col-md-12 p-2">
+                            <h4 class="text-left text-primary">ব্যক্তিগত তথ্য</h4>
+                            <hr class="text-primary border-4">
+                        </div>
+
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            শিক্ষার্থীর নাম (বাংলা)
+        </label>
+    
+        <input class='form-control' name='name' required type='text' />
+    
+        <div class="invalid-feedback">শিক্ষার্থীর নাম (বাংলা) তথ্যটি দিন.
+        </div>
+    
+    </div>
+
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            পিতার নাম (বাংলা)
+        </label>
+    
+        <input class='form-control' name='fatherName' required type='text' />
+    
+        <div class="invalid-feedback">পিতার নাম (বাংলা) তথ্যটি দিন.
+        </div>
+
+    </div>
+
+
+    <div class='mb-3 col-md-4'>
+ 
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            মাতার নাম (বাংলা)
+        </label>
+        <input class='form-control' name='motherName' required type='text' />
+        <div class="invalid-feedback">মাতার নাম (বাংলা) তথ্যটি দিন.
+        </div>
+ 
+    </div>
+
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            শিক্ষার্থীর নাম (ইংরেজি)
+        </label>
+
+        <input class='form-control' name='nameEng' required type='text' />
+
+        <div class="invalid-feedback">শিক্ষার্থীর নাম (ইংরেজি) তথ্যটি দিন.
+        </div>
+
+    </div>
+
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            পিতার নাম (ইংরেজি)
+        </label>
+  
+        <input class='form-control' name='fatherNameEng' required type='text' />
+   
+        <div class="invalid-feedback">পিতার নাম (ইংরেজি) তথ্যটি দিন.
+        </div>
+    </div>
+
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            মাতার নাম (ইংরেজি)
+        </label>
+ 
+        <input class='form-control' name='motherNameEng' required type='text' />
+  
+        <div class="invalid-feedback">মাতার নাম (ইংরেজি) তথ্যটি দিন.
+        </div>
+ 
+    </div>
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+            জন্ম সনদের নম্বর
+        </label>
+        <input class='form-control' name='birthCertNumber' type='text' />
+    
+    </div>
+
+    <div class='mb-3 col-md-4'>
+    
+        <label class="form-label">
+            
+            পিতার এনআইডি নম্বর
+        </label>
+        <input class='form-control' name='fatherNID' type='text' />
+
+    </div>
+    <div class='mb-3 col-md-4'>
+
+  
+        <label class="form-label">
+            
+            মাতার এনআইডি নম্বর
+        </label>
+    
+        <input class='form-control' name='motherNID' type='text' />
+
+    </div>
+
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+            জন্ম তারিখ
+        </label>
+    
+        <input class='form-control' name='dob' type='date' />
+
+    </div>
+
+
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+            পিতার জন্ম তারিখ
+        </label>
+    
+        <input class='form-control' name='fatherDob' type='date' />
+    
+    </div>
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+            মাতার জন্ম তারিখ
+        </label>
+    
+        <input class='form-control' name='motherDob' type='date' />
+    
+    </div>
+
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            জেন্ডার নির্বাচন করুন
+        </label>
+    
+        <select class='form-select' name='sex' required>
+            
+                <option disabled hidden selected value> </option>
+            
+            
+                <option value="পুরুষ" >
+                    পুরুষ
+                </option>
+            
+                <option value="মহিলা" >
+                    মহিলা
+                </option>
+            
+                <option value="অন্যান্য" >
+                    অন্যান্য
+                </option>
+            
+        </select>
+    
+    
+        <div class="invalid-feedback">জেন্ডার তথ্যটি দিন.
+        </div>
+
+    </div>
+
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+            পিতার মোবাইল নম্বর
+        </label>
+    
+        <input class='form-control' name='fatherMobile' type='text' />
+    
+    </div>
+
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+            মাতার মোবাইল নম্বর
+        </label>
+    
+        <input class='form-control' name='motherMobile' type='text' />
+    
+    </div>
+
+<div class="col-md-6 mt-5">
+    <h4 class="text-left text-primary">বর্তমান ঠিকানা</h4>
+    <hr class="text-primary border-4">
+    <div class="row">
+        
+    <div class='mb-3 col-md-6'>
+    
+        <label class="form-label">
+                <span class="text-danger me-1">*</span>বিভাগ</label>
+    
+        <input class='from-division form-control' name='presentDivision' required type='text' />
+    
+        <div class="invalid-feedback">বিভাগ তথ্যটি দিন.
+        </div>
+    
+    </div>
+    
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            পৌরসভা/ইউনিয়ন/সিটি কর্পোরেশন
+        </label>
+    
+        <input class='from-union form-control' name='presentUnion' required type='text' />
+    
+        <div class="invalid-feedback">পৌরসভা/ইউনিয়ন/সিটি কর্পোরেশন তথ্যটি দিন.
+        </div>
+    </div>
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            জেলা</label>
+    
+        <input class='from-district form-control' name='presentDistrict' required type='text' />
+
+        <div class="invalid-feedback">জেলা তথ্যটি দিন.
+        </div>
+  
+    </div>   
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            পোস্ট কোড
+        </label>
+  
+        <input class='from-post form-control' name='presentPost' required type='text' />
+    
+        <div class="invalid-feedback">পোস্ট কোড তথ্যটি দিন.
+        </div>
+
+    </div>
+        
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            উপজেলা
+        </label>
+    
+        <input class='from-upozila form-control' name='presentUpozila' required type='text' />
+    
+        <div class="invalid-feedback">উপজেলা তথ্যটি দিন.
+        </div>
+    
+    </div>
+  
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            ঠিকানা/গ্রাম
+        </label>
+    
+        <input class='from-village form-control' name='presentVillage' required type='text' />
+    
+        <div class="invalid-feedback">ঠিকানা/গ্রাম তথ্যটি দিন.
+        </div>
+    
+    </div>
+
+        <!-- <div class="col-md-6">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="same-as-permanent-address">
+                <label class="form-check-label" for="same-as-permanent-address">কপি করুন বর্তমান ঠিকানাটি স্থায়ী ঠিকানায়</label>
+            </div>
+        </div> -->
+    </div>
+</div>
+
+<div class="col-md-6 mt-5">
+    <div class="col-12 row mx-auto">
+        <div class="col-md-5">
+            <h4 class="text-left text-primary">স্থায়ী ঠিকানা</h4>
+        </div>
+        <div class="col-md-7">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="same-as-permanent-address">
+                <label class="form-check-label" for="same-as-permanent-address">কপি করুন বর্তমান ঠিকানাটি স্থায়ী ঠিকানায়</label>
+            </div>
+        </div>
+    </div>
+    <hr class="text-primary border-4">
+    <div class="row">
+        
+    <div class='mb-3 col-md-6'>
+    
+        <label class="form-label"> 
+             <span class="text-danger me-1">*</span>
+            
+            বিভাগ
+        </label>
+
+        <input class='to-division form-control' name='permanentDivision' required type='text' />
+    
+        <div class="invalid-feedback">বিভাগ তথ্যটি দিন.
+        </div>
+    
+    </div>
+
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            পৌরসভা/ইউনিয়ন/সিটি কর্পোরেশন
+        </label>
+    
+        <input class='to-union form-control' name='permanentUnion' required type='text' />
+    
+        <div class="invalid-feedback">পৌরসভা/ইউনিয়ন/সিটি কর্পোরেশন তথ্যটি দিন.
+        </div>
+    </div>
+
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            জেলা
+        </label>
+    
+        <input class='to-district form-control' name='permanentDistrict' required type='text' />
+    
+        <div class="invalid-feedback">জেলা তথ্যটি দিন.
+        </div>
+    </div>
+        
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            পোস্ট কোড
+        </label>
+  
+        <input class='to-post form-control' name='permanentPost' required type='text' />
+    
+        <div class="invalid-feedback">পোস্ট কোড তথ্যটি দিন.
+        </div>
+    </div> 
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            উপজেলা
+        </label>
+    
+        <input class='to-upozila form-control' name='permanentUpozila' required type='text' />
+    
+        <div class="invalid-feedback">উপজেলা তথ্যটি দিন.
+        </div>
+    </div>
+        
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            ঠিকানা/গ্রাম
+        </label>
+    
+    
+        <input class='to-village form-control' name='permanentVillage' required type='text' />
+    
+        <div class="invalid-feedback">ঠিকানা/গ্রাম তথ্যটি দিন.
+        </div>
+    </div>
+
+    </div>
+</div>
+
+<div class="col-md-6 mt-5">
+    <h4 class="text-left text-primary">পূর্ববর্তী শিক্ষা তথ্য</h4>
+    <hr class="text-primary border-4">
+    <div class="row">
+        
+    <div class='mb-3 col-md-6'>
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            বিভাগ
+        </label>
+    
+        <input class='form-control' name='prevEduDivision' required type='text' />
+    
+        <div class="invalid-feedback">বিভাগ তথ্যটি দিন.
+        </div>
+    
+    </div>
+        
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            উত্তীর্ণ হওয়ার বছর
+        </label>
+    
+        <input class='form-control' name='prevEduPassYear' required type='text' />
+    
+        <div class="invalid-feedback">উত্তীর্ণ হওয়ার বছর তথ্যটি দিন.
+        </div>
+    
+    </div>
+        
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            জেলা
+        </label>
+    
+        <input class='form-control' name='prevEduDistrict' required type='text' />
+    
+        <div class="invalid-feedback">জেলা তথ্যটি দিন.
+        </div>
+    
+    </div>
+        
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            টেকনোলজি/ট্রেড/বিভাগ
+        </label>
+        <input class='form-control' name='prevEduTechnology' required type='text' />
+    
+        <div class="invalid-feedback">টেকনোলজি/ট্রেড তথ্যটি দিন.
+        </div>
+    
+    </div>
+
+        
+    <div class='mb-3 col-md-6'>
+
+
+    
+
+    
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            উপজেলা
+        </label>
+    
+        <input class='form-control' name='prevEduUpozila' required type='text' />
+    
+        <div class="invalid-feedback">উপজেলা তথ্যটি দিন.
+        </div>
+    </div>
+ 
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            পূর্ববর্তী পরীক্ষার নাম
+        </label>
+    
+
+        <input class='form-control' name='prevEduExamName' placeholder='এসএসসি/এইচএসসি' required type='text' />
+    
+        <div class="invalid-feedback">পূর্ববর্তী পরীক্ষার নাম তথ্যটি দিন.
+        </div>
+    
+    </div>
+  
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            প্রতিষ্ঠানের নাম
+        </label>
+    
+        <input class='form-control' name='prevEduInstitute' required type='text' />
+
+    
+        <div class="invalid-feedback">প্রতিষ্ঠানের নাম তথ্যটি দিন.
+        </div>
+    </div>    
+    <div class='mb-3 col-md-3'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            রোল
+        </label>
+        <input class='form-control' name='prevEduRoll' required type='text' />
+    
+        <div class="invalid-feedback">রোল তথ্যটি দিন.
+        </div>
+
+    </div>   
+    <div class='mb-3 col-md-3'>
+
+        <label class="form-label">
+            
+            রেজিস্ট্রেশন
+        </label>
+    
+        <input class='form-control' name='prevEduRegistration' type='text' />
+  
+    </div>
+        
+    <div class='mb-3 col-md-6'>
+    
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            বোর্ড/বিশ্ববিদ্যালয়
+        </label>
+    
+        <input class='form-control' name='prevEduBoard' required type='text' />
+    
+        <div class="invalid-feedback">বোর্ড/বিশ্ববিদ্যালয় তথ্যটি দিন.
+        </div>
+
+    </div>
+        
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            ফলাফল প্রদান করুন (GPA)
+        </label>
+    
+        <input class='form-control' name='prevEduResult' required type='text' />
+
+        <div class="invalid-feedback">ফলাফল (GPA) তথ্যটি দিন.
+        </div>
+    
+    </div>
+
+    </div>
+</div>
+
+<div class="col-md-6 mt-5">
+    <h4 class="text-left text-primary">বর্তমান শিক্ষা তথ্য</h4>
+    <hr class="text-primary border-4">
+    <div class="row">
+        
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            বিভাগ
+        </label>
+ 
+        <input class='form-control' name='presentEduDivision' required type='text' />
+   
+        <div class="invalid-feedback">বিভাগ তথ্যটি দিন.
+        </div>
+
+    </div>
+      
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            শ্রেণী/পর্ব
+        </label>
+  
+        <select class='form-select' name='presentEduSemester' required>
+            
+                <option disabled hidden selected value> </option>
+            
+            
+                <option value="1st" >
+                    1st Semester
+                </option>
+            
+                <option value="2nd" >
+                    2nd Semester
+                </option>
+            
+                <option value="3rd" >
+                    3rd Semester
+                </option>
+            
+                <option value="4th" >
+                    4th Semester
+                </option>
+            
+                <option value="5th" >
+                    5th Semester
+                </option>
+            
+                <option value="6th" >
+                    6th Semester
+                </option>
+            
+                <option value="7th" >
+                    7th Semester
+                </option>
+            
+                <option value="8th" >
+                    8th Semester
+                </option>
+            
+        </select>
+  
+        <div class="invalid-feedback">শ্রেণী/পর্ব তথ্যটি দিন.
+        </div>
+    
+    </div>
+        
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            জেলা
+        </label>
+    
+        <input class='form-control' name='presentEduDistrict' required type='text' />
+    
+        <div class="invalid-feedback">জেলা তথ্যটি দিন.
+        </div>
+
+    </div>        
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            টেকনোলজি/ট্রেড নির্বাচন করুন
+        </label>
+    
+        <select class='form-select' name='presentEduTechnology' required>
+            
+                <option disabled hidden selected value> </option>
+            
+                <option value="Computer" >
+                    Computer Technology
+                </option>
+            
+                <option value="Civil" >
+                    Civil Technology
+                </option>
+            
+                <option value="Electrical" >
+                    Electrical Technology
+                </option>
+            
+                <option value="Electronics" >
+                    Electronics Technology
+                </option>
+            
+                <option value="Electromedical" >
+                    Electromedical Technology
+                </option>
+            
+                <option value="Mechanical" >
+                    Mechanical Technology
+                </option>
+            
+                <option value="Power" >
+                    Power Technology
+                </option>
+            
+                <option value="Other" >
+                    Other
+                </option>          
+        </select>
+    
+        <div class="invalid-feedback">টেকনোলজি/ট্রেড তথ্যটি দিন.
+        </div>
+    </div> 
+    <div class='mb-3 col-md-6'>
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            উপজেলা
+        </label>
+    
+        <input class='form-control' name='presentEduUpozila' required type='text' />
+    
+        <div class="invalid-feedback">উপজেলা তথ্যটি দিন.
+        </div>
+
+    </div>
+
+        
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            শিফট এবং গ্রুপ নির্বাচন করুন
+        </label>
+  
+        <select class='form-select' name='presentEduShift' required>
+            
+                <option disabled hidden selected value> </option>
+            
+            
+                <option value="1st Shift-A" >
+                    1st Shift-A
+                </option>
+            
+                <option value="1st Shift-B" >
+                    1st Shift-B
+                </option>
+            
+                <option value="2nd Shift-A" >
+                    2nd Shift-A
+                </option>
+            
+                <option value="2nd Shift-B" >
+                    2nd Shift-B
+                </option>
+            
+        </select>
+  
+        <div class="invalid-feedback">শিফট এবং গ্রুপ তথ্যটি দিন.
+        </div>
+   
+    </div>
+     
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            প্রতিষ্ঠানের নাম
+        </label>
+    
+        <input class='form-control' name='presentEduInstitute' required type='text' />
+    
+        <div class="invalid-feedback">প্রতিষ্ঠানের নাম তথ্যটি দিন.
+        </div>
+
+    </div>  
+    <div class='mb-3 col-md-3'>
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            ভর্তি হওয়ার বছর
+        </label>
+
+    
+        <select class='form-select' name='presentEduSession' required>
+            
+                <option disabled hidden selected value> </option>
+
+                {% for year in years %}
+                <option value="{{ year.year }}" >
+                    {{ year.year }}
+                </option>
+                {% endfor %}
+            
+            
+        </select>
+    
+        <div class="invalid-feedback">ভর্তি হওয়ার বছর তথ্যটি দিন.
+        </div>
+
+    </div>
+    
+    <div class='mb-3 col-md-3'>
+    
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            রোল
+        </label>
+    
+        <input class='form-control' name='presentEduRoll' required type='text' />
+    
+        <div class="invalid-feedback">রোল তথ্যটি দিন.
+        </div>
+
+    </div>
+
+    </div>
+</div>
+
+<div class="col-md-12 mt-5">
+    <h4 class="text-left text-primary">অভিভাবকের তথ্য</h4>
+    <hr class="text-primary border-4">
+</div>
+
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            সম্পর্ক নির্বাচন করুন
+        </label>
+    
+        <select class='form-select' name='guardian' required>
+            
+                <option disabled hidden selected value> </option>
+            
+            
+                <option value="পিতা" >
+                    পিতা
+                </option>
+            
+                <option value="মাতা" >
+                    মাতা
+                </option>
+            
+                <option value="ভাই" >
+                    ভাই
+                </option>
+            
+                <option value="বোন" >
+                    বোন
+                </option>
+            
+                <option value="অন্যান্য" >
+                    অন্যান্য
+                </option>
+            
+        </select>
+        <div class="invalid-feedback">সম্পর্ক তথ্যটি দিন.
+        </div>
+
+    </div>
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            অভিভাবকের নাম (ইংরেজি)
+        </label>
+    
+        <input class='form-control' name='guardianNameEng' required type='text' />
+    
+        <div class="invalid-feedback">অভিভাবকের নাম (ইংরেজি) তথ্যটি দিন.
+        </div>
+    
+    </div>
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+            অভিভাবকের এনআইডি নম্বর
+        </label>
+    
+        <input class='form-control' name='guardianNID' type='text' />
+    
+    </div>
+
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            অভিভাবকের নাম (বাংলা)
+        </label>
+    
+        <input class='form-control' name='guardianName' required type='text' />
+    
+        <div class="invalid-feedback">অভিভাবকের নাম (বাংলা) তথ্যটি দিন.
+        </div>
+    
+    </div>
+
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+            অভিভাবকের মোবাইল নম্বর
+        </label>
+        <input class='form-control' name='guardianMobile' type='text' />
+    
+    </div>
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+            অভিভাবকের জন্ম তারিখ
+        </label>
+    
+        <input class='form-control' name='guardianDob' type='date' />
+    
+    </div>
+<div class="col-md-12 mt-5">
+    <h4 class="text-left text-primary">যোগ্যতার শর্ত এবং সংযুক্তি</h4>
+    <hr class="text-primary border-4">
+</div>
+
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            পড়াশুনার খরচ বহন করবে কে?
+        </label>
+    
+        <select class='form-select' name='eduCostBearer' required>
+            
+                <option disabled hidden selected value> </option>
+            
+            
+                <option value="পিতা" >
+                    পিতা
+                </option>
+            
+                <option value="মাতা" >
+                    মাতা
+                </option>
+            
+                <option value="অভিভাবক" >
+                    অভিভাবক
+                </option>
+            
+        </select>
+        <div class="invalid-feedback">পড়াশুনার খরচ বহন করবে কে? তথ্যটি দিন.
+        </div>
+    
+    </div>
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            আবেদনকারী কি মুক্তিযোদ্ধা পরিবারের সন্তান (মুক্তিযোদ্ধা প্রজন্ম)?
+        </label>
+    
+        <select class='form-select' name='freedomFighter' required>
+            
+                <option disabled hidden selected value> </option>
+            
+            
+                <option value="না" >
+                    না
+                </option>
+            
+                <option value="হ্যাঁ" >
+                    হ্যাঁ
+                </option>
+            
+        </select>
+    
+        <div class="invalid-feedback">আবেদনকারী কি মুক্তিযোদ্ধা পরিবারের সন্তান (মুক্তিযোদ্ধা প্রজন্ম)? তথ্যটি দিন.
+        </div>
+
+    </div>
+
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            আবেদনকারীর কি কোন শারীরিক প্রতিবন্ধকতা আছে?
+        </label>
+    
+        <select class='form-select' name='protibondhi' required>
+            
+                <option disabled hidden selected value> </option>
+            
+                <option value="না" >
+                    না
+                </option>
+            
+                <option value="হ্যাঁ" >
+                    হ্যাঁ
+                </option>
+            
+        </select>
+    
+        <div class="invalid-feedback">আবেদনকারীর কি কোন শারীরিক প্রতিবন্ধকতা আছে? তথ্যটি দিন.
+        </div>
+    
+    </div>
+
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            আবেদনকারী কি বাংলাদেশের কোনও ক্ষুদ্র নৃগোষ্ঠীর অন্তর্ভুক্ত?
+        </label>
+        <select class='form-select' name='nrigosti' required>
+            
+                <option disabled hidden selected value> </option>
+            
+            
+                <option value="না" >
+                    না
+                </option>
+            
+                <option value="হ্যাঁ" >
+                    হ্যাঁ
+                </option>
+            
+        </select>
+        <div class="invalid-feedback">আবেদনকারী কি বাংলাদেশের কোনও ক্ষুদ্র নৃগোষ্ঠীর অন্তর্ভুক্ত? তথ্যটি দিন.
+        </div>
+    
+    </div>
+    <div class='mb-3 col-md-4'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            আবেদনকারী কি অন্য কোন উৎস হতে বৃত্তি/উপবৃত্তি পান?
+        </label>
+        <select class='form-select' name='otherScholarSource' required>
+            
+                <option disabled hidden selected value> </option>
+                <option value="না" >
+                    না
+                </option>
+            
+                <option value="হ্যাঁ" >
+                    হ্যাঁ
+                </option>
+            
+        </select>
+        <div class="invalid-feedback">আবেদনকারী কি অন্য কোন উৎস হতে বৃত্তি/উপবৃত্তি পান? তথ্যটি দিন.
+        </div>
+    </div>
+<div class="col-md-12 mt-5">
+    <h4 class="text-left text-primary">সংযোজন</h4>
+    <hr class="text-primary border-4">
+</div>
+
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+            আবেদনকারীর ছবি সংযুক্ত করুন
+        </label>
+    
+        <input class='form-control' name='applicantPhoto' type='file' accept="image/*" />
+    
+        <div class="form-text">কেবলমাত্র .jpg, .jpeg এবং .png ফর্ম্যাটটি সমর্থিত। পাসপোর্ট সাইজ ছবি আপলোড করুন। 
+        </div>
+    </div>
+    <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+            ফাইল সংযুক্ত করুন
+        </label>
+    
+        <input class='form-control' name='documents' type='file' />
+    
+        <div class="form-text">কেবলমাত্র .jpg, .jpeg এবং .png, .pdf ফর্ম্যাটটি সমর্থিত।
+        </div>
+    </div>
+<div class="col-md-12 mt-5">
+    <h4 class="text-left text-primary">পেমেন্ট বিবরণ</h4>
+    <hr class="text-primary border-4">
+</div>
+
+    <div class='mb-3 col-md-3'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            পেমেন্টের ধরন
+        </label>
+    
+        <select class='change-banking-type form-select' name='paymentType' required>
+           <option value="মোবাইল ব্যাংকিং" >
+                    মোবাইল ব্যাংকিং
+                </option>
+            
+                <option value="ব্যাংকিং" >
+                    ব্যাংকিং
+                </option>
+            
+        </select>
+    
+        <div class="invalid-feedback">পেমেন্টের ধরন তথ্যটি দিন.
+        </div>
+    
+    </div>
+    <div class='mb-3 col-md-3'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            অ্যাকাউন্টধারীর নাম
+        </label>
+    
+        <input class='form-control' name='paymentAccountName' required type='text' />
+    
+        <div class="invalid-feedback ">অ্যাকাউন্টধারীর নাম তথ্যটি দিন.</div>
+
+    </div>
+    <div class='mb-3 col-md-3'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            অ্যাকাউন্ট নাম্বার
+        </label>
+    
+        <input class='form-control' name='paymentAccountNumber' required type='text' />
+    
+        <div class="invalid-feedback">অ্যাকাউন্ট নাম্বার তথ্যটি দিন.
+        </div>
+    
+    </div>
+
+    <div class='mb-3 col-md-3'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            অ্যাকাউন্টধারীর এনআইডি নম্বর
+        </label>
+    
+        <input class='form-control' name='paymentAccountNID' required type='text' />
+    
+        <div class="invalid-feedback">অ্যাকাউন্টধারীর এনআইডি নম্বর তথ্যটি দিন.
+        </div>
+    
+    </div>
+    <div class='mb-3 col-md-3 mobile-banking'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            ব্যাংকিং সেবাদানকারি প্রতিষ্ঠান নাম
+        </label>
+        <select class='mobile-banking-input form-select' name='paymentMobileBankName' required>
+            
+                <option disabled hidden selected value> </option>
+            
+            
+                <option value="বিকাশ" >
+                    বিকাশ
+                </option>
+            
+                <option value="নগদ" >
+                    নগদ
+                </option>
+            
+                <option value="রকেট" >
+                    রকেট
+                </option>
+            
+                <option value="শিওর ক্যাশ" >
+                    শিওর ক্যাশ
+                </option>
+            
+                <option value="এম ক্যাশ" >
+                    এম ক্যাশ
+                </option>
+            
+                <option value="ওকে ওয়ালেট" >
+                    ওকে ওয়ালেট
+                </option>
+            
+                <option value="উপায়" >
+                    উপায়
+                </option>
+            
+        </select>
+    
+        <div class="invalid-feedback">ব্যাংকিং সেবাদানকারি প্রতিষ্ঠান তথ্যটি দিন.
+        </div>
+
+    </div>
+
+    <div class='mb-3 col-md-3 banking'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            ব্যাংকের নাম
+        </label>
+    
+        <input class='banking-input form-control' name='paymentBankName' required type='text' />
+    </div>
+    <div class='mb-3 col-md-3 banking'>
+
+        <label class="form-label">
+            
+                <span class="text-danger me-1">*</span>
+            
+            ব্যাংক শাখা
+        </label>
+    
+        <input class='banking-input form-control' name='paymentBankBranch' required type='text' />
+    </div>
+    <div class='mb-3 col-md-3 banking'>
+
+        <label class="form-label">
+    
+                <span class="text-danger me-1">*</span>
+     
+            অ্যাকাউন্টের ধরন
+        </label>
+
+        <select class='banking-input form-select' name='bankAccountType' required>
+            
+                <option disabled hidden selected value> </option>
+
+                <option value="সঞ্চয়ী হিসাব" >
+                    সঞ্চয়ী হিসাব
+                </option>
+            
+                <option value="চলতি হিসাব" >
+                    চলতি হিসাব
+              </option>         
+        </select>
+ 
+    </div>
+
+                        <div class="col-12">
+                            <div class="float-end">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <a href="#" class="btn btn-danger ms-2">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <p class="text-center text-danger fs-8">
+                    যদি কেউ ফর্ম আগে সাবমিট করে থাকেন তাহলে দ্বিতীয়বার সাবমিট করতে পারবেন না।  ভুল সংশোধনের জন্য উপরের মেনু থেকে Search এ যান, এসএসসি রোল এবং অ্যাকাউন্ট নাম্বার দিয়ে ফর্মটি Search করুন।
+                    তারপর এডিট করার মাধ্যমে ভুল সংশোধন করুন।
+                </p>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

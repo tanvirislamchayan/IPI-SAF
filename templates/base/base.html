@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page }}</title>
+    <link href="{% static 'src/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'src/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'src/css/custom.css' %}" rel="stylesheet">
+    <script src="{% static 'src/js/jquery.min.js' %}"></script>
+    <script src="{% static 'src/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'src/js/pweb.js' %}"></script>
+    <script>
+        PWeb.baseURL = "http://saf.image.edu.bd";
+    </script>
+</head>
+<body class="d-flex flex-column page h-100">
+
+<nav class="navbar navbar-expand-lg px-lg-5 mb-3 navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="https://image.edu.bd/" target="_blank">
+            Image Polytechnic Institute
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#responsive-navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="responsive-navigation">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'search' %}">Search</a></li>
+                {% if request.user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+{% block start %}
+{% endblock %}
+
+<footer class="footer mt-auto py-3 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">
+            Copyright &copy; IPI | Developed By - <a href="https://www.facebook.com/EngrManikUllah" target="_blank">Engr. Manik Ullah</a> &amp; <a href="https://web.facebook.com/titanvir01" target="_blank">Tanvir Islam</a>
+        </p>
+    </div>
+</footer>
+
+<script src="{% static 'src/js/fontawesome-all.min.js' %}"></script>
+<script src="{% static 'src/js/pweb.ajax.js' %}"></script>
+<script src="{% static 'src/js/pweb.message.box.js' %}"></script>
+<script src="{% static 'src/js/bootstrap-form-validator.js' %}"></script>
+<script src="{% static 'src/js/pweb.rpir.js' %}"></script>
+
+<script>
+    PWeb.messageBox.parseAndShowMessage({})
+</script>
+</body>
+</html>
