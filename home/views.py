@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.core.files.storage import default_storage
 from django.contrib.auth import authenticate, login, logout
+import os
 
 
 
@@ -325,9 +326,20 @@ def update_info(request, roll):
         student_obj.otherScholar = request.POST.get('otherScholarSource')
 
         """Attachments/Images"""
+        # Check if a new applicantPhoto is uploaded
         if 'applicantPhoto' in request.FILES:
+            if student_obj.applicantPhoto:
+                # Delete the old applicantPhoto file
+                if default_storage.exists(student_obj.applicantPhoto.path):
+                    default_storage.delete(student_obj.applicantPhoto.path)
             student_obj.applicantPhoto = request.FILES['applicantPhoto']
+
+        # Check if a new documents file is uploaded
         if 'documents' in request.FILES:
+            if student_obj.documents:
+                # Delete the old documents file
+                if default_storage.exists(student_obj.documents.path):
+                    default_storage.delete(student_obj.documents.path)
             student_obj.documents = request.FILES['documents']
 
         student_obj.save()
