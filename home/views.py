@@ -243,7 +243,7 @@ def update_info(request, roll):
     # Retrieve existing StudentSaf and PaymentSystem objects
     student_obj = StudentSaf.objects.get(prevEduRoll=roll)
     payment = PaymentSystem.objects.get(student_id=student_obj.id)
-    years = Year.objects.all()
+    years = Year.objects.all().order_by('-year')
 
     if request.method == 'POST':
         """Personal info"""
@@ -377,7 +377,7 @@ def delete_seasson(request):
     if not request.user.is_superuser:
         return redirect('login')
     
-    seassons = Year.objects.all()
+    seassons = Year.objects.all().order_by('-year')
     students = StudentSaf.objects.all()
     
     selected_seasson = ''
