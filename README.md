@@ -35,6 +35,6 @@ This repository contains the source code for the SAF Scholarship application web
     git clone https://github.com/tanvirislamchayan/IPI-SAF.git
     cd IPI-SAF/
     pip install -r requirements.txt     # Install required dependencies
-1. **Clone the Repository:**
+1. **Run Server:**
     ```bash
     ./manage.py runserver               # Or use `python3 manage.py runserver`
