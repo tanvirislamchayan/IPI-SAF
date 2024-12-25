@@ -44,9 +44,17 @@
 <footer class="footer mt-auto py-3 bg-dark">
     <div class="container">
         <p class="m-0 text-center text-white">
-            Copyright &copy; IPI | Developed By - <a href="https://www.facebook.com/EngrManikUllah" target="_blank">Engr. Manik Ullah</a> &amp; <a href="https://web.facebook.com/titanvir01" target="_blank">Tanvir Islam</a>
+            &copy; Copyright - <span id="year"></span> | Developed By - <a href="#">JS Technology</a>
         </p>
     </div>
+    <script>
+        // Get the current year
+        const currentYear = new Date().getFullYear();
+    
+        // Set the year in the span with id 'year'
+        document.getElementById('year').textContent = currentYear;
+    </script>
+    
 </footer>
 
 <script src="{% static 'src/js/fontawesome-all.min.js' %}"></script>
