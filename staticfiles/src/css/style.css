@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'SolaimanLipi';
+    src: url("../font/SolaimanLipi.eot");
+    src: url("../font/SolaimanLipi.woff") format('woff'),
+    url("../font/SolaimanLipi.ttf") format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.bangla-content {
+    font-family: SolaimanLipi, serif, sans-serif;
+}
