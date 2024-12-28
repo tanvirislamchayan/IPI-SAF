@@ -10,3 +10,20 @@
 .bangla-content {
     font-family: SolaimanLipi, serif, sans-serif;
 }
+
+.img-middle {
+    display: grid;
+    place-content: center;
+    place-items: center;
+    overflow: hidden;
+    background-size: cover;
+  }
+  
+
+  
+  .img-middle img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+  

@@ -6,6 +6,10 @@ from django.urls import reverse
 from django.core.files.storage import default_storage
 from django.contrib.auth import authenticate, login, logout
 import os
+from weasyprint import HTML
+from django.template.loader import render_to_string
+from django.http import HttpResponse
+from django.conf import settings
 
 
 
@@ -13,10 +17,12 @@ import os
 
 
 def home(request):
+    students_count = StudentSaf.objects.all().count()
     years = Year.objects.all().order_by('-year')
     context = {
         'page':'IPI | Apply for SAF',
-        'years': years
+        'years': years,
+        'students_count': students_count
     }
     return render(request, 'home/home.html', context=context)
 
@@ -210,8 +216,10 @@ def save_data(request):
 
 
 def search_info(request):
+    students_count = StudentSaf.objects.all().count()
     context = {
-        'page': 'IPI | Apply for SAF'
+        'page': 'IPI | Apply for SAF',
+        'students_count': students_count
     }
 
     if request.method == 'POST':
@@ -230,10 +238,13 @@ def search_info(request):
 def student(request, roll):
     student_obj = StudentSaf.objects.get(prevEduRoll=roll)
     payment = PaymentSystem.objects.get(student_id=student_obj.id)
+    students_count = StudentSaf.objects.all().count()
+     
     context = {
         'page': 'IPI | Apply for SAF',
         'student': student_obj,
         'payment': payment,
+        'students_count': students_count
     }
     return render(request, 'search/student.html', context)
 
@@ -357,12 +368,13 @@ def update_info(request, roll):
 
         messages.success(request, 'Updated successfully!')
         return redirect('student', roll=student_obj.prevEduRoll)
-
+    students_count = StudentSaf.objects.all().count()
     context = {
         'page': 'IPI | Update Info for SAF',
         'student': student_obj,
         'payment': payment,
         'years': years,
+        'students_count': students_count
     }
     return render(request, 'search/update.html', context)
 
@@ -409,12 +421,14 @@ def delete_seasson(request):
         # Redirect to the referring page to avoid resubmission on refresh
         referer_url = request.META.get('HTTP_REFERER', 'delete')  # Fallback to 'delete' if no referer
         return HttpResponseRedirect(referer_url)
+    students_count = StudentSaf.objects.all().count()
 
     context = {
         'page': 'Delete SAF | IPI',
         'seassons': seassons,
         'students': students,
         'selected_seasson': selected_seasson,
+        'students_count': students_count
     }
     return render(request, 'home/delete.html', context)
 
@@ -448,9 +462,11 @@ def user_login(request):
             }
             messages.warning(request, 'Invalid username or password.')
             return HttpResponseRedirect(request.path_info)
+    students_count = StudentSaf.objects.all().count()
     
     context = {
-        'page': 'Login SAF Admin | API'
+        'page': 'Login SAF Admin | API',
+        'students_count': students_count
     }
     return render(request, 'home/login.html', context)
 
@@ -461,3 +477,42 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('login') 
+
+
+# print pdf
+
+from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
+from django.http import HttpResponse
+from weasyprint import HTML, CSS
+
+def print_pdf(request, roll):
+    # Fetch the student object
+    student_obj = get_object_or_404(StudentSaf, prevEduRoll=roll)
+
+    # Context for the template
+    context = {
+        'student': student_obj,
+        # Add additional fields as required
+    }
+
+    # Render the HTML template to a string
+    html_string = render_to_string('base/pdf.html', context)
+
+    # Load Bootstrap CSS via CDN and custom styles for the PDF
+    bootstrap_css_url = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css'
+    # custom_css_url = 'static/css/custom_pdf.css'  # Custom styles for alignment
+
+    # Generate PDF with A3 size
+    pdf = HTML(string=html_string).write_pdf(
+        stylesheets=[
+            CSS(bootstrap_css_url),
+            # CSS(custom_css_url)
+        ],
+        presentational_hints=True
+    )
+
+    # Return PDF as a downloadable file
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{student_obj.name}.pdf"'
+    return response

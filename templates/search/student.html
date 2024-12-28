@@ -3,1128 +3,259 @@
 {% block start %}
 
 
-<main class="container"> 
-
-    <div class="container bangla-content mb-3">
-        <div class="card">
-            <div class="card-body">
-                <div class="row collage-info mb-3">
-
-                    <div class="col-md-2 d-none d-sm-block d-sm-none d-md-block text-center">
-                        <img src="{% static 'src/image/logo.jpg' %}" alt="IPI Logo" class="img-thumbnail">
-                    </div><!--logo end-->
-                    <div class="col-md-10 col-sm-12 text-center">
-                        <h3 style="font-weight:bolder;">ইমেজ পলিটেকনিক ইন্সটিটিউট, রংপুর</h3>
-                        <span style="font-weight:bolder;">ইমেজ টাওয়ার, খামার মোড়, কলেজ রোড, রংপুর।</span><br>
-                        <span style="font-weight:bolder;">যোগাযোগঃ ০১৭০৪১৯৬১৫০, ০১৭৫৫০৬৭২১০</span>
-
-                        <p style="color:green; font-weight:bolder;font-size: 15px;">কারিগরি শিক্ষা অধিদপ্তর এর স্টাইপেন্ড MIS সফটওয়্যারে উপবৃত্তির জন্য শিক্ষার্থী আবেদন ফরম
-                            (SAF)
-                            </p>
-                    </div><!--Collage info end-->
-
-                    {% include "base/messages.html" %}
+<main class="container border m-2 shadow-sm mx-auto rounded"> 
 
 
-                </div> <!--collage info end-->
+    <div class="col-12">
+        <div class="container mt-3">
+       <div class="row">
+       <div class="col-md-2 d-none d-sm-block d-sm-none d-md-block text-center">
+            <img src="{% static 'src/image/logo.jpg' %}" alt="logo" width="110px" height="130px">
+        </div>
+        <div class="col-md-10 col-sm-12 text-center">
+            <h3 style="font-weight:bolder;">ইমেজ পলিটেকনিক ইন্সটিটিউট, রংপুর</h3>
+            <span style="font-weight:bolder;">ইমেজ টাওয়ার, খামার মোড়, কলেজ রোড, রংপুর।</span><br>
+            <span style="font-weight:bolder;">যোগাযোগঃ ০১৭০৪১৯৬১৫০, ০১৭৫৫০৬৭২১০</span>
 
-                <div class="row student-parsonal-info">
-                    <div class="col-md-12 p-2">
-                        <h4 class="text-left text-primary">ব্যক্তিগত তথ্য</h4>
-                        <hr class="text-primary border-4">
-                    </div>
-
-                    <div class='mb-3 col-md-4 student-info'>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                শিক্ষার্থীর নাম (বাংলা)
-                            </label>
-                        
-                            <div class='form-control'>
-                                {% if student.name %}
-                                    {{ student.name }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                শিক্ষার্থীর নাম (ইংরেজি)
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.nameEng %}
-                                    {{ student.nameEng }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                জন্ম সনদের নম্বর
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.birthCertNo %}
-                                    {{ student.birthCertNo }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                জন্ম তারিখ
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.dob %}
-                                    {{ student.dob }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                জেন্ডার
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.sex %}
-                                    {{ student.sex }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                    </div> <!--end of student info-->
-
-
-                    <div class="mb-3 col-md-4 father-info">
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                পিতার নাম (বাংলা)
-                            </label>
-                        
-                            <div class='form-control'>
-                                {% if student.fatherName %}
-                                    {{ student.fatherName }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                পিতার নাম (ইংরেজি)
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.fatherNameEng %}
-                                    {{ student.fatherNameEng }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                পিতার এনআইডি নম্বর
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.fatherNID %}
-                                    {{ student.fatherNID }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                পিতার জন্ম তারিখ
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.fatherDob %}
-                                    {{ student.fatherDob }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                পিতার মোবাইল নম্বর
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.fatherMobile %}
-                                    {{ student.fatherMobile }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                    </div> <!--end of Father info-->
-
-
-                    <div class="mb-3 col-md-4 mohter-info">
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                মাতার নাম (বাংলা)
-                            </label>
-                        
-                            <div class='form-control'>
-                                {% if student.motherName %}
-                                    {{ student.motherName }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                মাতার নাম (ইংরেজি)
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.motherNameEng %}
-                                    {{ student.motherNameEng }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                মাতার এনআইডি নম্বর
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.motherNID %}
-                                    {{ student.motherNID }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                মাতার জন্ম তারিখ
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.motherDob %}
-                                    {{ student.motherDob }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                মাতার মোবাইল নম্বর
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.motherMobile %}
-                                    {{ student.motherMobile }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                    </div> <!--end of Mother info-->
-
-                </div><!--student parsonal info end-->
-
-                <div class="row student-address">
-
-                    <div class="col-md-6 mt-5 student-present-address">
-                        <h4 class="text-left text-primary">বর্তমান ঠিকানা</h4>
-                        <hr class="text-primary border-4">
-                        <div class="row">
-                            <div class='mb-3 col-md-6'>
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        বিভাগ
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.presentDiv %}
-                                            {{ student.presentDiv }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
+            <p style="color:green; font-weight:bolder;font-size: 15px;">কারিগরি শিক্ষা অধিদপ্তর এর স্টাইপেন্ড MIS সফটওয়্যারে উপবৃত্তির জন্য শিক্ষার্থী আবেদন ফরম
+                (SAF)</p>
+        </div>
+       </div>
+        
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm">
+            
+                    <tr>
+                        <th rowspan="3" width="10%">
+                            <div class="d-flex flex-column justify-content-center align-items-center" style="width: 110px; height: 130px;">
+                            {% if student.applicantPhoto %}
+                                <img src="/media/{{ student.applicantPhoto }}" alt="ছবি" class="img-fluid mx-auto d-block">
+                            {% else %}
+                                <div>
+                                    <i class="fa-regular fa-image text-primary fa-xl"></i>
                                 </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        জেলা
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.presentDist %}
-                                            {{ student.presentDist }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
+                                <div>
+                                    Image hear
                                 </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        উপজেলা
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.presentUpozila %}
-                                            {{ student.presentUpozila }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class='mb-3 col-md-6'>
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        পৌরসভা/ইউনিয়ন/সিটি কর্পোরেশন
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.presentUnion %}
-                                            {{ student.presentUnion }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        পোস্ট কোড
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.presentPost %}
-                                            {{ student.presentPost }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        ঠিকানা/গ্রাম
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.presentVill %}
-                                            {{ student.presentVill }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--end of student-present-address-->
-
-                    <div class="col-md-6 mt-5 student-permanent-address">
-                        <h4 class="text-left text-primary">স্থায়ী ঠিকানা</h4>
-                        <hr class="text-primary border-4">
-                        <div class="row">
-                            <div class='mb-3 col-md-6'>
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        বিভাগ
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.permanentDiv %}
-                                            {{ student.permanentDiv }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        জেলা
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.permanentDist %}
-                                            {{ student.permanentDist }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        উপজেলা
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.permanentUpozila %}
-                                            {{ student.permanentUpozila }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class='mb-3 col-md-6'>
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        পৌরসভা/ইউনিয়ন/সিটি কর্পোরেশন
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.permanentUnion %}
-                                            {{ student.permanentUnion }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        পোস্ট কোড
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.permanentPost %}
-                                            {{ student.permanentPost }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        ঠিকানা/গ্রাম
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.permanentVill %}
-                                            {{ student.permanentVill }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--end of student-permanent-address-->
-
-                </div><!--end of student address-->
-
-                <div class="row student-qualification">
-
-                    <div class="col-md-6 mt-5 student-previous-qualification">
-                        <h4 class="text-left text-primary">পূর্ববর্তী শিক্ষা তথ্য</h4>
-                        <hr class="text-primary border-4">
-                        <div class="row">
-                            <div class='mb-3 col-md-6'>
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        বিভাগ
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.prevEduDivi %}
-                                            {{ student.prevEduDivi }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        জেলা
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.prevEduDist %}
-                                            {{ student.prevEduDist }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        উপজেলা
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.prevEduUpozila %}
-                                            {{ student.prevEduUpozila }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        প্রতিষ্ঠানের নাম
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.prevEduInst %}
-                                            {{ student.prevEduInst }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        বোর্ড/বিশ্ববিদ্যালয়
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.prevEduBoard %}
-                                            {{ student.prevEduBoard }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class='row mb-3 col-md-6'>
-                                
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        উত্তীর্ণ হওয়ার বছর
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.prevEduPassYear %}
-                                            {{ student.prevEduPassYear }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        টেকনোলজি/ট্রেড/বিভাগ
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.prevEduTech %}
-                                            {{ student.prevEduTech }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        পূর্ববর্তী পরীক্ষার নাম
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.prevEduExam %}
-                                            {{ student.prevEduExam }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        রোল
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.prevEduRoll %}
-                                            {{ student.prevEduRoll }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        রেজিস্ট্রেশন
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.prevEduReg %}
-                                            {{ student.prevEduReg }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        ফলাফল (GPA)
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.prevEduResult %}
-                                            {{ student.prevEduResult }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div><!--end of student-previous-qualification-->
-
-                    <div class="col-md-6 mt-5 student-present-qualification">
-                        <h4 class="text-left text-primary">বর্তমান শিক্ষা তথ্য</h4>
-                        <hr class="text-primary border-4">
-                        <div class="row">
-                            <div class='mb-3 col-md-6'>
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        বিভাগ
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.presentEduDivi %}
-                                            {{ student.presentEduDivi }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        জেলা
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.presentEduDist %}
-                                            {{ student.presentEduDist }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        উপজেলা
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.presentEduUpozila %}
-                                            {{ student.presentEduUpozila }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        প্রতিষ্ঠানের নাম
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.presentEduInstitute %}
-                                            {{ student.presentEduInstitute }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class='mb-3 col-md-6'>
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        শ্রেণী/পর্ব
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.presentEduSem %}
-                                            {{ student.presentEduSem }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        টেকনোলজি/ট্রেড
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.presentEduTech %}
-                                            {{ student.presentEduTech }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        শিফট এবং গ্রুপ
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.presentEduShift %}
-                                            {{ student.presentEduShift }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        ভর্তি হওয়ার বছর
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.presentEduSession %}
-                                            {{ student.presentEduSession }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label">
-                                        রোল
-                                    </label>
-                                
-                                    <div class='form-control'>
-                                        {% if student.presentEduRoll %}
-                                            {{ student.presentEduRoll }}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--end of student-present-qualification-->
-
-                </div><!--end of student Qualification-->
-
-                <div class="row student-guardian-info mt-5">
-                    <div class="col-md-12 p-2">
-                        <h4 class="text-left text-primary">অভিভাবকের তথ্য</h4>
-                        <hr class="text-primary border-4">
-                    </div>
-
-                    <div class='mb-3 col-md-4 student-info'>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                সম্পর্ক নির্বাচন করুন
-                            </label>
-                        
-                            <div class='form-control'>
-                                {% if student.guardian %}
-                                    {{ student.guardian }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
+                            {% endif %}
                         </div>
 
-                        <div class="mb-2">
-                            <label class="form-label">
-                                অভিভাবকের নাম (বাংলা)
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.guardianName %}
-                                    {{ student.guardianName }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                    </div> 
-
-
-                    <div class="mb-3 col-md-4 father-info">
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                অভিভাবকের নাম (ইংরেজি)
-                            </label>
-                        
-                            <div class='form-control'>
-                                {% if student.guardianNameEng %}
-                                    {{ student.guardianNameEng }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                অভিভাবকের মোবাইল নম্বর
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.guardianMobile %}
-                                    {{ student.guardianMobile }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                    </div> 
-
-
-                    <div class="mb-3 col-md-4 mohter-info">
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                অভিভাবকের এনআইডি নম্বর
-                            </label>
-                        
-                            <div class='form-control'>
-                                {% if student.guardianNID %}
-                                    {{ student.guardianNID }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                অভিভাবকের জন্ম তারিখ
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.guardianDob %}
-                                    {{ student.guardianDob }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                    </div> 
-
-                </div><!--student guardian info end-->
-
-                <div class="row student-eligibility-Conditions-and-Attachment mt-5">
-                    <div class="col-md-12 p-2">
-                        <h4 class="text-left text-primary">যোগ্যতার শর্ত এবং সংযুক্তি</h4>
-                        <hr class="text-primary border-4">
-                    </div>
-
-                    <div class='mb-3 col-md-4 student-info'>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                পড়াশুনার খরচ বহন করবে কে?
-                            </label>
-                        
-                            <div class='form-control'>
-                                {% if student.eduCostBearer %}
-                                    {{ student.eduCostBearer }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                আবেদনকারী কি বাংলাদেশের কোনও ক্ষুদ্র নৃগোষ্ঠীর অন্তর্ভুক্ত?
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.nrigosti %}
-                                    {{ student.nrigosti }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                    </div> 
-
-
-                    <div class="mb-3 col-md-4 father-info">
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                আবেদনকারী কি মুক্তিযোদ্ধা পরিবারের সন্তান (মুক্তিযোদ্ধা প্রজন্ম)?
-                            </label>
-                        
-                            <div class='form-control'>
-                                {% if student.freedomFighter %}
-                                    {{ student.freedomFighter }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                আবেদনকারী কি অন্য কোন উৎস হতে বৃত্তি/উপবৃত্তি পান?
-                            </label>
-
-                            <div class='form-control'>
-                                {% if student.otherScholar %}
-                                    {{ student.otherScholar }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                    </div> 
-
-
-                    <div class="mb-3 col-md-4 mohter-info">
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                আবেদনকারীর কি কোন শারীরিক প্রতিবন্ধকতা আছে?
-                            </label>
-                        
-                            <div class='form-control'>
-                                {% if student.protibondhi %}
-                                    {{ student.protibondhi }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        </div>
-
-                    </div> 
-
-                </div><!--student-eligibility-Conditions-and-Attachment info end-->
-
-                <div class="row student-payment-info mt-5">
-                    <div class="col-md-12 p-2">
-                        <h4 class="text-left text-primary">পেমেন্ট বিবরণ</h4>
-                        <hr class="text-primary border-4">
-                    </div>
-
-                    <div class='mb-3 col-md-3 student-info'>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                পেমেন্টের ধরন
-                            </label>
-                        
-                            <div class='form-control'>
-                                {% if payment.paymentType %}
-                                    {{ payment.paymentType }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                ব্যাংকিং সেবাদানকারি প্রতিষ্ঠান নাম
-                            </label>
-
-                            <div class='form-control'>
-                                {% if payment.paymentMobileBankName %}
-                                    {{ payment.paymentMobileBankName }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                    </div> 
-
-
-                    <div class="mb-3 col-md-3 father-info">
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                অ্যাকাউন্টধারীর নাম
-                            </label>
-                        
-                            <div class='form-control'>
-                                {% if payment.paymentAccountName %}
-                                    {{ payment.paymentAccountName }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                ব্যাংকের নাম
-                            </label>
-
-                            <div class='form-control'>
-                                {% if payment.paymentBankName %}
-                                    {{ payment.paymentBankName }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                    </div> 
-
-
-                    <div class="mb-3 col-md-3 mohter-info">
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                অ্যাকাউন্ট নাম্বার
-                            </label>
-                        
-                            <div class='form-control'>
-                                {% if payment.paymentAccountNo %}
-                                    {{ payment.paymentAccountNo }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                ব্যাংক শাখা
-                            </label>
-
-                            <div class='form-control'>
-                                {% if payment.paymentBankBranch %}
-                                    {{ payment.paymentBankBranch }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                    </div> 
-
-                    <div class="mb-3 col-md-3 mohter-info">
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                অ্যাকাউন্টধারীর এনআইডি নম্বর
-                            </label>
-                        
-                            <div class='form-control'>
-                                {% if payment.paymentAccountNID %}
-                                    {{ payment.paymentAccountNID }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">
-                                অ্যাকাউন্টের ধরন
-                            </label>
-
-                            <div class='form-control'>
-                                {% if payment.bankAccountType %}
-                                    {{ payment.bankAccountType }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </div>
-                        
-                        </div>
-
-                    </div> 
-
-                </div><!--student payment info end-->
-
-                <div class="col-12">
-                    <div class="float-end">
-                        <a href="{% url 'update' student.prevEduRoll %}" class="btn btn-primary ms-2">Edit</a>
-                    </div>
-                </div>
+                        </th>
+                        <th colspan="3">
+                        ব্যক্তিগত তথ্য 
+                        </th>
+                        <th colspan="2">
+                        Registration No. 001125
+                        </th>
+                    </tr>
                 
-            </div>
+            
+                    <tr>
+                        
+                        <th>শিক্ষার্থীর নাম (বাংলা)</th>
+                        <th>শিক্ষার্থীর নাম (ইংরেজি)</th>
+                        <th>জন্ম সনদের নম্বর</th>
+                        <th>জন্ম তারিখ</th>
+                        <th>জেন্ডার</th>
+                        
+                    </tr>
+                    <tr>
+                        
+                        <td> {{ student.name }} </td>
+                        <td> {{student.nameEng}} </td>
+                        <td> {{ student.birthCertNo }} </td>
+                        <td> {{ student.dob }} </td>
+                        <td> {{ student.sex }} </td>
+                        
+                    </tr>
+                    <tr>
+                        <th>সম্পর্ক</th>
+                        <th>নাম (বাংলা)</th>
+                        <th>নাম (ইংরেজি)</th>
+                        <th>এনআইডি নম্বর</th>
+                        <th>জন্ম তারিখ</th>
+                        <th>মোবাইল নং</th>
+                    </tr>
+                    <tr>
+                        <td>পিতা</td>
+                        <td> {{student.fatherName}} </td>
+                        <td> {{student.fatherNameEng}} </td>
+                        <td> {{ student.fatherNID }} </td>
+                        <td> {{ student.fatherDob }} </td>
+                        <td> {{ student.fatherMobile }} </td>
+                    </tr>
+                    <tr>
+                        <td>মাতা</td>
+                        <td> {{ student.motherName }} </td>
+                        <td> {{ student.motherNameEng }} </td>
+                        <td> {{ student.motherNID }} </td>
+                        <td> {{ student.motherDob }} </td>
+                        <td> {{ student.motherMobile }} </td>
+                    </tr>
+                    <!-- <tr>
+                        <td>মাতা</td>
+                        <td>রাজিয়া বেগম</td>
+                        <td>Razia Begum</td>
+                        <td>9458904350</td>
+                        <td>11-01-1940</td>
+                        <td>019833232323</td>
+                    </tr> -->
+                    <tr>
+                        <th>ঠিকানা</th>
+                        <th colspan="3">বিভাগ/জেলা/উপজেলা,পৌরসভা/ইউনিয়ন/সিটি কর্পোরেশন,পোস্ট কোড</th>
+                        <th colspan="2">ঠিকানা/গ্রাম</th>
+                    </tr>
+                    <tr>
+                        <td> <b> স্থায়ী </b> </td>
+                        <td colspan="3">{{ student.permanentUpozila }}, {{ student.permanentDist }}</td>
+                        <td colspan="2"> {{ student.permanentVill }} </td>
+                    </tr>
+                    <tr>
+                        <td> <b> অস্থায়ী </b> </td>
+                        <td colspan="3">{{student.presentUpozila}}, {{ student.presentDist }} </td>
+                        <td colspan="2"> {{student.presentVill}} </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">পূর্ববর্তী শিক্ষা তথ্য</th>
+                        <th colspan="2">বর্তমান শিক্ষা তথ্য</th>
+                        <th colspan="2">যোগ্যতার শর্ত এবং সংযুক্তি</th>
+                    </tr>
+                    <tr>
+                        <th>বিভাগ/জেলা/উপজেলা</th>
+                        <td> {{ student.prevEduUpozila }}, {{ student.prevEduDist }} </td>
+                        <th>বিভাগ/জেলা/উপজেলা</th>
+                        <td> {{ student.prevEduUpozila }}, {{ student.prevEduDist }} </td>
+                        <th>পড়াশোনার খরচ বহন করবে কে?</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>প্রতিষ্ঠানের নাম</th>
+                        <td> {{ student.prevEduInst }} </td>
+                        <th>প্রতিষ্ঠানের নাম</th>
+                        <td> {{ student.presentEduInstitute }} </td>
+                        <th>আবেদনকারী কি বাংলাদেশের কোন ক্ষুদ্র নৃগোষ্ঠীর অন্তর্ভুক্ত?</th>
+                        <td> {{ student.nrigosti }} </td>
+                    </tr>
+                    <tr>
+                        <th>বোর্ড</th>
+                        <td> {{ student.prevEduBoard }} </td>
+                        <th>শ্রেণী/পর্ব</th>
+                        <td> {{ student.presentEduSem }} </td>
+                        <th>আবেদনকারী কি মুক্তিযোদ্ধা পরিবারের সন্তান (মুক্তিযোদ্ধা প্রজন্ম)?</th>
+                        <td> {{ student.freedomFighter }} </td>
+                    </tr>
+                    <tr>
+                        <th>উত্তীর্ণ হওয়ার বছর</th>
+                        <td> {{student.prevEduPassYear}} </td>
+                        <th></th>
+                        <td></td>
+                        <th>আবেদনকারী কি অন্য কোন উৎস হতে বৃত্তি/উপবৃত্তি পান?</th>
+                        <td> {{ student.otherScholar }} </td>
+                    </tr>
+                    <tr>
+                        <th>টেকনোলজি/ট্রেড</th>
+                        <td> {{ student.prevEduTech }} </td>
+                        <th>টেকনোলজি/ট্রেড</th>
+                        <td> {{ student.presentEduTech }} </td>
+                        <th>আবেদনকারীর কি কোন শারীরিক প্রতিবন্ধকতা আছে?</th>
+                        <td> {{ student.protibondhi }} </td>
+                    </tr>
+                    <tr>
+                        <th>পূর্ববর্তী পরীক্ষার নাম </th> <!--রেজিস্ট্রেশন-->
+                        <td> {{ student.prevEduExam }} </td>
+                        <th>শিফট এবং গ্রুপ সেশন</th>
+                        <td> {{ student.presentEduShift }} </td>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>রেজিস্ট্রেশন</th>
+                        <td> {{ student.prevEduReg }} </td>
+                        <th>সেশন</th>
+                        <td> {{ student.presentEduSession }} </td>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>রোল</th>
+                        <td> {{ student.prevEduRoll }} </td>
+                        <th>রোল</th>
+                        <td> {{ student.presentEduRoll }} </td>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>জি পি এ</th>
+                        <td> {{ student.prevEduResult }} </td>
+                        <th></th>
+                        <td></td>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th class="text-center" colspan="2">ব্যাংকিং</th>
+                        <th class="text-center" colspan="2">মোবাইল ব্যাংকিং</th>
+                        <th class="text-center" colspan="2">অ্যাকাউন্টধারীর তথ্য</th>
+                    </tr>
+                    <tr>
+                        <th>ব্যাংক নির্বাচন করুন </th>
+                        <td> {{ payment.paymentBankName }} </td>
+                        <th>মোবাইল ব্যাংকিং সেবা দানকারী প্রতিষ্ঠানের নাম  </th>
+                        <td> {{payment.paymentMobileBankName}} </td>
+                        <th>অ্যাকাউন্টধারীর নাম</th>
+                        <td> {{ payment.paymentAccountName }} </td>
+                    </tr>
+                    <tr>
+                        <th>শাখা নির্বাচন করুন</th>
+                        <td> {{ payment.paymentBankBranch }} </td>
+                        <th>মোবাইল ব্যাংকিং সরবরাহকারী</th>
+                        <td>  </td>
+                        <th>অ্যাকাউন্টধারীর এনআইডি নম্বর</th>
+                        <td> {{ payment.paymentAccountNID }} </td>
+                    </tr>
+                    <tr>
+                        <th>রাউটিং নম্বর</th>
+                        <td>  </td>
+                        <th>রাউটিং নম্বর</th>
+                        <td>  </td>
+                        <th>অ্যাকাউন্ট নম্বর</th>
+                        <td> {{payment.paymentAccountNo}} </td>
+                    </tr>
+                    <tr>
+                        <th>অ্যাকাউন্টের ধরণ</th>
+                        <td> 
+                            {% if payment.paymentType == 'ব্যাংকিং' %}
+                                {{ payment.bankAccountType }}
+                            {% endif %}
+                        </td>
+                        <th>ফাইল</th>
+                        <td></td>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4" class="text-success">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <p>এই ফর্মের সকল তথ্য আমার দ্বারা পূরণ করা হয়েছে এবং সকল তথ্য সঠিক আছে</p>
+                            </div>
+                        </th>
+                        <th colspan="2">Applicant<br>Signature: </th> 
+                    </tr>
+                    <tr class="text-center">
+                        <th colspan="6">
+                            <a href="{% url 'update' student.prevEduRoll %}" class="btn btn-primary btn-md">
+                                <i class="fa-regular fa-pen-to-square"></i> Edit
+                            </a>
+                            <a href="#" class="btn btn-success btn-md"> <i class="fa-solid fa-print"></i> Print</a>
+                            <a href="{% url 'search' %}" class="btn btn-info btn-md"> <i class="fa-solid fa-magnifying-glass"></i> Search Again </a>
+                        </th>
+                    </tr>
+            </table>
         </div>
     </div>
+
+</div>
+
 
 </main>
 
