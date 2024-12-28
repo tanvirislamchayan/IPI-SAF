@@ -9,5 +9,6 @@ urlpatterns = [
     path('student-info/<str:roll>/', views.student, name='student'),
     path('update-info/<str:roll>/', views.update_info, name='update'),
     path('login/', views.user_login, name='login'),
-    path('logout/', views.user_logout, name='logout')
+    path('logout/', views.user_logout, name='logout'),
+    path('print-pdf/<str:roll>', views.print_pdf, name='prind_pdf'),
 ]

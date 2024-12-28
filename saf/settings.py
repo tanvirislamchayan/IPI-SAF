@@ -128,6 +128,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+PDF_TEMPLATE_PATH = BASE_DIR/'templates/search/student.html'
 
 # # Media files
 # MEDIA_URL = '/media/'
