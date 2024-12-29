@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Year, StudentSaf, PaymentSystem, AllStudent
+from .models import Year, StudentSaf, PaymentSystem
+from allstudents.models import AllStudent
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.contrib import messages
 from django.urls import reverse
@@ -19,7 +20,7 @@ from django.conf import settings
 def home(request):
     students_count = StudentSaf.objects.all().count()
     years = Year.objects.all().order_by('-year')
-    all_students = AllStudent.objects.latest('id')
+    all_students = AllStudent.objects.last()
     if all_students:
         all_students.check_validity()
     context = {
@@ -32,7 +33,7 @@ def home(request):
 
 
 def save_data(request):
-    all_students = AllStudent.objects.latest('id')
+    all_students = AllStudent.objects.last()
     if all_students:
         all_students.check_validity()
     if request.method == 'POST':
@@ -222,7 +223,7 @@ def save_data(request):
 
 
 def search_info(request):
-    all_students = AllStudent.objects.latest('id')
+    all_students = AllStudent.objects.last()
     if all_students:
         all_students.check_validity()
     students_count = StudentSaf.objects.all().count()
@@ -246,7 +247,7 @@ def search_info(request):
 
 def student(request, roll):
     student_obj = StudentSaf.objects.get(prevEduRoll=roll)
-    all_students = AllStudent.objects.latest('id')
+    all_students = AllStudent.objects.last()
     if all_students:
         all_students.check_validity()
     payment = PaymentSystem.objects.get(student_id=student_obj.id)
@@ -265,7 +266,7 @@ def student(request, roll):
 def update_info(request, roll):
     # Retrieve existing StudentSaf and PaymentSystem objects
     student_obj = StudentSaf.objects.get(prevEduRoll=roll)
-    all_students = AllStudent.objects.latest('id')
+    all_students = AllStudent.objects.last()
     if all_students:
         all_students.check_validity()
     payment = PaymentSystem.objects.get(student_id=student_obj.id)
@@ -406,7 +407,7 @@ def delete_seasson(request):
     
     seassons = Year.objects.all().order_by('-year')
     students = StudentSaf.objects.all()
-    all_students = AllStudent.objects.latest('id')
+    all_students = AllStudent.objects.last()
     if all_students:
         all_students.check_validity()
     
@@ -454,7 +455,7 @@ def delete_seasson(request):
 
 
 def user_login(request):
-    all_students = AllStudent.objects.latest('id')
+    all_students = AllStudent.objects.last()
     if all_students:
         all_students.check_validity()
     if request.method == 'POST':
@@ -496,7 +497,7 @@ def user_login(request):
 
 
 def user_logout(request):
-    all_students = AllStudent.objects.latest('id')
+    all_students = AllStudent.objects.last()
     all_students.check_validity()
     logout(request)
     return redirect('login') 
