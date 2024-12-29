@@ -498,7 +498,8 @@ def user_login(request):
 
 def user_logout(request):
     all_students = AllStudent.objects.last()
-    all_students.check_validity()
+    if all_students:
+        all_students.check_validity()
     logout(request)
     return redirect('login') 
 
