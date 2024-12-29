@@ -398,11 +398,9 @@ def update_info(request, roll):
 
 
 
-
-
 def delete_seasson(request):
     # Check if the user is a superuser
-    if not request.user.is_superuser:
+    if not request.user.is_authenticated:
         return redirect('login')
     
     seassons = Year.objects.all().order_by('-year')
@@ -465,7 +463,7 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
-            if user.is_superuser:
+            if user.is_authenticated:
                 login(request, user)
                 return redirect('delete')  # Redirect to 'delete' page if login is successful
             else:
