@@ -245,21 +245,40 @@ def search_info(request):
 
     return render(request, 'search/search.html', context)
 
+# from django.shortcuts import render, redirect, get_object_or_404
+# from django.contrib import messages
+
 def student(request, roll):
-    student_obj = StudentSaf.objects.get(prevEduRoll=roll)
+    students_count = StudentSaf.objects.all().count()
+
+    context = {
+        'page': 'IPI | Apply for SAF',
+        'students_count': students_count
+    }
+
     all_students = AllStudent.objects.last()
     if all_students:
         all_students.check_validity()
-    payment = PaymentSystem.objects.get(student_id=student_obj.id)
-    students_count = StudentSaf.objects.all().count()
-     
-    context = {
-        'page': 'IPI | Apply for SAF',
+
+    try:
+        student_obj = StudentSaf.objects.get(prevEduRoll=roll)
+    except StudentSaf.DoesNotExist:
+        messages.warning(request, 'Student not found.')
+        return redirect('search')
+
+    try:
+        payment = PaymentSystem.objects.get(student_id=student_obj.id)
+    except PaymentSystem.DoesNotExist:
+        messages.warning(request, 'Payment information not found for this student.')
+        return redirect('search')
+
+    context.update({
         'student': student_obj,
         'payment': payment,
-        'students_count': students_count
-    }
+    })
+
     return render(request, 'search/student.html', context)
+
 
 
 # update

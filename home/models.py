@@ -127,5 +127,5 @@ class PaymentSystem(models.Model):
     bankAccountType = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self) -> str:
-        name = f'{self.student.prevEduRoll} - {self.student.name}'
+        name = f'{self.student.presentEduRoll} - {self.student.name}'
         return name
