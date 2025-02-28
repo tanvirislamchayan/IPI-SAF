@@ -7,11 +7,10 @@ from django.urls import reverse
 from django.core.files.storage import default_storage
 from django.contrib.auth import authenticate, login, logout
 import os
-from weasyprint import HTML
-from django.template.loader import render_to_string
-from django.http import HttpResponse
-from django.conf import settings
 
+from django.template.loader import render_to_string
+from django.http import HttpResponse, JsonResponse
+from django.conf import settings
 
 
 # Create your views here.
@@ -20,9 +19,9 @@ from django.conf import settings
 def home(request):
     students_count = StudentSaf.objects.all().count()
     years = Year.objects.all().order_by('-year')
-    all_students = AllStudent.objects.last()
-    if all_students:
-        all_students.check_validity()
+    # all_students = AllStudent.objects.last()
+    # if all_students:
+    #     all_students.check_validity()
     context = {
         'page':'IPI | Apply for SAF',
         'years': years,
@@ -34,8 +33,8 @@ def home(request):
 
 def save_data(request):
     all_students = AllStudent.objects.last()
-    if all_students:
-        all_students.check_validity()
+    # if all_students:
+    #     all_students.check_validity()
     if request.method == 'POST':
 
         """Personal info"""
@@ -224,8 +223,8 @@ def save_data(request):
 
 def search_info(request):
     all_students = AllStudent.objects.last()
-    if all_students:
-        all_students.check_validity()
+    # if all_students:
+    #     all_students.check_validity()
     students_count = StudentSaf.objects.all().count()
     context = {
         'page': 'IPI | Apply for SAF',
@@ -257,8 +256,8 @@ def student(request, roll):
     }
 
     all_students = AllStudent.objects.last()
-    if all_students:
-        all_students.check_validity()
+    # if all_students:
+    #     all_students.check_validity()
 
     try:
         student_obj = StudentSaf.objects.get(prevEduRoll=roll)
@@ -286,8 +285,8 @@ def update_info(request, roll):
     # Retrieve existing StudentSaf and PaymentSystem objects
     student_obj = StudentSaf.objects.get(prevEduRoll=roll)
     all_students = AllStudent.objects.last()
-    if all_students:
-        all_students.check_validity()
+    # if all_students:
+    #     all_students.check_validity()
     payment = PaymentSystem.objects.get(student_id=student_obj.id)
     years = Year.objects.all().order_by('-year')
 
@@ -424,9 +423,9 @@ def delete_seasson(request):
     
     seassons = Year.objects.all().order_by('-year')
     students = StudentSaf.objects.all()
-    all_students = AllStudent.objects.last()
-    if all_students:
-        all_students.check_validity()
+    # all_students = AllStudent.objects.last()
+    # if all_students:
+    #     all_students.check_validity()
     
     selected_seasson = ''
     if 'seasson' in request.GET:
@@ -472,9 +471,9 @@ def delete_seasson(request):
 
 
 def user_login(request):
-    all_students = AllStudent.objects.last()
-    if all_students:
-        all_students.check_validity()
+    # all_students = AllStudent.objects.last()
+    # if all_students:
+    #     all_students.check_validity()
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -521,40 +520,3 @@ def user_logout(request):
     return redirect('login') 
 
 
-# print pdf
-
-from django.shortcuts import get_object_or_404
-from django.template.loader import render_to_string
-from django.http import HttpResponse
-from weasyprint import HTML, CSS
-
-def print_pdf(request, roll):
-    # Fetch the student object
-    student_obj = get_object_or_404(StudentSaf, prevEduRoll=roll)
-
-    # Context for the template
-    context = {
-        'student': student_obj,
-        # Add additional fields as required
-    }
-
-    # Render the HTML template to a string
-    html_string = render_to_string('base/pdf.html', context)
-
-    # Load Bootstrap CSS via CDN and custom styles for the PDF
-    bootstrap_css_url = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css'
-    # custom_css_url = 'static/css/custom_pdf.css'  # Custom styles for alignment
-
-    # Generate PDF with A3 size
-    pdf = HTML(string=html_string).write_pdf(
-        stylesheets=[
-            CSS(bootstrap_css_url),
-            # CSS(custom_css_url)
-        ],
-        presentational_hints=True
-    )
-
-    # Return PDF as a downloadable file
-    response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="{student_obj.name}.pdf"'
-    return response
