@@ -13,7 +13,7 @@
                       {% include "base/messages.html" %}
                     <div class="row">
                         <div class="col-md-2 d-none d-sm-block d-sm-none d-md-block text-center">
-                            <img src="{% static 'src/image/icon.png' %}" alt="IPI Logo" class="img-thumbnail">
+                            <img src="{% static 'src/image/icon.png' %}" alt="IPI Logo" width="130px" height="130px">
                         </div>
                         <div class="col-md-10 col-sm-12 text-center">
                             <h3 style="font-weight:bolder;">ইমেজ পলিটেকনিক ইন্সটিটিউট, রংপুর</h3>
@@ -24,11 +24,13 @@
                                 (SAF)
                                 
                             </p>
+                            <a target="_blank" href="https://drive.google.com/file/d/1-6wHTdaksJnfgIVqrUmKW9MamlcI_IiL/view?usp=sharing" class="text-center text-danger">Click here</a> to know how to fill the form.
                         </div>
                         <div class="col-md-12 p-2">
                             <h4 class="text-left text-primary">ব্যক্তিগত তথ্য</h4>
                             <hr class="text-primary border-4">
                         </div>
+                        
 
     <div class='mb-3 col-md-4'>
 
@@ -83,7 +85,7 @@
             
                 <span class="text-danger me-1">*</span>
             
-            শিক্ষার্থীর নাম (ইংরেজি)
+            শিক্ষার্থীর নাম (ইংরেজি)(CAPITAL)
         </label>
 
         <input class='form-control' name='nameEng' required type='text' />
@@ -99,7 +101,7 @@
             
                 <span class="text-danger me-1">*</span>
             
-            পিতার নাম (ইংরেজি)
+            পিতার নাম (ইংরেজি)(CAPITAL)
         </label>
   
         <input class='form-control' name='fatherNameEng' required type='text' />
@@ -114,7 +116,7 @@
             
                 <span class="text-danger me-1">*</span>
             
-            মাতার নাম (ইংরেজি)
+            মাতার নাম (ইংরেজি)(CAPITAL)
         </label>
  
         <input class='form-control' name='motherNameEng' required type='text' />
@@ -126,10 +128,10 @@
     <div class='mb-3 col-md-4'>
 
         <label class="form-label">
-            
+            <span class="text-danger me-1">*</span>
             জন্ম সনদের নম্বর
         </label>
-        <input class='form-control' name='birthCertNumber' type='text' />
+        <input class='form-control' name='birthCertNumber' type='text' required/>
     
     </div>
 
@@ -572,31 +574,20 @@
         <div class="invalid-feedback">প্রতিষ্ঠানের নাম তথ্যটি দিন.
         </div>
     </div>    
-    <div class='mb-3 col-md-3'>
+    <div class='mb-3 col-md-6'>
 
         <label class="form-label">
             
                 <span class="text-danger me-1">*</span>
             
-            রোল
+            রোল  (English)
         </label>
-        <input class='form-control' name='prevEduRoll' required type='text' />
+        <input class='form-control' placeholder="SSC/HSC Roll" name='prevEduRoll' required type='text' />
     
         <div class="invalid-feedback">রোল তথ্যটি দিন.
         </div>
 
-    </div>   
-    <div class='mb-3 col-md-3'>
-
-        <label class="form-label">
-            
-            রেজিস্ট্রেশন
-        </label>
-    
-        <input class='form-control' name='prevEduRegistration' type='text' />
-  
-    </div>
-        
+    </div> 
     <div class='mb-3 col-md-6'>
     
         <label class="form-label">
@@ -612,6 +603,19 @@
         </div>
 
     </div>
+    
+        <div class='mb-3 col-md-6'>
+
+        <label class="form-label">
+            
+            রেজিস্ট্রেশন(English)
+        </label>
+    
+        <input class='form-control' name='prevEduRegistration' type='text' />
+  
+    </div>
+
+    <div class="mb-3 col-md-6"></div>
         
     <div class='mb-3 col-md-6'>
 
@@ -646,7 +650,7 @@
             বিভাগ
         </label>
  
-        <input class='form-control' name='presentEduDivision' required type='text' />
+        <input class='form-control' name='presentEduDivision' required type='text' readonly value="রংপুর " />
    
         <div class="invalid-feedback">বিভাগ তথ্যটি দিন.
         </div>
@@ -715,7 +719,7 @@
             জেলা
         </label>
     
-        <input class='form-control' name='presentEduDistrict' required type='text' />
+        <input class='form-control' name='presentEduDistrict' required type='text' readonly value="রংপুর " />
     
         <div class="invalid-feedback">জেলা তথ্যটি দিন.
         </div>
@@ -735,7 +739,7 @@
                 <option disabled hidden selected value> </option>
             
                 <option value="Computer" >
-                    Computer Technology
+                    Computer Science & Technology
                 </option>
             
                 <option value="Civil" >
@@ -746,25 +750,24 @@
                     Electrical Technology
                 </option>
             
-                <option value="Electronics" >
-                    Electronics Technology
-                </option>
-            
-                <option value="Electromedical" >
-                    Electromedical Technology
-                </option>
-            
                 <option value="Mechanical" >
                     Mechanical Technology
                 </option>
-            
-                <option value="Power" >
-                    Power Technology
+                <option value="Fabric Manufacturing" >
+                    Fabric Manufacturing Technology
+                </option>
+                <option value="Wet Processing" >
+                    Wet Processing Technology
                 </option>
             
-                <option value="Other" >
-                    Other
-                </option>          
+                <option value="Textile" >
+                    Textile Technology
+                </option>
+                
+                <option value="Garments Design and Pattern Making" >
+                    Garments Design & Pattern Making Technology
+                </option>
+            
         </select>
     
         <div class="invalid-feedback">টেকনোলজি/ট্রেড তথ্যটি দিন.
@@ -778,7 +781,7 @@
             উপজেলা
         </label>
     
-        <input class='form-control' name='presentEduUpozila' required type='text' />
+        <input class='form-control' name='presentEduUpozila' required type='text' readonly value="রংপুর সদর" />
     
         <div class="invalid-feedback">উপজেলা তথ্যটি দিন.
         </div>
@@ -832,13 +835,13 @@
             প্রতিষ্ঠানের নাম
         </label>
     
-        <input class='form-control' name='presentEduInstitute' required type='text' />
+        <input class='form-control' name='presentEduInstitute' required type='text' readonly value="ইমেজ পলিটেকনিক ইনস্টিটিউট" />
     
         <div class="invalid-feedback">প্রতিষ্ঠানের নাম তথ্যটি দিন.
         </div>
 
     </div>  
-    <div class='mb-3 col-md-3'>
+    <div class='mb-3 col-md-6'>
         <label class="form-label">
             
                 <span class="text-danger me-1">*</span>
@@ -849,14 +852,14 @@
     
         <select class='form-select' name='presentEduSession' required>
             
-                <option disabled hidden selected value> </option>
+                
+            <option disabled hidden selected value> </option>
 
                 {% for year in years %}
                 <option value="{{ year.year }}" >
                     {{ year.year }}
                 </option>
                 {% endfor %}
-            
             
         </select>
     
@@ -865,16 +868,18 @@
 
     </div>
     
-    <div class='mb-3 col-md-3'>
+    <div class="mb-3 col-6"></div>
+    
+    <div class='mb-3 col-md-6'>
     
         <label class="form-label">
             
                 <span class="text-danger me-1">*</span>
             
-            রোল
+            রোল / কোড (English)
         </label>
     
-        <input class='form-control' name='presentEduRoll' required type='text' />
+        <input class='form-control' placeholder="Current Roll or Admission Code" name='presentEduRoll' required type='text' />
     
         <div class="invalid-feedback">রোল তথ্যটি দিন.
         </div>
@@ -934,7 +939,7 @@
             
                 <span class="text-danger me-1">*</span>
             
-            অভিভাবকের নাম (ইংরেজি)
+            অভিভাবকের নাম (ইংরেজি)(CAPITAL)
         </label>
     
         <input class='form-control' name='guardianNameEng' required type='text' />
@@ -1152,12 +1157,12 @@
 
         <label class="form-label">
             
-            ফাইল সংযুক্ত করুন
+            মার্কশিট সংযুক্ত করুন (SSC/HSC)
         </label>
     
         <input class='form-control' name='documents' type='file' />
     
-        <div class="form-text">কেবলমাত্র .jpg, .jpeg এবং .png, .pdf ফর্ম্যাটটি সমর্থিত।
+        <div class="form-text">কেবলমাত্র .jpg, .jpeg এবং .png  ফর্ম্যাটটি সমর্থিত।
         </div>
     </div>
 <div class="col-md-12 mt-5">
@@ -1195,10 +1200,10 @@
             
                 <span class="text-danger me-1">*</span>
             
-            অ্যাকাউন্টধারীর নাম
+            অ্যাকাউন্টধারীর নাম(English)
         </label>
     
-        <input class='form-control' name='paymentAccountName' required type='text' />
+        <input placeholder='Must be in English.' class='form-control' name='paymentAccountName' required type='text' />
     
         <div class="invalid-feedback ">অ্যাকাউন্টধারীর নাম তথ্যটি দিন.</div>
 
@@ -1330,8 +1335,8 @@
 
                         <div class="col-12">
                             <div class="float-end">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="#" class="btn btn-danger ms-2">Cancel</a>
+                                <a href="{% url 'home' %}" class="btn btn-outline-danger btn-sm ms-2">Cancel</a>
+                                <button type="submit" class="btn btn-success btn-sm">Submit</button>
                             </div>
                         </div>
                     </div>

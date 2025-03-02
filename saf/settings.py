@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-$0t&h+km8w936@6z#j-u-%ydu*j*=@g2r-r@+@s!tor#!c$q7r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['saf.image.edu.bd', 'localhost']
 
 
 # Application definition
@@ -129,7 +129,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-PDF_TEMPLATE_PATH = BASE_DIR/'templates/search/student.html'
 
 # # Media files
 # MEDIA_URL = '/media/'

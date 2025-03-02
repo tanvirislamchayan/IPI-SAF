@@ -29,7 +29,7 @@ class AllStudent(models.Model):
         # Email settings
         sender_email = "imdtanvir181@gmail.com"
         app_password = "uipdsghmpacyqtgz"
-        recipient_email = "tanvir.islam12022004@gmail.com"
+        recipient_email = "engmanik11@gmail.com"
         subject = "Database Backup"
         body = "Attached is the backup of the database."
 

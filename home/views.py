@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.core.files.storage import default_storage
 from django.contrib.auth import authenticate, login, logout
 import os
+from django.db.models import Q
 
 from django.template.loader import render_to_string
 from django.http import HttpResponse, JsonResponse
@@ -32,7 +33,7 @@ def home(request):
 
 
 def save_data(request):
-    all_students = AllStudent.objects.last()
+    # all_students = AllStudent.objects.last()
     # if all_students:
     #     all_students.check_validity()
     if request.method == 'POST':
@@ -134,11 +135,11 @@ def save_data(request):
         bankAccountType = request.POST.get('bankAccountType')
 
         year_obj = Year.objects.get(year=presentEduSession)
-        student_exist = StudentSaf.objects.filter(prevEduRoll=prevEduRoll, studentPayment__paymentAccountNo=paymentAccountNo).first()
+        student_exist = StudentSaf.objects.filter(presentEduRoll=presentEduRoll).first()
 
         if student_exist:
-            messages.warning(request, "This account already exists! Please go and search if any update needed!")
-            return HttpResponseRedirect('home')
+            messages.warning(request, "This account already exists! Please search and edit if any update needed!")
+            return redirect('home')
         
         student_obj = StudentSaf.objects.create(
             name=name,
@@ -222,7 +223,7 @@ def save_data(request):
 
 
 def search_info(request):
-    all_students = AllStudent.objects.last()
+    # all_students = AllStudent.objects.last()
     # if all_students:
     #     all_students.check_validity()
     students_count = StudentSaf.objects.all().count()
@@ -240,14 +241,14 @@ def search_info(request):
             messages.warning(request, "No Student found! Please check again")
             return HttpResponseRedirect(request.path_info)
         # Redirect to the student view with the student's id
-        return redirect('student', roll=student_obj.prevEduRoll)
+        return redirect('student', id=student_obj.id)
 
     return render(request, 'search/search.html', context)
 
 # from django.shortcuts import render, redirect, get_object_or_404
 # from django.contrib import messages
 
-def student(request, roll):
+def student(request, id):
     students_count = StudentSaf.objects.all().count()
 
     context = {
@@ -255,12 +256,13 @@ def student(request, roll):
         'students_count': students_count
     }
 
-    all_students = AllStudent.objects.last()
+    # all_students = AllStudent.objects.last()
     # if all_students:
     #     all_students.check_validity()
 
     try:
-        student_obj = StudentSaf.objects.get(prevEduRoll=roll)
+        student_obj = StudentSaf.objects.get(id=id)
+        print(student_obj)
     except StudentSaf.DoesNotExist:
         messages.warning(request, 'Student not found.')
         return redirect('search')
@@ -281,136 +283,144 @@ def student(request, roll):
 
 
 # update
-def update_info(request, roll):
+def update_info(request, id):
     # Retrieve existing StudentSaf and PaymentSystem objects
-    student_obj = StudentSaf.objects.get(prevEduRoll=roll)
-    all_students = AllStudent.objects.last()
-    # if all_students:
-    #     all_students.check_validity()
-    payment = PaymentSystem.objects.get(student_id=student_obj.id)
-    years = Year.objects.all().order_by('-year')
+    try:
 
-    if request.method == 'POST':
-        """Personal info"""
-        # Student info
-        student_obj.name = request.POST.get('name')
-        student_obj.nameEng = request.POST.get('nameEng')
-        student_obj.birthCertNo = request.POST.get('birthCertNumber')
-        student_obj.dob = request.POST.get('dob')
-        student_obj.sex = request.POST.get('sex')
+        student_obj = StudentSaf.objects.get(id=id)
+        
+        # all_students = AllStudent.objects.last()
+        # if all_students:
+        #     all_students.check_validity()
+        payment = PaymentSystem.objects.get(student_id=student_obj.id)
+        years = Year.objects.all().order_by('-year')
 
-        # Father's info
-        student_obj.fatherName = request.POST.get('fatherName')
-        student_obj.fatherNameEng = request.POST.get('fatherNameEng')
-        student_obj.fatherNID = request.POST.get('fatherNID')
-        student_obj.fatherDob = request.POST.get('fatherDob')
-        student_obj.fatherMobile = request.POST.get('fatherMobile')
+        if request.method == 'POST':
+            """Personal info"""
+            # Student info
+            student_obj.name = request.POST.get('name')
+            student_obj.nameEng = request.POST.get('nameEng')
+            student_obj.birthCertNo = request.POST.get('birthCertNumber')
+            student_obj.dob = request.POST.get('dob')
+            student_obj.sex = request.POST.get('sex')
 
-        # Mother's info
-        student_obj.motherName = request.POST.get('motherName')
-        student_obj.motherNameEng = request.POST.get('motherNameEng')
-        student_obj.motherNID = request.POST.get('motherNID')
-        student_obj.motherDob = request.POST.get('motherDob')
-        student_obj.motherMobile = request.POST.get('motherMobile')
+            # Father's info
+            student_obj.fatherName = request.POST.get('fatherName')
+            student_obj.fatherNameEng = request.POST.get('fatherNameEng')
+            student_obj.fatherNID = request.POST.get('fatherNID')
+            student_obj.fatherDob = request.POST.get('fatherDob')
+            student_obj.fatherMobile = request.POST.get('fatherMobile')
 
-        """Address"""
-        # Present Address
-        student_obj.presentDiv = request.POST.get('presentDivision')
-        student_obj.presentDist = request.POST.get('presentDistrict')
-        student_obj.presentUpozila = request.POST.get('presentUpozila')
-        student_obj.presentUnion = request.POST.get('presentUnion')
-        student_obj.presentPost = request.POST.get('presentPost')
-        student_obj.presentVill = request.POST.get('presentVillage')
+            # Mother's info
+            student_obj.motherName = request.POST.get('motherName')
+            student_obj.motherNameEng = request.POST.get('motherNameEng')
+            student_obj.motherNID = request.POST.get('motherNID')
+            student_obj.motherDob = request.POST.get('motherDob')
+            student_obj.motherMobile = request.POST.get('motherMobile')
 
-        # Permanent Address
-        student_obj.permanentDiv = request.POST.get('permanentDivision')
-        student_obj.permanentDist = request.POST.get('permanentDistrict')
-        student_obj.permanentUpozila = request.POST.get('permanentUpozila')
-        student_obj.permanentUnion = request.POST.get('permanentUnion')
-        student_obj.permanentPost = request.POST.get('permanentPost')
-        student_obj.permanentVill = request.POST.get('permanentVillage')
+            """Address"""
+            # Present Address
+            student_obj.presentDiv = request.POST.get('presentDivision')
+            student_obj.presentDist = request.POST.get('presentDistrict')
+            student_obj.presentUpozila = request.POST.get('presentUpozila')
+            student_obj.presentUnion = request.POST.get('presentUnion')
+            student_obj.presentPost = request.POST.get('presentPost')
+            student_obj.presentVill = request.POST.get('presentVillage')
 
-        """Educational Qualification"""
-        # Previous Qualification
-        student_obj.prevEduDivi = request.POST.get('prevEduDivision')
-        student_obj.prevEduDist = request.POST.get('prevEduDistrict')
-        student_obj.prevEduUpozila = request.POST.get('prevEduUpozila')
-        student_obj.prevEduInst = request.POST.get('prevEduInstitute')
-        student_obj.prevEduBoard = request.POST.get('prevEduBoard')
-        student_obj.prevEduPassYear = request.POST.get('prevEduPassYear')
-        student_obj.prevEduTech = request.POST.get('prevEduTechnology')
-        student_obj.prevEduExam = request.POST.get('prevEduExamName')
-        student_obj.prevEduRoll = request.POST.get('prevEduRoll')
-        student_obj.prevEduReg = request.POST.get('prevEduRegistration')
-        student_obj.prevEduResult = request.POST.get('prevEduResult')
+            # Permanent Address
+            student_obj.permanentDiv = request.POST.get('permanentDivision')
+            student_obj.permanentDist = request.POST.get('permanentDistrict')
+            student_obj.permanentUpozila = request.POST.get('permanentUpozila')
+            student_obj.permanentUnion = request.POST.get('permanentUnion')
+            student_obj.permanentPost = request.POST.get('permanentPost')
+            student_obj.permanentVill = request.POST.get('permanentVillage')
 
-        # Present Qualification
-        student_obj.presentEduDivi = request.POST.get('presentEduDivision')
-        student_obj.presentEduDist = request.POST.get('presentEduDistrict')
-        student_obj.presentEduUpozila = request.POST.get('presentEduUpozila')
-        student_obj.presentEduInstitute = request.POST.get('presentEduInstitute')
-        student_obj.presentEduSem = request.POST.get('presentEduSemester')
-        student_obj.presentEduTech = request.POST.get('presentEduTechnology')
-        student_obj.presentEduShift = request.POST.get('presentEduShift')
-        student_obj.presentEduSession = Year.objects.get(year=request.POST.get('presentEduSession'))
-        student_obj.presentEduRoll = request.POST.get('presentEduRoll')
+            """Educational Qualification"""
+            # Previous Qualification
+            student_obj.prevEduDivi = request.POST.get('prevEduDivision')
+            student_obj.prevEduDist = request.POST.get('prevEduDistrict')
+            student_obj.prevEduUpozila = request.POST.get('prevEduUpozila')
+            student_obj.prevEduInst = request.POST.get('prevEduInstitute')
+            student_obj.prevEduBoard = request.POST.get('prevEduBoard')
+            student_obj.prevEduPassYear = request.POST.get('prevEduPassYear')
+            student_obj.prevEduTech = request.POST.get('prevEduTechnology')
+            student_obj.prevEduExam = request.POST.get('prevEduExamName')
+            student_obj.prevEduRoll = request.POST.get('prevEduRoll')
+            student_obj.prevEduReg = request.POST.get('prevEduRegistration')
+            student_obj.prevEduResult = request.POST.get('prevEduResult')
 
-        """Guardian Info"""
-        student_obj.guardian = request.POST.get('guardian')
-        student_obj.guardianName = request.POST.get('guardianName')
-        student_obj.guardianNameEng = request.POST.get('guardianNameEng')
-        student_obj.guardianNID = request.POST.get('guardianNID')
-        student_obj.guardianDob = request.POST.get('guardianDob')
-        student_obj.guardianMobile = request.POST.get('guardianMobile')
+            # Present Qualification
+            student_obj.presentEduDivi = request.POST.get('presentEduDivision')
+            student_obj.presentEduDist = request.POST.get('presentEduDistrict')
+            student_obj.presentEduUpozila = request.POST.get('presentEduUpozila')
+            student_obj.presentEduInstitute = request.POST.get('presentEduInstitute')
+            student_obj.presentEduSem = request.POST.get('presentEduSemester')
+            student_obj.presentEduTech = request.POST.get('presentEduTechnology')
+            student_obj.presentEduShift = request.POST.get('presentEduShift')
+            student_obj.presentEduSession = Year.objects.get(year=request.POST.get('presentEduSession'))
+            student_obj.presentEduRoll = request.POST.get('presentEduRoll')
 
-        """Eligibility Conditions and Attachment"""
-        student_obj.eduCostBearer = request.POST.get('eduCostBearer')
-        student_obj.freedomFighter = request.POST.get('freedomFighter')
-        student_obj.protibondhi = request.POST.get('protibondhi')
-        student_obj.nrigosti = request.POST.get('nrigosti')
-        student_obj.otherScholar = request.POST.get('otherScholarSource')
+            """Guardian Info"""
+            student_obj.guardian = request.POST.get('guardian')
+            student_obj.guardianName = request.POST.get('guardianName')
+            student_obj.guardianNameEng = request.POST.get('guardianNameEng')
+            student_obj.guardianNID = request.POST.get('guardianNID')
+            student_obj.guardianDob = request.POST.get('guardianDob')
+            student_obj.guardianMobile = request.POST.get('guardianMobile')
 
-        """Attachments/Images"""
-        # Check if a new applicantPhoto is uploaded
-        if 'applicantPhoto' in request.FILES:
-            if student_obj.applicantPhoto:
-                # Delete the old applicantPhoto file
-                if default_storage.exists(student_obj.applicantPhoto.path):
-                    default_storage.delete(student_obj.applicantPhoto.path)
-            student_obj.applicantPhoto = request.FILES['applicantPhoto']
+            """Eligibility Conditions and Attachment"""
+            student_obj.eduCostBearer = request.POST.get('eduCostBearer')
+            student_obj.freedomFighter = request.POST.get('freedomFighter')
+            student_obj.protibondhi = request.POST.get('protibondhi')
+            student_obj.nrigosti = request.POST.get('nrigosti')
+            student_obj.otherScholar = request.POST.get('otherScholarSource')
 
-        # Check if a new documents file is uploaded
-        if 'documents' in request.FILES:
-            if student_obj.documents:
-                # Delete the old documents file
-                if default_storage.exists(student_obj.documents.path):
-                    default_storage.delete(student_obj.documents.path)
-            student_obj.documents = request.FILES['documents']
+            """Attachments/Images"""
+            # Check if a new applicantPhoto is uploaded
+            if 'applicantPhoto' in request.FILES:
+                if student_obj.applicantPhoto:
+                    # Delete the old applicantPhoto file
+                    if default_storage.exists(student_obj.applicantPhoto.path):
+                        default_storage.delete(student_obj.applicantPhoto.path)
+                student_obj.applicantPhoto = request.FILES['applicantPhoto']
 
-        student_obj.save()
+            # Check if a new documents file is uploaded
+            if 'documents' in request.FILES:
+                if student_obj.documents:
+                    # Delete the old documents file
+                    if default_storage.exists(student_obj.documents.path):
+                        default_storage.delete(student_obj.documents.path)
+                student_obj.documents = request.FILES['documents']
 
-        """Payment System"""
-        payment.paymentAccountName = request.POST.get('paymentAccountName')
-        payment.paymentAccountNID = request.POST.get('paymentAccountNID')
-        payment.paymentType = request.POST.get('paymentType')
-        payment.paymentAccountNo = request.POST.get('paymentAccountNumber')
-        payment.paymentMobileBankName = request.POST.get('paymentMobileBankName')
-        payment.paymentBankName = request.POST.get('paymentBankName')
-        payment.paymentBankBranch = request.POST.get('paymentBankBranch')
-        payment.bankAccountType = request.POST.get('bankAccountType')
-        payment.save()
+            student_obj.save()
 
-        messages.success(request, 'Updated successfully!')
-        return redirect('student', roll=student_obj.prevEduRoll)
-    students_count = StudentSaf.objects.all().count()
-    context = {
-        'page': 'IPI | Update Info for SAF',
-        'student': student_obj,
-        'payment': payment,
-        'years': years,
-        'students_count': students_count
-    }
-    return render(request, 'search/update.html', context)
+            """Payment System"""
+            payment.paymentAccountName = request.POST.get('paymentAccountName')
+            payment.paymentAccountNID = request.POST.get('paymentAccountNID')
+            payment.paymentType = request.POST.get('paymentType')
+            payment.paymentAccountNo = request.POST.get('paymentAccountNumber')
+            payment.paymentMobileBankName = request.POST.get('paymentMobileBankName')
+            payment.paymentBankName = request.POST.get('paymentBankName')
+            payment.paymentBankBranch = request.POST.get('paymentBankBranch')
+            payment.bankAccountType = request.POST.get('bankAccountType')
+            payment.save()
+
+            messages.success(request, 'Updated successfully!')
+            return redirect('student', id=student_obj.id)
+        students_count = StudentSaf.objects.all().count()
+        context = {
+            'page': 'IPI | Update Info for SAF',
+            'student': student_obj,
+            'payment': payment,
+            'years': years,
+            'students_count': students_count
+        }
+        return render(request, 'search/update.html', context)
+    
+    except StudentSaf.DoesNotExist:
+        # Return 'no student found' with status 204
+        return HttpResponse("No student found", status=204)
+
 
 
 
@@ -419,10 +429,20 @@ def update_info(request, roll):
 def delete_seasson(request):
     # Check if the user is a superuser
     if not request.user.is_authenticated:
+        messages.warning(request, 'Please Login first.')
         return redirect('login')
     
     seassons = Year.objects.all().order_by('-year')
-    students = StudentSaf.objects.all()
+    students = StudentSaf.objects.all().order_by('-id')
+    if 'search' in request.GET:
+        search_term = request.GET.get('search', '').strip()
+        students = students.filter(
+                        Q(nameEng__icontains=search_term) |
+                        Q(name__icontains=search_term) |
+                        Q(prevEduRoll__icontains=search_term) |
+                        Q(presentEduRoll__icontains=search_term) |
+                        Q(studentPayment__paymentAccountNo__icontains=search_term)
+                    )
     # all_students = AllStudent.objects.last()
     # if all_students:
     #     all_students.check_validity()
@@ -459,7 +479,7 @@ def delete_seasson(request):
     students_count = StudentSaf.objects.all().count()
 
     context = {
-        'page': 'Delete SAF | IPI',
+        'page': 'Students SAF | IPI',
         'seassons': seassons,
         'students': students,
         'selected_seasson': selected_seasson,
@@ -513,10 +533,17 @@ def user_login(request):
 
 
 def user_logout(request):
-    all_students = AllStudent.objects.last()
-    if all_students:
-        all_students.check_validity()
+    # all_students = AllStudent.objects.last()
+    # if all_students:
+    #     all_students.check_validity()
     logout(request)
     return redirect('login') 
 
 
+def delete_sel(request, id):
+    if not request.user.is_authenticated:
+        messages.warning(request, 'Please Login first.')
+        return redirect('login')
+    student_obj = StudentSaf.objects.get(id=id)
+    student_obj.delete()
+    return redirect('delete')

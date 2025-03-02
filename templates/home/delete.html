@@ -57,6 +57,16 @@ tbody tr:hover{
 .selected {
     background-color: aqua;
   }
+  .search {
+    border-radius: 0 !important;
+    border-top-left-radius: .3rem !important;
+    border-bottom-left-radius: .3rem !important;
+  }
+  .search-btn {
+    border-radius: 0 !important;
+    border-top-right-radius: .3rem !important;
+    border-bottom-right-radius: .3rem !important;
+  }
 </style>
 
 <main class="container"> 
@@ -66,57 +76,75 @@ tbody tr:hover{
             <div class="card-body">
 
                 <div class="row">
-
-
                     <div class="col-md-12 my-3">
-                        <div class="col-md-6 float-end">
-                            <form>
-                                <select class='form-select' name='seasson' required onchange="getSeasson(this.value)">
-                                    <option disabled {% if not student.presentEduSession %}selected{% endif %} value style="color: #0005 !important;"> Fileter with Seasson </option>
-                                
-                                    {% for seasson in seassons %}
-                                    <option value="{{ seasson.year }}" {% if selected_seasson == seasson.year %} selected {% endif %} >
-                                        {{ seasson.year }}
-                                    </option>
-                                    {% endfor %}
-                                </select>
-                            </form>
+                        <div class="row">
+                            <div class="col-md-6 text-success">
+                                <form action="" class="w-100 d-flex justify-content-between flex-no-wrap gap-0">
+                                    <input type="search" class="form-control search bg-transparent" name="search" placeholder="Search by Roll, Name, Semester or Phone number" id="search">
+                                    <button type="submit" class="btn search-btn btn-info bgn-sm">Search</button>
+                                </form>
+                            </div>
+                            <div class="col-md-6">
+                                <form>
+                                    <select class='form-select' name='seasson' required onchange="getSeasson(this.value)">
+                                        <option disabled {% if not student.presentEduSession %}selected{% endif %} value style="color: #0005 !important;"> Fileter with Seasson </option>
+                                    
+                                        {% for seasson in seassons %}
+                                        <option value="{{ seasson.year }}" {% if selected_seasson == seasson.year %} selected {% endif %} >
+                                            {{ seasson.year }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     
                     <form method="post">
                         {% csrf_token %}
                         <div class="table__body">
-                            <table class="table">
+                            <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
                                         <th scope="col">#Sr.</th>
-                                        <th scope="col">
+                                        <th scope="col">ROLL</th>
+                                        <th scope="col" class="student_name">NAME</th>
+                                        <th scope="col" class="student_technology">TECHNOLOGY</th>
+                                        <th scope="col" class="text-end">SESSION</th>
+                                        <th scope="col" class="text-end">
+                                            <label for="selectAll">ALL</label>
                                             <input type="checkbox" id="selectAll">
-                                            <label for="selectAll">Select All</label>
                                         </th>
-                                        <th scope="col">Seasson</th>
-                                        <th scope="col">Roll</th>
-                                        <th scope="col" class="student_name">Name</th>
+                                        <th scope="col" class="text-end"> ACTION </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for student in students %}
                                     <tr>
                                         <th scope="row">{{ forloop.counter }}</th>
-                                        <td>
+                                        <!-- <td></td> -->
+                                         <td>
+                                            <a href="{% url 'student' student.id %}"> {{ student.presentEduRoll }} </a>
+                                         </td>
+                                        <td style="text-transform: uppercase;" >{{ student.nameEng }}</td>
+                                        <td style="text-transform: uppercase;" >{{ student.presentEduTech }}</td>
+                                        <td class="text-end">{{ student.presentEduSession.year }}</td>
+                                        <td class="text-end">
                                             <input type="checkbox" name="selection" value="{{ student.id }}" class="selection">
                                         </td>
-                                        <td>{{ student.presentEduSession.year }}</td>
-                                        <td>{{ student.presentEduRoll }}</td>
-                                        <td>{{ student.name }}</td>
+                                        <td class="text-end">
+                                            <a style="border:none;" href="{% url 'update' student.id %}" class="btn btn-outline-primary btn-sm me-1">
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </a>
+                                            <a style="border:none;" class="btn btn-outline-danger btn-sm" href="{% url 'delete_sel' student.id %}"> <i class="fa-solid fa-trash"></i> </a>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
                         </div>
                         <div class="col-md-12 text-end">
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button disabled id="btnDeleteAll" type="submit" class="btn btn-outline-danger btn-sm"> <i class="fa-solid fa-trash"></i> Delete Selected Students</button>
                         </div>
                     </form>
                     
@@ -139,29 +167,53 @@ tbody tr:hover{
 
     // Function to handle the "Select All" checkbox
     document.getElementById('selectAll').addEventListener('change', function() {
-        let isChecked = this.checked;
-        let checkboxes = document.querySelectorAll('.selection');
+        const isChecked = this.checked;
+        const checkboxes = document.querySelectorAll('.selection');
+        const btnDeleteAll = document.getElementById('btnDeleteAll');
         
+        // Set all individual checkboxes to match "Select All"
         checkboxes.forEach(function(checkbox) {
             checkbox.checked = isChecked;
         });
+
+        if (isChecked) {
+            btnDeleteAll.removeAttribute('disabled');
+        } else {
+            btnDeleteAll.setAttribute('disabled', 'true');
+        }
     });
 
     // Function to handle individual selection checkboxes
     document.querySelectorAll('.selection').forEach(function(checkbox) {
+        const btnDeleteAll = document.getElementById('btnDeleteAll');
+        const selectAll = document.getElementById('selectAll');
+
         checkbox.addEventListener('change', function() {
             let allChecked = true;
-            let checkboxes = document.querySelectorAll('.selection');
+            let anyChecked = false;
+            const checkboxes = document.querySelectorAll('.selection');
             
+            // Check if all are checked and if any is checked
             checkboxes.forEach(function(cb) {
                 if (!cb.checked) {
                     allChecked = false;
+                } else {
+                    anyChecked = true;
                 }
             });
             
-            document.getElementById('selectAll').checked = allChecked;
+            // Update the "Select All" checkbox state
+            selectAll.checked = allChecked;
+
+            // Enable or disable the "btnDeleteAll" button
+            if (anyChecked) {
+                btnDeleteAll.removeAttribute('disabled');
+            } else {
+                btnDeleteAll.setAttribute('disabled', 'true');
+            }
         });
     });
+
 
 </script>
 

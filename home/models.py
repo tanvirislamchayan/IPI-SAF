@@ -10,7 +10,7 @@ class Year(models.Model):
 
 """Students"""
 class StudentSaf(models.Model):
-
+    regNo = models.PositiveIntegerField(unique=True, null=True, blank=True)
     """Personal info"""
     # Student info
     name = models.CharField(max_length=50)
@@ -98,6 +98,16 @@ class StudentSaf(models.Model):
     """Attachments/Images"""
     applicantPhoto = models.ImageField(upload_to='stdImg', null=True, blank=True)
     documents = models.ImageField(upload_to='extraFile', null=True, blank=True)
+
+
+    def save(self, *args, **kwargs):
+        # Auto-generate regNo if not provided
+        if self.regNo is None:
+            # Get the last regNo and increment it
+            last_reg_no = StudentSaf.objects.aggregate(max_reg=models.Max('regNo'))['max_reg']
+            self.regNo = 1 if last_reg_no is None else last_reg_no + 1
+        super().save(*args, **kwargs)  # Call the parent class save method
+
 
     def __str__(self) -> str:
         return f'{self.presentEduRoll} - {self.name}'
