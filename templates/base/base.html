@@ -33,7 +33,7 @@
                     {% if request.user.is_authenticated or request.user.is_superuser %}
                     <a class="nav-link text-info" href="{% url 'delete' %}"> Total Applicant: {{ students_count }}  </a>
                     {% else %}
-                    <a class="nav-link text-info" href="{% url 'login' %}"> Total Applicant: {{ students_count }}  </a>
+                    <a class="nav-link text-info" href="{% url 'auth_login' %}"> Total Applicant: {{ students_count }}  </a>
                     {% endif %}
                 </li>
                 
