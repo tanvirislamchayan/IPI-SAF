@@ -6,12 +6,123 @@
     .login {
         height: 100% !important;
     }
+
+    .image-preview {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+
+    .btn-file {
+        cursor: pointer;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .btn-file-container {
+        margin-top: 10px;
+    }
 </style>
 
+<div class="container-fluid">
+    <div class="container mx-auto shadow p-2">
+        <h3 class="text-center p-2 bg-success text-white rounded shadow-sm">Edit Institute Details</h3>
+        <form method="post" id="instituteUpdateForm" class="row" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="d-flex justify-content-start gap-2 my-2">
+                <button id="updateBtn" type="button" class="btn btn-sm btn-primary">Update</button>
+                <button id="saveBtn" type="submit" class="btn btn-sm btn-success">Save</button>
+                <button id="cancelBtn" type="button" class="btn btn-sm btn-danger">Discard</button>
+            </div>
 
+            <div class="col-md-6 form-group mb-2">
+                <label for="institute_name_bn"> <span class="text-danger">*</span> প্রতিষ্ঠানের নাম (বাংলায়)</label>
+                <input required type="text" name="institute_name_bn" id="institute_name_bn" class="form-control" value="{{ institute.institute_name_bn|default:'' }}">
+                <p class="preview-text" id="preview_institute_name_bn"></p>
+            </div>
 
+            <div class="col-md-6 form-group mb-2">
+                <label for="institute_address_bn"> <span class="text-danger">*</span> প্রতিষ্ঠানের ঠিকানা (বাংলায়)</label>
+                <input required type="text" name="institute_address_bn" id="institute_address_bn" class="form-control" value="{{ institute.institute_address_bn|default:'' }}">
+                <p class="preview-text" id="preview_institute_address_bn"></p>
+            </div>
 
+            <div class="col-md-4 form-group mb-2">
+                <label for="institute_code"> <span class="text-danger">*</span> প্রতিষ্ঠানের কোড</label>
+                <input required type="text" name="institute_code" id="institute_code" class="form-control" value="{{ institute.institute_code|default:'' }}">
+                <p class="preview-text" id="preview_institute_code"></p>
+            </div>
 
+            <div class="col-md-4 form-group mb-2">
+                <label for="contact_number_1"> <span class="text-danger">*</span> ফোন / টেলিফোনে নম্বর ১</label>
+                <input required type="tel" name="contact_number_1" id="contact_number_1" class="form-control" value="{{ institute.contact_number_1|default:'' }}">
+                <p class="preview-text" id="preview_contact_number_1"></p>
+            </div>
 
+            <div class="col-md-4 form-group mb-2">
+                <label for="contact_number_2"> ফোন / টেলিফোনে নম্বর ২</label>
+                <input type="tel" name="contact_number_2" id="contact_number_2" class="form-control" value="{{ institute.contact_number_2|default:'' }}">
+                <p class="preview-text" id="preview_contact_number_2"></p>
+            </div>
+
+            <div class="col-md-2 form-group mb-2 d-flex flex-column align-items-center">
+                <!-- Show current logo if it exists or a demo image if it doesn't -->
+                <div id="logoPreviewContainer">
+                    {% if institute.institute_logo %}
+                        <img id="logoPreview" class="img-fluid rounded" src="{{ institute.institute_logo.url }}" alt="Current Institute Logo">
+                    {% else %}
+                        <img id="logoPreview" class="img-fluid rounded" src="{% static 'src/image/icon.png' %}" alt="Demo Logo">
+                    {% endif %}
+                </div>
+
+                <!-- File input for selecting logo -->
+                <input type="file" class="d-none" name="institute_logo" id="institute_logo">
+
+                <div class="btn-file-container">
+                    <label id="logoUploadBtn" for="institute_logo" class="btn btn-primary btn-sm btn-file">LOGO</label>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    // Live preview for text inputs
+    document.addEventListener("DOMContentLoaded", function() {
+        const inputFields = [
+            "institute_name_bn",
+            "institute_address_bn",
+            "institute_code",
+            "contact_number_1",
+            "contact_number_2"
+        ];
+
+        inputFields.forEach(field => {
+            let input = document.getElementById(field);
+            let preview = document.getElementById(`preview_${field}`);
+
+            if (input && preview) {
+                input.addEventListener("input", function() {
+                    preview.innerText = this.value ? "Preview: " + this.value : "";
+                });
+            }
+        });
+    });
+
+    // Live preview for image upload
+    document.getElementById('institute_logo').addEventListener('change', function(event) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var logoPreview = document.getElementById('logoPreview');
+            logoPreview.src = e.target.result; // Update the image preview with selected file
+        };
+        reader.readAsDataURL(this.files[0]); // Read the selected file
+    });
+</script>
 
 {% endblock %}

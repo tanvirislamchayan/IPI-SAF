@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from home.models import StudentSaf
 from django.contrib.auth.models import User
+from . models import Institute
 
 # Create your views here.
 
@@ -88,14 +89,48 @@ def auth_create(request):
 
 
 def institute(request):
+    """TODO: Show institute"""
     referal_url = request.META.get('HTTP_REFERER', request.path_info)
+    
     if not request.user.is_authenticated and not request.user.is_superuser:
         messages.warning(request, 'Please Login first')
         return redirect('auth_login')
+
     students_count = StudentSaf.objects.all().count()
+    
+    if request.method == 'POST':
+        institute_name_bn = request.POST.get('institute_name_bn', '').strip()
+        institute_logo = request.FILES.get('institute_logo', None)  # Ensure correct handling of file input
+        institute_address_bn = request.POST.get('institute_address_bn', '').strip()
+        institute_code = request.POST.get('institute_code', '').strip()
+        contact_number_1 = request.POST.get('contact_number_1', '').strip()
+        contact_number_2 = request.POST.get('contact_number_2', '').strip()
+
+        # Get existing institute:
+        institute_obj = Institute.objects.all().first()
+        if not institute_obj:
+            institute_obj = Institute.objects.create(
+                institute_name_bn='JS Polytechnic'
+            )
+        institute_obj.institute_name_bn=institute_name_bn
+        institute_obj.institute_logo=institute_logo
+        institute_obj.institute_address_bn=institute_address_bn
+        institute_obj.institute_code=institute_code
+        institute_obj.contact_number_1=contact_number_1
+        institute_obj.contact_number_2=contact_number_2
+        institute_obj.save()
+
+        
+        return HttpResponseRedirect(referal_url)
+    institute_obj = Institute.objects.all().first()
+    if not institute_obj:
+        institute_obj = Institute.objects.create(
+            institute_name_bn='JS Polytechnic Institute'
+        )
     context = {
         'page': 'Manage College',
-        'students_count': students_count
+        'students_count': students_count,
+        'institute': institute_obj
     }
-
+    
     return render(request, 'home/manage_college.html', context)
