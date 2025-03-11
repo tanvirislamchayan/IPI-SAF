@@ -13,12 +13,19 @@
                       {% include "base/messages.html" %}
                     <div class="row">
                         <div class="col-md-2 d-none d-sm-block d-sm-none d-md-block text-center">
-                            <img src="{% static 'src/image/icon.png' %}" alt="IPI Logo" width="130px" height="130px">
+                            <div class="d-flex align-items-center justify-content-center" style="height: 130px; width: 130px;">
+                                {% if institute and institute.institute_logo %}
+                                <img src="{{ institute.institute_logo.url }}" alt="IPI Logo" class="img-fluid">
+                                {% else %}
+                                <img src="{% static 'src/image/icon.png' %}" alt="IPI Logo" class="img-fluid">
+                                {% endif %}
+                            </div>
+
                         </div>
                         <div class="col-md-10 col-sm-12 text-center">
-                            <h3 style="font-weight:bolder;">ইমেজ পলিটেকনিক ইন্সটিটিউট, রংপুর</h3>
-                            <span style="font-weight:bolder;">ইমেজ টাওয়ার, খামার মোড়, কলেজ রোড, রংপুর।</span><br>
-                            <span style="font-weight:bolder;">যোগাযোগঃ ০১৭০৪১৯৬১৫০, ০১৭৫৫০৬৭২১০</span>
+                            <h3 style="font-weight:bolder;"> {{ institute.institute_name_bn|default:"" }} </h3>
+                            <span style="font-weight:bolder;"> {{ institute.institute_address_bn|default:"" }} </span><br>
+                            <span style="font-weight:bolder;">যোগাযোগঃ {{ institute.contact_number_1 }} {% if institute.contact_number_2 %} ,{{institute.contact_number_2}} {% endif %} </span>
 
                             <p style="color:green; font-weight:bolder;font-size: 15px;">কারিগরি শিক্ষা অধিদপ্তর এর স্টাইপেন্ড MIS সফটওয়্যারে উপবৃত্তির জন্য শিক্ষার্থী আবেদন ফরম
                                 (SAF)

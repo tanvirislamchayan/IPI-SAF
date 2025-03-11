@@ -113,12 +113,15 @@ def institute(request):
                 institute_name_bn='JS Polytechnic'
             )
         institute_obj.institute_name_bn=institute_name_bn
-        institute_obj.institute_logo=institute_logo
         institute_obj.institute_address_bn=institute_address_bn
         institute_obj.institute_code=institute_code
         institute_obj.contact_number_1=contact_number_1
         institute_obj.contact_number_2=contact_number_2
         institute_obj.save()
+        if institute_logo:
+            institute_obj.institute_logo=institute_logo
+            institute_obj.save()
+        
 
         
         return HttpResponseRedirect(referal_url)

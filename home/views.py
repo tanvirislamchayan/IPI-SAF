@@ -12,21 +12,24 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
+from manager.models import Institute
 
 
 # Create your views here.
 
 
 def home(request):
+    institute = Institute.objects.all().first()
     students_count = StudentSaf.objects.all().count()
     years = Year.objects.all().order_by('-year')
     # all_students = AllStudent.objects.last()
     # if all_students:
     #     all_students.check_validity()
     context = {
-        'page':'IPI | Apply for SAF',
+        'page':'Home',
         'years': years,
-        'students_count': students_count
+        'students_count': students_count,
+        'institute': institute
     }
     return render(request, 'home/home.html', context=context)
 
