@@ -1,5 +1,6 @@
 asgiref
 Brotli
+mysqlclient
 cffi
 cssselect2
 Django
