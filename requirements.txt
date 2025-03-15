@@ -1,5 +1,4 @@
 asgiref
-backports.zoneinfo
 Brotli
 cffi
 cssselect2
