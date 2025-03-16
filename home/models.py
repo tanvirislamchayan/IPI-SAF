@@ -1,12 +1,5 @@
 from django.db import models
-
-
-"""season/year"""
-class Year(models.Model):
-    year = models.CharField(max_length=10, unique=True)
-
-    def __str__(self) -> str:
-        return self.year
+from manager.models import Year
 
 """Students"""
 class StudentSaf(models.Model):

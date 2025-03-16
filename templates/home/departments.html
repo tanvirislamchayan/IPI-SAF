@@ -1,0 +1,106 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block start %}
+
+<style>
+    .login {
+        height: 100% !important;
+    }
+
+    .image-preview {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+
+    .btn-file {
+        cursor: pointer;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .btn-file-container {
+        margin-top: 10px;
+    }
+
+    .add-dep-form {
+    position: absolute;
+    left: 50%;
+    top: -100px;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+.add-dep-form.show {
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+}
+
+
+</style>
+
+<div class="add-dep-form form-hide bg-white p-2 shadow" id="addDepFrom">
+    <h5 class="text-center mb-3 p-2 bg-primary text-white">+ Add Department</h5>
+    <form class="row">
+        <div class="form-group mb-3 col-12">
+            <label for="department_name"> <span class="text-danger">*</span> Name of Department</label>
+            <input type="text" required name="department_name" id="department_name" class="form-control" placeholder="Name of Department">
+        </div>
+        <div class="form-group mb-3 col-12">
+            <label for="head_of_dep"> <span class="text-danger"></span> Head of Department</label>
+            <select name="head_of_dep" id="head_of_dep" class="form-control">
+                <option value="">Select Teacher</option>
+                <option value="">Eng. Manik Ullah</option>
+                <option value="">Eng. Tanin</option>
+                <option value="">Isha</option>
+            </select>
+        </div>
+        <div class="mb-0 d-flex justify-content-end gap-2">
+            <button id="cancelFormButton" type="button" class="btn btn-sm btn-danger"> Cancel </button>
+            <button type="submit" class="btn btn-sm btn-primary"> + Add </button>
+        </div>
+    </form>
+</div>
+
+<div class="container-fluid">
+    <div class="container mx-auto shadow my-2">
+        <div class="d-flex justify-content-end gap-2 my-2 py-2">
+            <a href="{% url 'manage_college' %}" class="btn btn-sm btn-dark"><i class="fa-solid fa-arrow-left me-1"></i> Go Back </a>
+            <button id="addDepBtn" type="button" class="btn btn-sm btn-dark">+ Add Departments</button>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th class="text-center" scope="col">Sr No.</th>
+                    <th class="text-center" scope="col">Name of Department</th>
+                    <th class="text-center" scope="col">Head of Department</th>
+                    <th class="text-center" scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th class="text-center" scope="row">1</th>
+                    <td class="text-center">Computer Science</td>
+                    <td class="text-center">Eng. Manik Ullah</td>
+                    <td class="text-center">
+                        <a href="#" class="btn btn-sm btn-danger"> <i class="fa-solid fa-trash"></i> </a>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

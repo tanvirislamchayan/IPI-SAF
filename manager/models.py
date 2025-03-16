@@ -23,3 +23,12 @@ class Institute(models.Model):
 
     def __str__(self):
         return self.institute_name_bn if self.institute_name_bn else "Unnamed Institute"
+
+"""season/year"""
+class Year(models.Model):
+    year = models.CharField(max_length=10, unique=True)
+
+    def __str__(self) -> str:
+        return self.year
+    
+    

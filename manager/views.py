@@ -137,3 +137,18 @@ def institute(request):
     }
     
     return render(request, 'home/manage_college.html', context)
+
+
+def departments(request):
+    return render(request, 'home/departments.html')
+
+
+def sessions(request):
+    return render(request, 'home/sessions.html')
+
+def sifts(request):
+    return render(request, 'home/sifts.html')
+
+
+def users(request):
+    return render(request, 'home/users.html')

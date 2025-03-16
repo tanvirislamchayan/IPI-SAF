@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Year, StudentSaf, PaymentSystem
+from .models import  StudentSaf, PaymentSystem
 from allstudents.models import AllStudent
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.contrib import messages
@@ -12,7 +12,7 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
-from manager.models import Institute
+from manager.models import Institute, Year
 
 
 # Create your views here.

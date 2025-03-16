@@ -44,9 +44,9 @@ INSTALLED_APPS = [
 ]
 
 EXTERNAL_APPS = [
+    'manager',
     'home',
     'allstudents',
-    'manager',
 ]
 
 INSTALLED_APPS += EXTERNAL_APPS

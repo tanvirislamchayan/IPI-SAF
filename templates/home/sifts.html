@@ -1,0 +1,101 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block start %}
+
+<style>
+    .login {
+        height: 100% !important;
+    }
+
+    .image-preview {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+
+    .btn-file {
+        cursor: pointer;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .btn-file-container {
+        margin-top: 10px;
+    }
+
+    .add-dep-form {
+    position: absolute;
+    left: 50%;
+    top: -100px;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+.add-dep-form.show {
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+}
+
+
+</style>
+
+<div class="add-dep-form form-hide bg-white p-2 shadow" id="addDepFrom">
+    <h5 class="text-center mb-3 p-2 bg-primary text-white">+ Add Shifts</h5>
+    <form class="row">
+        <div class="form-group mb-3 col-12">
+            <label for="shift"> <span class="text-danger">*</span> Shift</label>
+            <input type="text" required name="shift" id="shift" class="form-control" placeholder="Shift">
+        </div>
+        <div class="form-group mb-3 col-12">
+            <label for="group"> <span class="text-danger">*</span> Group</label>
+            <input type="text" required name="group" id="group" class="form-control" placeholder="Group">
+        </div>
+        <div class="mb-0 d-flex justify-content-end gap-2">
+            <button id="cancelFormButton" type="button" class="btn btn-sm btn-danger"> Cancel </button>
+            <button type="submit" class="btn btn-sm btn-primary"> + Add </button>
+        </div>
+    </form>
+</div>
+
+<div class="container-fluid">
+    <div class="container mx-auto shadow my-2">
+        <div class="d-flex justify-content-end gap-2 my-2 py-2">
+            <a href="{% url 'manage_college' %}" class="btn btn-sm btn-dark"><i class="fa-solid fa-arrow-left me-1"></i> Go Back </a>
+            <button id="addDepBtn" type="button" class="btn btn-sm btn-dark">+ Add Shifts</button>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th class="text-center" scope="col">Sr No.</th>
+                    <th class="text-center" scope="col">Shifts</th>
+                    <th class="text-center" scope="col">Groups</th>
+                    <th class="text-center" scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th class="text-center" scope="row">1</th>
+                    <td class="text-center">21-22</td>
+                    <td class="text-center">2022</td>
+                    <td class="text-center">
+                        <a href="#" class="btn btn-sm btn-danger"> <i class="fa-solid fa-trash"></i> </a>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}
