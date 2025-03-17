@@ -283,26 +283,30 @@ def users(request):
     }
 
     if request.method == 'POST':
-        name = request.POST.get('name').strip()
-        email = request.POST.get('email').strip()
-        password = request.POST.get('password').strip()
+        try:
+            name = request.POST.get('name').strip()
+            email = request.POST.get('email').strip()
+            password = request.POST.get('password').strip()
 
-        user_obj, created = User.objects.get_or_create(
-            defaults={
-                'username':email
-            },
-            first_name=name,
-            email=email,
-            is_active=True,
-            is_staff=True,
-            is_superuser= False
-        )
-        if created: 
-            user_obj.set_password(password)
-            messages.success(request, 'User created successfully')
-            return HttpResponseRedirect(referal_url)
-        else:
-            messages.warning(request, 'User already exists.')
+            user_obj, created = User.objects.get_or_create(
+                defaults={
+                    'username':email
+                },
+                first_name=name,
+                email=email,
+                is_active=True,
+                is_staff=True,
+                is_superuser= False
+            )
+            if created: 
+                user_obj.set_password(password)
+                messages.success(request, 'User created successfully')
+                return HttpResponseRedirect(referal_url)
+            else:
+                messages.warning(request, 'User already exists.')
+                return HttpResponseRedirect(referal_url)
+        except Exception as e:
+            print(e)
             return HttpResponseRedirect(referal_url)
 
 
