@@ -9,15 +9,24 @@ from . models import Institute, Year, Department, Shift
 # Create your views here.
 
 def auth(request):
-    if request.user.is_authenticated:
+    if request.user.is_superuser:
         return redirect('manage_college')
+    elif request.user.is_authenticated:
+        messages.warning(request, 'You are not allowed to access admin panel')
+        return redirect('delete')
     else:
         return redirect('auth_login')
 
 def auth_login(request):
     """User login"""
     if request.user.is_authenticated:
-        return redirect('delete')
+        if request.user.is_superuser:
+            return redirect('manage_college')
+        else:
+            return redirect('delete')
+    # if not request.user.is_superuser:
+    #     messages.error(request, 'Your are not allowed to Admin panel!')
+        # return redirect('home')
     if request.method == 'POST':
         username = request.POST.get('username', '').strip()
         password = request.POST.get('password', '').strip()
@@ -54,6 +63,9 @@ def auth_login(request):
 
 
 def auth_create(request):
+    if not request.user.is_superuser:
+        messages.error(request, 'Your are not allowed to Admin panel!')
+        return redirect('home')
     """User create"""
     referal_url = request.META.get('HTTP_REFERER', request.path_info)
     if not request.user.is_authenticated:
@@ -96,7 +108,13 @@ def auth_create(request):
 
 def institute(request):
     """TODO: Show institute"""
+    if not request.user.is_superuser:
+        messages.error(request, 'Your are not allowed to Admin panel!')
+        return redirect('home')
     referal_url = request.META.get('HTTP_REFERER', request.path_info)
+    if not request.user.is_superuser:
+        
+        return HttpResponseRedirect(referal_url)
     
     if not request.user.is_authenticated and not request.user.is_superuser:
         messages.warning(request, 'Please Login first')
@@ -146,6 +164,9 @@ def institute(request):
 
 
 def departments(request):
+    if not request.user.is_superuser:
+        messages.error(request, 'Your are not allowed to Admin panel!')
+        return redirect('home')
     referal_url = request.META.get('HTTP_REFERER', request.path_info)
     departments = Department.objects.all()
     assigned_users = Department.objects.values_list('head', flat=True)
@@ -185,6 +206,9 @@ def departments(request):
     return render(request, 'home/departments.html', context)
 
 def delete_department(request, uid):
+    if not request.user.is_superuser:
+        messages.error(request, 'Your are not allowed to Admin panel!')
+        return redirect('home')
     referal_url = request.META.get('HTTP_REFERER', request.path_info)
     try:
         department_obj = Department.objects.get(uid=uid)
@@ -197,6 +221,9 @@ def delete_department(request, uid):
 
 
 def years(request):
+    if not request.user.is_superuser:
+        messages.error(request, 'Your are not allowed to Admin panel!')
+        return redirect('home')
     referal_url = request.META.get('HTTP_REFERER', request.path_info)
     years = Year.objects.all()
     context = {
@@ -229,6 +256,9 @@ def years(request):
     return render(request, 'home/sessions.html', context)
 
 def delete_year(request, id):
+    if not request.user.is_superuser:
+        messages.error(request, 'Your are not allowed to Admin panel!')
+        return redirect('home')
     referal_url = request.META.get('HTTP_REFERER', request.path_info)
     try:
         year_obj = Year.objects.get(id=id)
@@ -241,6 +271,9 @@ def delete_year(request, id):
     return HttpResponseRedirect(referal_url)
 
 def sifts(request):
+    if not request.user.is_superuser:
+        messages.error(request, 'Your are not allowed to Admin panel!')
+        return redirect('home')
     referal_url = request.META.get('HTTP_REFERER', request.path_info)
     shifts = Shift.objects.all()
     context = {
@@ -264,6 +297,9 @@ def sifts(request):
     return render(request, 'home/sifts.html', context)
 
 def delete_shift(request, uid):
+    if not request.user.is_superuser:
+        messages.error(request, 'Your are not allowed to Admin panel!')
+        return redirect('home')
     referal_url = request.META.get('HTTP_REFERER', request.path_info)
     shift_obj = Shift.objects.get(uid=uid)
     if shift_obj:
@@ -275,6 +311,11 @@ def delete_shift(request, uid):
 
 
 def users(request):
+    if not request.user.is_superuser:
+        messages.error(request, 'Your are not allowed to Admin panel!')
+        return redirect('home')
+    if not request.user.is_superuser or not request.user.is_authenticated:
+        return redirect('auth_login')
     referal_url = request.META.get('HTTP_REFERER', request.path_info)
     users = User.objects.filter(is_staff=True,is_superuser=False).order_by('id')
     context = {
@@ -314,6 +355,9 @@ def users(request):
     return render(request, 'home/users.html', context)
 
 def delete_user(request, username):
+    if not request.user.is_superuser:
+        messages.error(request, 'Your are not allowed to Admin panel!')
+        return redirect('home')
     referal_url = request.META.get('HTTP_REFERER', request.path_info)
     context = {
         'page': 'Delete User',
