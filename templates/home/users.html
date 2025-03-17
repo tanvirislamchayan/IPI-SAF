@@ -48,7 +48,8 @@
 
 <div class="add-dep-form form-hide bg-white p-2 shadow" id="addDepFrom">
     <h5 class="text-center mb-3 p-2 bg-primary text-white">+ Add User</h5>
-    <form class="row">
+    <form class="row" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         <div class="form-group mb-3 col-12">
             <label for="name"> <span class="text-danger">*</span> Full Name</label>
             <input type="text" required name="name" id="name" class="form-control" placeholder="Full Name">
@@ -69,11 +70,12 @@
 </div>
 
 <div class="container-fluid">
-    <div class="container mx-auto shadow my-2">
+    <div class="container mx-auto shadow my-2 p-2">
         <div class="d-flex justify-content-end gap-2 my-2 py-2">
             <a href="{% url 'manage_college' %}" class="btn btn-sm btn-dark"><i class="fa-solid fa-arrow-left me-1"></i> Go Back </a>
             <button id="addDepBtn" type="button" class="btn btn-sm btn-dark">+ Add User</button>
         </div>
+        {% if users %}
 
         <div class="table-responsive">
             <table class="table table-hover table-bordered">
@@ -81,23 +83,30 @@
                   <tr>
                     <th class="text-center" scope="col">Sr No.</th>
                     <th class="text-center" scope="col">Name</th>
+                    <th class="text-center" scope="col">Username</th>
                     <th class="text-center" scope="col">Email</th>
                     <th class="text-center" scope="col">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th class="text-center" scope="row">1</th>
-                    <td class="text-center">Eng. Manik Ullah</td>
-                    <td class="text-center">engmanik11@gmail.com</td>
-                    <td class="text-center">
-                        <a href="#" class="btn btn-sm btn-danger"> <i class="fa-solid fa-trash"></i> </a>
-                    </td>
-                  </tr>
+                    {% for user in users %}
+                    <tr>
+                        <th class="text-center" scope="row"> {{ forloop.counter }} </th>
+                        <td class="text-center"> {{ user.first_name }} {{ user.last_name }}</td>
+                        <td class="text-center"> {{ user.username }} </td>
+                        <td class="text-center"> {{user.email}} </td>
+                        <td class="text-center">
+                            <a href="{% url 'delete_user' user.username %}" class="btn btn-sm btn-danger"> <i class="fa-solid fa-trash"></i> </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
                 </tbody>
             </table>
         </div>
-
+        {% else %}
+        <h3 class="text-center text-white bg-danger p-2">No Users</h3>
+        {% endif %}
     </div>
 </div>
 

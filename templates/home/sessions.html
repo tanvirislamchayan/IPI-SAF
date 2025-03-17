@@ -48,7 +48,8 @@
 
 <div class="add-dep-form form-hide bg-white p-2 shadow" id="addDepFrom">
     <h5 class="text-center mb-3 p-2 bg-primary text-white">+ Add Session</h5>
-    <form class="row">
+    <form class="row" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         <div class="form-group mb-3 col-12">
             <label for="session"> <span class="text-danger">*</span> Session</label>
             <input type="text" required name="session" id="session" class="form-control" placeholder="Session">
@@ -65,12 +66,13 @@
 </div>
 
 <div class="container-fluid">
-    <div class="container mx-auto shadow my-2">
+    <div class="container mx-auto shadow my-2 p-2">
         <div class="d-flex justify-content-end gap-2 my-2 py-2">
             <a href="{% url 'manage_college' %}" class="btn btn-sm btn-dark"><i class="fa-solid fa-arrow-left me-1"></i> Go Back </a>
             <button id="addDepBtn" type="button" class="btn btn-sm btn-dark">+ Add Sessions</button>
         </div>
 
+        {% if sessions %}
         <div class="table-responsive">
             <table class="table table-hover table-bordered">
                 <thead>
@@ -82,17 +84,22 @@
                   </tr>
                 </thead>
                 <tbody>
+                    {% for session in sessions %}
                   <tr>
-                    <th class="text-center" scope="row">1</th>
-                    <td class="text-center">21-22</td>
-                    <td class="text-center">2022</td>
+                    <th class="text-center" scope="row"> {{ forloop.counter }} </th>
+                    <td class="text-center"> {{ session.session }} </td>
+                    <td class="text-center"> {{ session.year }} </td>
                     <td class="text-center">
-                        <a href="#" class="btn btn-sm btn-danger"> <i class="fa-solid fa-trash"></i> </a>
+                        <a href="{% url 'delete_session' session.id %}" class="btn btn-sm btn-danger"> <i class="fa-solid fa-trash"></i> </a>
                     </td>
                   </tr>
+                  {% endfor %}
                 </tbody>
             </table>
         </div>
+        {% else %}
+        <h3 class="text-center text-white bg-danger p-2 my-2">No Sessions</h3>
+        {% endif %}
 
     </div>
 </div>

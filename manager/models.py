@@ -1,6 +1,8 @@
 import os
 from django.db import models
 from django.core.files.storage import default_storage
+from base.models import BaseModel
+from django.contrib.auth.models import User
 
 class Institute(models.Model):
     institute_name_bn = models.CharField(max_length=155, null=True, blank=True)
@@ -26,9 +28,25 @@ class Institute(models.Model):
 
 """season/year"""
 class Year(models.Model):
+    session = models.CharField(max_length=10, null=True, blank=True, unique=True)
     year = models.CharField(max_length=10, unique=True)
 
     def __str__(self) -> str:
-        return self.year
+        return self.session
     
-    
+
+
+class Department(BaseModel):
+    name = models.CharField(max_length=100, null=True, blank=True)
+    head = models.OneToOneField(User, on_delete=models.CASCADE, related_name='head_of_department', null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Shift(BaseModel):
+    shift = models.CharField(max_length=10, null=True, blank=True)
+    group = models.CharField(max_length=10, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.shift} - {self.group}"

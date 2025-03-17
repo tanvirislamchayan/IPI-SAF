@@ -4,9 +4,15 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from home.models import StudentSaf
 from django.contrib.auth.models import User
-from . models import Institute
+from . models import Institute, Year, Department, Shift
 
 # Create your views here.
+
+def auth(request):
+    if request.user.is_authenticated:
+        return redirect('manage_college')
+    else:
+        return redirect('auth_login')
 
 def auth_login(request):
     """User login"""
@@ -140,15 +146,184 @@ def institute(request):
 
 
 def departments(request):
-    return render(request, 'home/departments.html')
+    referal_url = request.META.get('HTTP_REFERER', request.path_info)
+    departments = Department.objects.all()
+    assigned_users = Department.objects.values_list('head', flat=True)
+    users = User.objects.filter(is_staff=True, is_active=True, is_superuser=False).exclude(id__in=assigned_users)
+    context = {
+        'page': 'Departments',
+        'departments': departments,
+        'users': users
+    }
+    if request.method == 'POST':
+        department_name = request.POST.get('department_name', '').strip()
+        head_of_dep = request.POST.get('head_of_dep', '').strip()
+
+        try:
+            user_obj = User.objects.get(id=head_of_dep)
+            department_obj = Department.objects.filter(name=department_name).first()
+
+            if department_obj:
+                messages.error(request, 'Department already exists in the system')
+                return HttpResponseRedirect(referal_url)
+            if not user_obj:
+                messages.error(request, 'Invalid User')
+            
+            department = Department.objects.create(
+                name=department_name,
+                head=user_obj
+            )
+            if department:
+                messages.success(request, 'Department Created Succesfully')
+            
+            return HttpResponseRedirect(referal_url)
+
+        except Exception as e:
+            print(e)
+            return HttpResponseRedirect(referal_url)
+
+    return render(request, 'home/departments.html', context)
+
+def delete_department(request, uid):
+    referal_url = request.META.get('HTTP_REFERER', request.path_info)
+    try:
+        department_obj = Department.objects.get(uid=uid)
+        if department_obj:
+            department_obj.delete()
+            messages.warning(request, 'Department has been deleted successfully!')
+    except Exception as e:
+        print(e)
+    return HttpResponseRedirect(referal_url)
 
 
-def sessions(request):
-    return render(request, 'home/sessions.html')
+def years(request):
+    referal_url = request.META.get('HTTP_REFERER', request.path_info)
+    years = Year.objects.all()
+    context = {
+        'page': 'Sessions',
+        'sessions': years
+    }
+
+    if request.method == 'POST':
+        try:
+            year_session = request.POST.get('session', '').strip()
+            session_year = request.POST.get('session_year', '').strip()
+
+            # Correct usage of get_or_create
+            get_session, created = Year.objects.get_or_create(
+                session=year_session,  # This field is used for lookup
+                defaults={'year': session_year}  # This field is only used if a new object is created
+            )
+
+            if created:
+                messages.success(request, 'Session created successfully!')
+            else:
+                messages.warning(request, 'Session already exists.')
+
+            return HttpResponseRedirect(referal_url)
+
+        except Exception as e:
+            print("Error:", e)
+            messages.error(request, "An error occurred while creating the session.")
+
+    return render(request, 'home/sessions.html', context)
+
+def delete_year(request, id):
+    referal_url = request.META.get('HTTP_REFERER', request.path_info)
+    try:
+        year_obj = Year.objects.get(id=id)
+
+        if year_obj:
+            year_obj.delete()
+            messages.success(request, 'Session deleted successfully')
+    except Exception as e:
+        print(e)
+    return HttpResponseRedirect(referal_url)
 
 def sifts(request):
-    return render(request, 'home/sifts.html')
+    referal_url = request.META.get('HTTP_REFERER', request.path_info)
+    shifts = Shift.objects.all()
+    context = {
+        'page': 'Shifts',
+        'shifts': shifts
+    }
+    if request.method == 'POST':
+        try:
+            shift = request.POST.get('shift', '').strip()
+            group = request.POST.get('group', '').strip()
+
+            Shift.objects.create(
+                shift=shift,
+                group=group
+            )
+            messages.success(request, 'Shift Created successfully! ')
+            
+        except Exception as e:
+            print(e)
+        return HttpResponseRedirect(referal_url)
+    return render(request, 'home/sifts.html', context)
+
+def delete_shift(request, uid):
+    referal_url = request.META.get('HTTP_REFERER', request.path_info)
+    shift_obj = Shift.objects.get(uid=uid)
+    if shift_obj:
+        shift_obj.delete()
+        messages.success(request, 'Shift deleted successfully!')
+    else:
+        messages.error(request, 'No Shift exists!')
+    return HttpResponseRedirect(referal_url)
 
 
 def users(request):
-    return render(request, 'home/users.html')
+    referal_url = request.META.get('HTTP_REFERER', request.path_info)
+    users = User.objects.filter(is_staff=True,is_superuser=False).order_by('id')
+    context = {
+        'page': 'Users',
+        'users': users
+    }
+
+    if request.method == 'POST':
+        name = request.POST.get('name').strip()
+        email = request.POST.get('email').strip()
+        password = request.POST.get('password').strip()
+
+        user_obj, created = User.objects.get_or_create(
+            defaults={
+                'username':email
+            },
+            first_name=name,
+            email=email,
+            is_active=True,
+            is_staff=True,
+            is_superuser= False
+        )
+        if created: 
+            user_obj.set_password(password)
+            messages.success(request, 'User created successfully')
+            return HttpResponseRedirect(referal_url)
+        else:
+            messages.warning(request, 'User already exists.')
+            return HttpResponseRedirect(referal_url)
+
+
+    return render(request, 'home/users.html', context)
+
+def delete_user(request, username):
+    referal_url = request.META.get('HTTP_REFERER', request.path_info)
+    context = {
+        'page': 'Delete User',
+    }
+
+    try:
+        user_obj = User.objects.filter(username=username).first()
+        if user_obj:
+            user_obj.delete()
+            messages.success(request, 'User deleted successfully!')
+            return HttpResponseRedirect(referal_url)
+        else:
+            messages.warning(request, 'No User found.')
+            return HttpResponseRedirect(referal_url)
+    except Exception as e:
+        print(e)
+
+    return HttpResponseRedirect(referal_url)
