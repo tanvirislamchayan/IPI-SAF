@@ -19,8 +19,8 @@ def auth_login(request):
     if request.user.is_authenticated:
         return redirect('delete')
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '').strip()
         
         user = authenticate(request, username=username, password=password)
         
@@ -300,6 +300,7 @@ def users(request):
             )
             if created: 
                 user_obj.set_password(password)
+                user_obj.save()
                 messages.success(request, 'User created successfully')
                 return HttpResponseRedirect(referal_url)
             else:
