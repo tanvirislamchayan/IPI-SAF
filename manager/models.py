@@ -50,3 +50,9 @@ class Shift(BaseModel):
 
     def __str__(self):
         return f"{self.shift} - {self.group}"
+    
+class Semester(BaseModel):
+    name = models.CharField(max_length=15, null=True, blank=True)
+
+    def __str__(self):
+        return self.name

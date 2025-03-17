@@ -679,37 +679,9 @@
                 <option disabled hidden selected value> </option>
             
             
-                <option value="1st" >
-                    1st Semester
-                </option>
-            
-                <option value="2nd" >
-                    2nd Semester
-                </option>
-            
-                <option value="3rd" >
-                    3rd Semester
-                </option>
-            
-                <option value="4th" >
-                    4th Semester
-                </option>
-            
-                <option value="5th" >
-                    5th Semester
-                </option>
-            
-                <option value="6th" >
-                    6th Semester
-                </option>
-            
-                <option value="7th" >
-                    7th Semester
-                </option>
-            
-                <option value="8th" >
-                    8th Semester
-                </option>
+                {% for semester in semesters %}
+                <option value="{{semester.uid}}"> {{ semester.name }} </option>
+                {% endfor %}
             
         </select>
   
@@ -745,36 +717,9 @@
         <select class='form-select' name='presentEduTechnology' required>
             
                 <option disabled hidden selected value> </option>
-            
-                <option value="Computer" >
-                    Computer Science & Technology
-                </option>
-            
-                <option value="Civil" >
-                    Civil Technology
-                </option>
-            
-                <option value="Electrical" >
-                    Electrical Technology
-                </option>
-            
-                <option value="Mechanical" >
-                    Mechanical Technology
-                </option>
-                <option value="Fabric Manufacturing" >
-                    Fabric Manufacturing Technology
-                </option>
-                <option value="Wet Processing" >
-                    Wet Processing Technology
-                </option>
-            
-                <option value="Textile" >
-                    Textile Technology
-                </option>
-                
-                <option value="Garments Design and Pattern Making" >
-                    Garments Design & Pattern Making Technology
-                </option>
+                {% for department in departments %}
+                <option value="{{department.uid}}"> {{ department.name }} </option>
+                {% endfor %}
             
         </select>
     
@@ -808,25 +753,10 @@
   
         <select class='form-select' name='presentEduShift' required>
             
-                <option disabled hidden selected value> </option>
-            
-            
-                <option value="1st Shift-A" >
-                    1st Shift-A
-                </option>
-            
-                <option value="1st Shift-B" >
-                    1st Shift-B
-                </option>
-            
-                <option value="2nd Shift-A" >
-                    2nd Shift-A
-                </option>
-            
-                <option value="2nd Shift-B" >
-                    2nd Shift-B
-                </option>
-            
+            <option disabled hidden selected value> </option>
+            {% for shift in shifts %}
+            <option value="{{shift.uid}}"> {{ shift.shift }} - {{ shift.group }} </option>
+            {% endfor %}
         </select>
   
         <div class="invalid-feedback">শিফট এবং গ্রুপ তথ্যটি দিন.
@@ -865,7 +795,7 @@
 
                 {% for year in years %}
                 <option value="{{ year.year }}" >
-                    {{ year.year }}
+                    {{ year.session }} ({{ year.year }})
                 </option>
                 {% endfor %}
             

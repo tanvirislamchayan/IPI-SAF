@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from home.models import StudentSaf
 from django.contrib.auth.models import User
-from . models import Institute, Year, Department, Shift
+from . models import Institute, Year, Department, Shift, Semester
 
 # Create your views here.
 
@@ -375,4 +375,39 @@ def delete_user(request, username):
     except Exception as e:
         print(e)
 
+    return HttpResponseRedirect(referal_url)
+
+
+def semesters(request):
+    if not request.user.is_superuser:
+        messages.warning(request, 'You are not allowed to access Admin Panel')
+        return redirect('home')
+    referal_url = request.META.get('HTTP_REFERER', request.path_info)
+    semesters = Semester.objects.all().order_by('name')
+    context = {
+        'page': 'Semesters',
+        'semesters': semesters
+    }
+    if request.method == 'POST':
+        try:
+            name = request.POST.get('name', '').strip()
+            created = Semester.objects.create(name=name)
+            if created:
+                messages.success(request, 'Semester created Successfully!')
+            else:
+                messages.error(request, 'Semester already exists!')
+        except Exception as e:
+            print(e)
+        return HttpResponseRedirect(referal_url)
+    return render(request, 'home/semesters.html', context)
+
+
+def delete_semester(request, uid):
+    if not request.user.is_superuser:
+        messages.warning(request, 'You are not allowed to access Admin Panel')
+        return redirect('home')
+    referal_url = request.META.get('HTTP_REFERER', request.path_info)
+    semester_obj = Semester.objects.get(uid=uid)
+    if semester_obj is not None:
+        semester_obj.delete()
     return HttpResponseRedirect(referal_url)

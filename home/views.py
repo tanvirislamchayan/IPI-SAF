@@ -12,7 +12,7 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
-from manager.models import Institute, Year
+from manager.models import Institute, Year, Shift, Department, Semester
 
 
 # Create your views here.
@@ -21,7 +21,10 @@ from manager.models import Institute, Year
 def home(request):
     institute = Institute.objects.all().first()
     students_count = StudentSaf.objects.all().count()
-    years = Year.objects.all().order_by('-year')
+    years = Year.objects.all().order_by('year')
+    shifts = Shift.objects.all()
+    departments = Department.objects.all().order_by('name')
+    semesters = Semester.objects.all().order_by('name')
     # all_students = AllStudent.objects.last()
     # if all_students:
     #     all_students.check_validity()
@@ -29,7 +32,10 @@ def home(request):
         'page':'Home',
         'years': years,
         'students_count': students_count,
-        'institute': institute
+        'institute': institute,
+        'departments': departments,
+        'shifts': shifts,
+        'semesters': semesters,
     }
     return render(request, 'home/home.html', context=context)
 
@@ -43,99 +49,99 @@ def save_data(request):
 
         """Personal info"""
         # Student info
-        name = request.POST.get('name')
-        nameEng = request.POST.get('nameEng')
-        birthCertNo = request.POST.get('birthCertNumber')
-        dob = request.POST.get('dob')
-        sex = request.POST.get('sex')
+        name = request.POST.get('name').strip()
+        nameEng = request.POST.get('nameEng').strip()
+        birthCertNo = request.POST.get('birthCertNumber').strip()
+        dob = request.POST.get('dob').strip()
+        sex = request.POST.get('sex').strip()
 
         # Father's info
-        fatherName = request.POST.get('fatherName')
-        fatherNameEng = request.POST.get('fatherNameEng')
-        fatherNID = request.POST.get('fatherNID')
-        fatherDob = request.POST.get('fatherDob')
-        fatherMobile = request.POST.get('fatherMobile')
+        fatherName = request.POST.get('fatherName').strip()
+        fatherNameEng = request.POST.get('fatherNameEng').strip()
+        fatherNID = request.POST.get('fatherNID').strip()
+        fatherDob = request.POST.get('fatherDob').strip()
+        fatherMobile = request.POST.get('fatherMobile').strip()
 
         # Mother's info
-        motherName = request.POST.get('motherName')
-        motherNameEng = request.POST.get('motherNameEng')
-        motherNID = request.POST.get('motherNID')
-        motherDob = request.POST.get('motherDob')
-        motherMobile = request.POST.get('motherMobile')
+        motherName = request.POST.get('motherName').strip()
+        motherNameEng = request.POST.get('motherNameEng').strip()
+        motherNID = request.POST.get('motherNID').strip()
+        motherDob = request.POST.get('motherDob').strip()
+        motherMobile = request.POST.get('motherMobile').strip()
 
         """Address"""
         # Present Address
-        presentDiv = request.POST.get('presentDivision')
-        presentDist = request.POST.get('presentDistrict')
-        presentUpozila = request.POST.get('presentUpozila')
-        presentUnion = request.POST.get('presentUnion')
-        presentPost = request.POST.get('presentPost')
-        presentVill = request.POST.get('presentVillage')
+        presentDiv = request.POST.get('presentDivision').strip()
+        presentDist = request.POST.get('presentDistrict').strip()
+        presentUpozila = request.POST.get('presentUpozila').strip()
+        presentUnion = request.POST.get('presentUnion').strip()
+        presentPost = request.POST.get('presentPost').strip()
+        presentVill = request.POST.get('presentVillage').strip()
 
         # permanent Address
-        permanentDiv = request.POST.get('permanentDivision')
-        permanentDist = request.POST.get('permanentDistrict')
-        permanentUpozila = request.POST.get('permanentUpozila')
-        permanentUnion = request.POST.get('permanentUnion')
-        permanentPost = request.POST.get('permanentPost')
-        permanentVill = request.POST.get('permanentVillage')
+        permanentDiv = request.POST.get('permanentDivision').strip()
+        permanentDist = request.POST.get('permanentDistrict').strip()
+        permanentUpozila = request.POST.get('permanentUpozila').strip()
+        permanentUnion = request.POST.get('permanentUnion').strip()
+        permanentPost = request.POST.get('permanentPost').strip()
+        permanentVill = request.POST.get('permanentVillage').strip()
 
 
         """Educational Qualification"""
         # Previous Qualification
-        prevEduDivi = request.POST.get('prevEduDivision')
-        prevEduDist = request.POST.get('prevEduDistrict')
-        prevEduUpozila = request.POST.get('prevEduUpozila')
-        prevEduInst = request.POST.get('prevEduInstitute')
-        prevEduBoard = request.POST.get('prevEduBoard')
-        prevEduPassYear = request.POST.get('prevEduPassYear')
-        prevEduTech = request.POST.get('prevEduTechnology')
-        prevEduExam = request.POST.get('prevEduExamName')
-        prevEduRoll = request.POST.get('prevEduRoll')
-        prevEduReg = request.POST.get('prevEduRegistration')
-        prevEduResult = request.POST.get('prevEduResult')
+        prevEduDivi = request.POST.get('prevEduDivision').strip()
+        prevEduDist = request.POST.get('prevEduDistrict').strip()
+        prevEduUpozila = request.POST.get('prevEduUpozila').strip()
+        prevEduInst = request.POST.get('prevEduInstitute').strip()
+        prevEduBoard = request.POST.get('prevEduBoard').strip()
+        prevEduPassYear = request.POST.get('prevEduPassYear').strip()
+        prevEduTech = request.POST.get('prevEduTechnology').strip()
+        prevEduExam = request.POST.get('prevEduExamName').strip()
+        prevEduRoll = request.POST.get('prevEduRoll').strip()
+        prevEduReg = request.POST.get('prevEduRegistration').strip()
+        prevEduResult = request.POST.get('prevEduResult').strip()
 
         # Present Qualification
-        presentEduDivi = request.POST.get('presentEduDivision')
-        presentEduDist = request.POST.get('presentEduDistrict')
-        presentEduUpozila = request.POST.get('presentEduUpozila')
-        presentEduInstitute = request.POST.get('presentEduInstitute')
-        presentEduSem = request.POST.get('presentEduSemester')
-        presentEduTech = request.POST.get('presentEduTechnology')
-        presentEduShift = request.POST.get('presentEduShift')
-        presentEduSession = request.POST.get('presentEduSession')
-        presentEduRoll = request.POST.get('presentEduRoll')
+        presentEduDivi = request.POST.get('presentEduDivision').strip()
+        presentEduDist = request.POST.get('presentEduDistrict').strip()
+        presentEduUpozila = request.POST.get('presentEduUpozila').strip()
+        presentEduInstitute = request.POST.get('presentEduInstitute').strip()
+        presentEduSem = request.POST.get('presentEduSemester').strip()
+        presentEduTech = request.POST.get('presentEduTechnology').strip()
+        presentEduShift = request.POST.get('presentEduShift').strip()
+        presentEduSession = request.POST.get('presentEduSession').strip()
+        presentEduRoll = request.POST.get('presentEduRoll').strip()
 
         """guardian Info"""
-        guardian = request.POST.get('guardian')
-        guardianName = request.POST.get('guardianName')
-        guardianNameEng = request.POST.get('guardianNameEng')
-        guardianNID = request.POST.get('guardianNID')
-        guardianDob = request.POST.get('guardianDob')
-        guardianMobile = request.POST.get('guardianMobile')
+        guardian = request.POST.get('guardian').strip()
+        guardianName = request.POST.get('guardianName').strip()
+        guardianNameEng = request.POST.get('guardianNameEng').strip()
+        guardianNID = request.POST.get('guardianNID').strip()
+        guardianDob = request.POST.get('guardianDob').strip()
+        guardianMobile = request.POST.get('guardianMobile').strip()
 
         """Eligibility Conditions and Attachment"""
-        eduCostBearer = request.POST.get('eduCostBearer')
-        freedomFighter = request.POST.get('freedomFighter')
-        protibondhi = request.POST.get('protibondhi')
-        nrigosti = request.POST.get('nrigosti')
-        otherScholar = request.POST.get('otherScholarSource')
+        eduCostBearer = request.POST.get('eduCostBearer').strip()
+        freedomFighter = request.POST.get('freedomFighter').strip()
+        protibondhi = request.POST.get('protibondhi').strip()
+        nrigosti = request.POST.get('nrigosti').strip()
+        otherScholar = request.POST.get('otherScholarSource').strip()
 
         """Attachments/Images"""
-        applicantPhoto = request.FILES.get('applicantPhoto')
-        documents = request.FILES.get('documents')
+        applicantPhoto = request.FILES.get('applicantPhoto').strip()
+        documents = request.FILES.get('documents').strip()
 
 
         """Payment System"""
         # student
-        paymentAccountName = request.POST.get('paymentAccountName')
-        paymentAccountNID = request.POST.get('paymentAccountNID')
-        paymentType = request.POST.get('paymentType')
-        paymentAccountNo = request.POST.get('paymentAccountNumber')
-        paymentMobileBankName = request.POST.get('paymentMobileBankName')
-        paymentBankName = request.POST.get('paymentBankName')
-        paymentBankBranch = request.POST.get('paymentBankBranch')
-        bankAccountType = request.POST.get('bankAccountType')
+        paymentAccountName = request.POST.get('paymentAccountName').strip()
+        paymentAccountNID = request.POST.get('paymentAccountNID').strip()
+        paymentType = request.POST.get('paymentType').strip()
+        paymentAccountNo = request.POST.get('paymentAccountNumber').strip()
+        paymentMobileBankName = request.POST.get('paymentMobileBankName').strip()
+        paymentBankName = request.POST.get('paymentBankName').strip()
+        paymentBankBranch = request.POST.get('paymentBankBranch').strip()
+        bankAccountType = request.POST.get('bankAccountType').strip()
 
         year_obj = Year.objects.get(year=presentEduSession)
         student_exist = StudentSaf.objects.filter(presentEduRoll=presentEduRoll).first()

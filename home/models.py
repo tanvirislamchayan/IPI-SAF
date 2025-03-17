@@ -1,5 +1,5 @@
 from django.db import models
-from manager.models import Year
+from manager.models import Year, Shift, Department
 
 """Students"""
 class StudentSaf(models.Model):
@@ -65,8 +65,8 @@ class StudentSaf(models.Model):
     presentEduUpozila = models.CharField(max_length=50, null=True, blank=True)
     presentEduInstitute = models.CharField(max_length=50, null=True, blank=True)
     presentEduSem = models.CharField(max_length=20, null=True, blank=True)
-    presentEduTech = models.CharField(max_length=50, null=True, blank=True)
-    presentEduShift = models.CharField(max_length=15, null=True, blank=True)
+    presentEduTech = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True, related_name='student_department')
+    presentEduShift = models.ForeignKey(Shift, on_delete=models.SET_NULL, null=True, blank=True, related_name='student_shift')
     presentEduSession = models.ForeignKey(Year, on_delete=models.CASCADE, null=True, blank=True, related_name="admission_year")
     presentEduRoll = models.CharField(max_length=10, null=True, blank=True)
 

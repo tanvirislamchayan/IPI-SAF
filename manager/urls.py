@@ -14,4 +14,6 @@ urlpatterns = [
     path('shift/delete/<str:uid>', views.delete_shift, name='delete_shift' ),
     path('users/', views.users, name='users'),
     path('users/delete/<str:username>', views.delete_user, name='delete_user'),
+    path('semesters/', views.semesters, name='semesters'),
+    path('semesters/delete/<str:uid>', views.delete_semester, name='delete_semester'),
 ]
