@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const instituteUpdateForm = document.querySelector('#instituteUpdateForm');
     const instituteUpdateFields = instituteUpdateForm.querySelectorAll('input');
     const usersBtn = document.getElementById('usersBtn');
+    const semesterBtn = document.getElementById('semesterBtn');
 
     // Make all inputs readonly or disabled
     instituteUpdateFields.forEach(field => {
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sessionBtn.classList.remove('d-none');
     shiftBtn.classList.remove('d-none');
     usersBtn.classList.remove('d-none');
+    semesterBtn.classList.remove('d-none');
     
 
 
@@ -59,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionBtn.classList.add('d-none');
         shiftBtn.classList.add('d-none');
         usersBtn.classList.add('d-none');
+        semesterBtn.classList.add('d-none');
     });
 
     // Reload the page

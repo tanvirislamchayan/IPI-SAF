@@ -49,8 +49,9 @@
 <div class="add-dep-form form-hide bg-white p-2 shadow" id="addDepFrom">
     <h5 class="text-center mb-3 p-2 bg-primary text-white">+ Add Session</h5>
     <form class="row" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
         <div class="form-group mb-3 col-12">
+        {% csrf_token %}
+
             <label for="session"> <span class="text-danger">*</span> Session</label>
             <input type="text" required name="session" id="session" class="form-control" placeholder="Session">
         </div>

@@ -13,18 +13,22 @@
                       {% csrf_token %}
                     <div class="row">
                         <div class="col-md-2 d-none d-sm-block d-sm-none d-md-block text-center">
-                            <img src="{% static 'src/image/logo.jpg' %}" alt="IPI Logo" class="img-thumbnail">
+                            {% if institute.institute_logo %}
+                            <img src="{{ institute.institute_logo.url }}" alt="IPI Logo" class="img-thumbnail">
+                            {% else %}
+                            <img src="{% static 'src/image/icon.png' %}" alt="IPI Logo" class="img-thumbnail">
+                            {% endif %}
                         </div>
                         <div class="col-md-10 col-sm-12 text-center">
-                            <h3 style="font-weight:bolder;">ইমেজ পলিটেকনিক ইন্সটিটিউট, রংপুর</h3>
-                            <span style="font-weight:bolder;">ইমেজ টাওয়ার, খামার মোড়, কলেজ রোড, রংপুর।</span><br>
-                            <span style="font-weight:bolder;">যোগাযোগঃ ০১৭০৪১৯৬১৫০, ০১৭৫৫০৬৭২১০</span>
+                            <h3 style="font-weight:bolder;"> {{ institute.institute_name_bn }} </h3>
+                            <span style="font-weight:bolder;"> {{ institute.institute_address_bn }} </span><br>
+                            <span style="font-weight:bolder;">যোগাযোগঃ {{ institute.contact_number_1 }}, {{ institute.contact_number_2 }} </span>
 
                             <p style="color:green; font-weight:bolder;font-size: 15px;">কারিগরি শিক্ষা অধিদপ্তর এর স্টাইপেন্ড MIS সফটওয়্যারে উপবৃত্তির জন্য শিক্ষার্থী আবেদন ফরম
                                 (SAF)
                                 </p>
                         </div>
-                      {% include "base/messages.html" %}
+                      
 
                         <div class="col-md-12 p-2">
                             <h4 class="text-left text-primary">ব্যক্তিগত তথ্য</h4>
@@ -675,37 +679,10 @@
         <select class='form-select' name='presentEduSemester' required>
             <option disabled hidden {% if not student.presentEduSem %}selected{% endif %} value> </option>
             
-            <option value="1st" {% if student.presentEduSem == "1st" %}selected{% endif %}>
-                1st Semester
-            </option>
-            
-            <option value="2nd" {% if student.presentEduSem == "2nd" %}selected{% endif %}>
-                2nd Semester
-            </option>
-            
-            <option value="3rd" {% if student.presentEduSem == "3rd" %}selected{% endif %}>
-                3rd Semester
-            </option>
-            
-            <option value="4th" {% if student.presentEduSem == "4th" %}selected{% endif %}>
-                4th Semester
-            </option>
-            
-            <option value="5th" {% if student.presentEduSem == "5th" %}selected{% endif %}>
-                5th Semester
-            </option>
-            
-            <option value="6th" {% if student.presentEduSem == "6th" %}selected{% endif %}>
-                6th Semester
-            </option>
-            
-            <option value="7th" {% if student.presentEduSem == "7th" %}selected{% endif %}>
-                7th Semester
-            </option>
-            
-            <option value="8th" {% if student.presentEduSem == "8th" %}selected{% endif %}>
-                8th Semester
-            </option>
+            {% for semester in semesters %}
+            <option value="{{semester.uid}}" {% if semester == student.presentEduSem %} selected {% endif %} > {{semester}} </option>
+            {% endfor %}
+
         </select>
         
   
@@ -741,44 +718,10 @@
         <select class='form-select' name='presentEduTechnology' required>
             <option disabled hidden {% if not student.presentEduTech %}selected{% endif %} value> </option>
             
-            <option value="Computer" {% if student.presentEduTech == "Computer" %}selected{% endif %}>
-                Computer Technology
-            </option>
+            {% for department in departments %}
+            <option value="{{department.uid}}" {% if department == student.presentEduTech %} selected {% endif %} > {{ department }} </option>
+            {% endfor %}
             
-            <option value="Civil" {% if student.presentEduTech == "Civil" %}selected{% endif %}>
-                Civil Technology
-            </option>
-            
-            <option value="Electrical" {% if student.presentEduTech == "Electrical" %}selected{% endif %}>
-                Electrical Technology
-            </option>
-            
-            <option value="Electronics" {% if student.presentEduTech == "Electronics" %}selected{% endif %}>
-                Electronics Technology
-            </option>
-            
-            <option value="Electromedical" {% if student.presentEduTech == "Electromedical" %}selected{% endif %}>
-                Electromedical Technology
-            </option>
-            
-            <option value="Mechanical" {% if student.presentEduTech == "Mechanical" %}selected{% endif %}>
-                Mechanical Technology
-            </option>
-            
-            <option value="Fabric Manufacturing" {% if student.presentEduTech == "Fabric Manufacturing" %}selected{% endif %} >
-                    Fabric Manufacturing Technology
-            </option>
-            <option value="Wet Processing" {% if student.presentEduTech == "Wet Processing" %}selected{% endif %} >
-                    Wet Processing Technology
-            </option>
-            
-            <option value="Textile" {% if student.presentEduTech == "Textile" %}selected{% endif %}>
-                    Textile Technology
-            </option>
-                
-            <option value="Garments Design and Pattern Making" {% if student.presentEduTech == "Garments Design and Pattern Making" %}selected{% endif %} >
-                    Garments Design & Pattern Making Technology
-            </option>
         </select>
         
     
@@ -813,21 +756,10 @@
         <select class='form-select' name='presentEduShift' required>
             <option disabled hidden {% if not student.presentEduShift %}selected{% endif %} value> </option>
             
-            <option value="1st Shift-A" {% if student.presentEduShift == "1st Shift-A" %}selected{% endif %}>
-                1st Shift-A
-            </option>
-            
-            <option value="1st Shift-B" {% if student.presentEduShift == "1st Shift-B" %}selected{% endif %}>
-                1st Shift-B
-            </option>
-            
-            <option value="2nd Shift-A" {% if student.presentEduShift == "2nd Shift-A" %}selected{% endif %}>
-                2nd Shift-A
-            </option>
-            
-            <option value="2nd Shift-B" {% if student.presentEduShift == "2nd Shift-B" %}selected{% endif %}>
-                2nd Shift-B
-            </option>
+            {% for shift in shifts %}
+            <option value="{{shift.uid}}" {% if shift ==  student.presentEduShift %} selected {% endif %}> {{shift.shift}} - {{ shift.group }} </option>
+            {% endfor %}
+
         </select>
         
   
@@ -862,8 +794,8 @@
             <option disabled hidden {% if not student.presentEduSession %}selected{% endif %} value> </option>
         
             {% for year in years %}
-            <option value="{{ year.year }}" {% if student.presentEduSession and student.presentEduSession.year == year.year %}selected{% endif %}>
-                {{ year.year }}
+            <option value="{{ year.id }}" {% if student.presentEduSession and student.presentEduSession.year == year.year %}selected{% endif %}>
+                {{ year.session }} ({{ year.year }})
             </option>
             {% endfor %}
         </select>

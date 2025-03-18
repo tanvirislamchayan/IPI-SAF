@@ -10,7 +10,7 @@
                 <form class="needs-validation" novalidate method="post"
                       action="{% url 'save-info' %}" enctype="multipart/form-data">
                       {% csrf_token %}
-                      {% include "base/messages.html" %}
+                      <!-- {% include "base/messages.html" %} -->
                     <div class="row">
                         <div class="col-md-2 d-none d-sm-block d-sm-none d-md-block text-center">
                             <div class="d-flex align-items-center justify-content-center" style="height: 130px; width: 130px;">
@@ -794,7 +794,7 @@
             <option disabled hidden selected value> </option>
 
                 {% for year in years %}
-                <option value="{{ year.year }}" >
+                <option value="{{ year.id }}" >
                     {{ year.session }} ({{ year.year }})
                 </option>
                 {% endfor %}

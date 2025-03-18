@@ -42,6 +42,7 @@ def home(request):
 
 
 def save_data(request):
+    referal_url = request.META.get('HTTP_REFERER', request.path_info)
     # all_students = AllStudent.objects.last()
     # if all_students:
     #     all_students.check_validity()
@@ -107,7 +108,7 @@ def save_data(request):
         presentEduUpozila = request.POST.get('presentEduUpozila').strip()
         presentEduInstitute = request.POST.get('presentEduInstitute').strip()
         presentEduSem = request.POST.get('presentEduSemester').strip()
-        presentEduTech = request.POST.get('presentEduTechnology').strip()
+        presentEduTech = request.POST.get('presentEduTechnology', '').strip()
         presentEduShift = request.POST.get('presentEduShift').strip()
         presentEduSession = request.POST.get('presentEduSession').strip()
         presentEduRoll = request.POST.get('presentEduRoll').strip()
@@ -128,8 +129,8 @@ def save_data(request):
         otherScholar = request.POST.get('otherScholarSource').strip()
 
         """Attachments/Images"""
-        applicantPhoto = request.FILES.get('applicantPhoto').strip()
-        documents = request.FILES.get('documents').strip()
+        applicantPhoto = request.FILES.get('applicantPhoto')
+        documents = request.FILES.get('documents')
 
 
         """Payment System"""
@@ -141,9 +142,29 @@ def save_data(request):
         paymentMobileBankName = request.POST.get('paymentMobileBankName').strip()
         paymentBankName = request.POST.get('paymentBankName').strip()
         paymentBankBranch = request.POST.get('paymentBankBranch').strip()
-        bankAccountType = request.POST.get('bankAccountType').strip()
+        bankAccountType = request.POST.get('bankAccountType')
 
-        year_obj = Year.objects.get(year=presentEduSession)
+        semester_obj = Semester.objects.get(uid=presentEduSem)
+        if semester_obj is None:
+            messages.error(request, "Semeste doesn't exists!!")
+            return HttpResponseRedirect(referal_url)
+        
+        department_obj = Department.objects.get(uid=presentEduTech)
+        if department_obj is None:
+            messages.error(request, "Semester doesn't exists")
+            return HttpResponseRedirect(referal_url)
+        
+        shift_obj = Shift.objects.get(uid=presentEduShift)
+        if shift_obj is None:
+            messages.error(request, "Shift doesn't exists!")
+            return HttpResponseRedirect(referal_url)
+       
+
+        year_obj = Year.objects.get(id=presentEduSession)
+        if year_obj is None:
+            messages.error(request, "Year (Session) doesn't exists!")
+            return HttpResponseRedirect(referal_url)
+        
         student_exist = StudentSaf.objects.filter(presentEduRoll=presentEduRoll).first()
 
         if student_exist:
@@ -193,9 +214,9 @@ def save_data(request):
             presentEduDist=presentEduDist,
             presentEduUpozila=presentEduUpozila,
             presentEduInstitute=presentEduInstitute,
-            presentEduSem=presentEduSem,
-            presentEduTech=presentEduTech,
-            presentEduShift=presentEduShift,
+            presentEduSem=semester_obj,
+            presentEduTech=department_obj,
+            presentEduShift=shift_obj,
             presentEduSession=year_obj,  # ForeignKey reference to Year object
             presentEduRoll=presentEduRoll,
             guardian=guardian,
@@ -237,7 +258,7 @@ def search_info(request):
     #     all_students.check_validity()
     students_count = StudentSaf.objects.all().count()
     context = {
-        'page': 'IPI | Apply for SAF',
+        'page': 'Apply for SAF',
         'students_count': students_count
     }
 
@@ -259,10 +280,12 @@ def search_info(request):
 
 def student(request, id):
     students_count = StudentSaf.objects.all().count()
+    institute = Institute.objects.all().first()
 
     context = {
-        'page': 'IPI | Apply for SAF',
-        'students_count': students_count
+        'page': 'Apply for SAF',
+        'students_count': students_count,
+        'institute': institute
     }
 
     # all_students = AllStudent.objects.last()
@@ -307,81 +330,81 @@ def update_info(request, id):
         if request.method == 'POST':
             """Personal info"""
             # Student info
-            student_obj.name = request.POST.get('name')
-            student_obj.nameEng = request.POST.get('nameEng')
-            student_obj.birthCertNo = request.POST.get('birthCertNumber')
-            student_obj.dob = request.POST.get('dob')
-            student_obj.sex = request.POST.get('sex')
+            student_obj.name = request.POST.get('name').strip()
+            student_obj.nameEng = request.POST.get('nameEng').strip()
+            student_obj.birthCertNo = request.POST.get('birthCertNumber').strip()
+            student_obj.dob = request.POST.get('dob').strip()
+            student_obj.sex = request.POST.get('sex').strip()
 
             # Father's info
-            student_obj.fatherName = request.POST.get('fatherName')
-            student_obj.fatherNameEng = request.POST.get('fatherNameEng')
-            student_obj.fatherNID = request.POST.get('fatherNID')
-            student_obj.fatherDob = request.POST.get('fatherDob')
-            student_obj.fatherMobile = request.POST.get('fatherMobile')
+            student_obj.fatherName = request.POST.get('fatherName').strip()
+            student_obj.fatherNameEng = request.POST.get('fatherNameEng').strip()
+            student_obj.fatherNID = request.POST.get('fatherNID').strip()
+            student_obj.fatherDob = request.POST.get('fatherDob').strip()
+            student_obj.fatherMobile = request.POST.get('fatherMobile').strip()
 
             # Mother's info
-            student_obj.motherName = request.POST.get('motherName')
-            student_obj.motherNameEng = request.POST.get('motherNameEng')
-            student_obj.motherNID = request.POST.get('motherNID')
-            student_obj.motherDob = request.POST.get('motherDob')
-            student_obj.motherMobile = request.POST.get('motherMobile')
+            student_obj.motherName = request.POST.get('motherName').strip()
+            student_obj.motherNameEng = request.POST.get('motherNameEng').strip()
+            student_obj.motherNID = request.POST.get('motherNID').strip()
+            student_obj.motherDob = request.POST.get('motherDob').strip()
+            student_obj.motherMobile = request.POST.get('motherMobile').strip()
 
             """Address"""
             # Present Address
-            student_obj.presentDiv = request.POST.get('presentDivision')
-            student_obj.presentDist = request.POST.get('presentDistrict')
-            student_obj.presentUpozila = request.POST.get('presentUpozila')
-            student_obj.presentUnion = request.POST.get('presentUnion')
-            student_obj.presentPost = request.POST.get('presentPost')
-            student_obj.presentVill = request.POST.get('presentVillage')
+            student_obj.presentDiv = request.POST.get('presentDivision').strip()
+            student_obj.presentDist = request.POST.get('presentDistrict').strip()
+            student_obj.presentUpozila = request.POST.get('presentUpozila').strip()
+            student_obj.presentUnion = request.POST.get('presentUnion').strip()
+            student_obj.presentPost = request.POST.get('presentPost').strip()
+            student_obj.presentVill = request.POST.get('presentVillage').strip()
 
             # Permanent Address
-            student_obj.permanentDiv = request.POST.get('permanentDivision')
-            student_obj.permanentDist = request.POST.get('permanentDistrict')
-            student_obj.permanentUpozila = request.POST.get('permanentUpozila')
-            student_obj.permanentUnion = request.POST.get('permanentUnion')
-            student_obj.permanentPost = request.POST.get('permanentPost')
-            student_obj.permanentVill = request.POST.get('permanentVillage')
+            student_obj.permanentDiv = request.POST.get('permanentDivision').strip()
+            student_obj.permanentDist = request.POST.get('permanentDistrict').strip()
+            student_obj.permanentUpozila = request.POST.get('permanentUpozila').strip()
+            student_obj.permanentUnion = request.POST.get('permanentUnion').strip()
+            student_obj.permanentPost = request.POST.get('permanentPost').strip()
+            student_obj.permanentVill = request.POST.get('permanentVillage').strip()
 
             """Educational Qualification"""
             # Previous Qualification
-            student_obj.prevEduDivi = request.POST.get('prevEduDivision')
-            student_obj.prevEduDist = request.POST.get('prevEduDistrict')
-            student_obj.prevEduUpozila = request.POST.get('prevEduUpozila')
-            student_obj.prevEduInst = request.POST.get('prevEduInstitute')
-            student_obj.prevEduBoard = request.POST.get('prevEduBoard')
-            student_obj.prevEduPassYear = request.POST.get('prevEduPassYear')
-            student_obj.prevEduTech = request.POST.get('prevEduTechnology')
-            student_obj.prevEduExam = request.POST.get('prevEduExamName')
-            student_obj.prevEduRoll = request.POST.get('prevEduRoll')
-            student_obj.prevEduReg = request.POST.get('prevEduRegistration')
-            student_obj.prevEduResult = request.POST.get('prevEduResult')
+            student_obj.prevEduDivi = request.POST.get('prevEduDivision').strip()
+            student_obj.prevEduDist = request.POST.get('prevEduDistrict').strip()
+            student_obj.prevEduUpozila = request.POST.get('prevEduUpozila').strip()
+            student_obj.prevEduInst = request.POST.get('prevEduInstitute').strip()
+            student_obj.prevEduBoard = request.POST.get('prevEduBoard').strip()
+            student_obj.prevEduPassYear = request.POST.get('prevEduPassYear').strip()
+            student_obj.prevEduTech = request.POST.get('prevEduTechnology').strip()
+            student_obj.prevEduExam = request.POST.get('prevEduExamName').strip()
+            student_obj.prevEduRoll = request.POST.get('prevEduRoll').strip()
+            student_obj.prevEduReg = request.POST.get('prevEduRegistration').strip()
+            student_obj.prevEduResult = request.POST.get('prevEduResult').strip()
 
             # Present Qualification
-            student_obj.presentEduDivi = request.POST.get('presentEduDivision')
-            student_obj.presentEduDist = request.POST.get('presentEduDistrict')
-            student_obj.presentEduUpozila = request.POST.get('presentEduUpozila')
-            student_obj.presentEduInstitute = request.POST.get('presentEduInstitute')
-            student_obj.presentEduSem = request.POST.get('presentEduSemester')
-            student_obj.presentEduTech = request.POST.get('presentEduTechnology')
-            student_obj.presentEduShift = request.POST.get('presentEduShift')
-            student_obj.presentEduSession = Year.objects.get(year=request.POST.get('presentEduSession'))
-            student_obj.presentEduRoll = request.POST.get('presentEduRoll')
+            student_obj.presentEduDivi = request.POST.get('presentEduDivision').strip()
+            student_obj.presentEduDist = request.POST.get('presentEduDistrict').strip()
+            student_obj.presentEduUpozila = request.POST.get('presentEduUpozila').strip()
+            student_obj.presentEduInstitute = request.POST.get('presentEduInstitute').strip()
+            student_obj.presentEduSem = Semester.objects.get(uid=request.POST.get('presentEduSemester').strip())
+            student_obj.presentEduTech = Department.objects.get(uid=request.POST.get('presentEduTechnology').strip())
+            student_obj.presentEduShift = Shift.objects.get(uid=request.POST.get('presentEduShift').strip())
+            student_obj.presentEduSession = Year.objects.get(id=request.POST.get('presentEduSession'))
+            student_obj.presentEduRoll = request.POST.get('presentEduRoll').strip()
 
             """Guardian Info"""
-            student_obj.guardian = request.POST.get('guardian')
-            student_obj.guardianName = request.POST.get('guardianName')
-            student_obj.guardianNameEng = request.POST.get('guardianNameEng')
-            student_obj.guardianNID = request.POST.get('guardianNID')
-            student_obj.guardianDob = request.POST.get('guardianDob')
-            student_obj.guardianMobile = request.POST.get('guardianMobile')
+            student_obj.guardian = request.POST.get('guardian').strip()
+            student_obj.guardianName = request.POST.get('guardianName').strip()
+            student_obj.guardianNameEng = request.POST.get('guardianNameEng').strip()
+            student_obj.guardianNID = request.POST.get('guardianNID').strip()
+            student_obj.guardianDob = request.POST.get('guardianDob').strip()
+            student_obj.guardianMobile = request.POST.get('guardianMobile').strip()
 
             """Eligibility Conditions and Attachment"""
-            student_obj.eduCostBearer = request.POST.get('eduCostBearer')
-            student_obj.freedomFighter = request.POST.get('freedomFighter')
-            student_obj.protibondhi = request.POST.get('protibondhi')
-            student_obj.nrigosti = request.POST.get('nrigosti')
+            student_obj.eduCostBearer = request.POST.get('eduCostBearer').strip()
+            student_obj.freedomFighter = request.POST.get('freedomFighter').strip()
+            student_obj.protibondhi = request.POST.get('protibondhi').strip()
+            student_obj.nrigosti = request.POST.get('nrigosti').strip()
             student_obj.otherScholar = request.POST.get('otherScholarSource')
 
             """Attachments/Images"""
@@ -417,12 +440,20 @@ def update_info(request, id):
             messages.success(request, 'Updated successfully!')
             return redirect('student', id=student_obj.id)
         students_count = StudentSaf.objects.all().count()
+        semesters = Semester.objects.all().order_by('name')
+        shifts = Shift.objects.all()
+        departments = Department.objects.all().order_by('name')
+        institute = Institute.objects.all().first()
         context = {
             'page': 'IPI | Update Info for SAF',
             'student': student_obj,
             'payment': payment,
             'years': years,
-            'students_count': students_count
+            'students_count': students_count,
+            'semesters': semesters,
+            'shifts': shifts,
+            'departments': departments,
+            'institute': institute,
         }
         return render(request, 'search/update.html', context)
     

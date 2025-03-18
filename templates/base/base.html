@@ -10,6 +10,8 @@
     <link href="{% static 'src/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'src/css/style.css' %}" rel="stylesheet">
     <link href="{% static 'src/css/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'src/css/message.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="{% static 'src/js/jquery.min.js' %}"></script>
     <script src="{% static 'src/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'src/js/pweb.js' %}"></script>
@@ -66,15 +68,32 @@
     
 </footer>
 
-<script src="{% static 'src/js/fontawesome-all.min.js' %}"></script>
+<!-- <script src="{% static 'src/js/fontawesome-all.min.js' %}"></script> -->
 <script src="{% static 'src/js/custom.js' %}"></script>
 <script src="{% static 'src/js/pweb.ajax.js' %}"></script>
 <script src="{% static 'src/js/pweb.message.box.js' %}"></script>
 <script src="{% static 'src/js/bootstrap-form-validator.js' %}"></script>
 <script src="{% static 'src/js/pweb.rpir.js' %}"></script>
+<script src="{% static 'src/js/message.js' %}"></script>
 
 <script>
     PWeb.messageBox.parseAndShowMessage({})
 </script>
+
+<!-- <script>
+            document.addEventListener('DOMContentLoaded', () => {
+            fadeIn("error", "err");
+        });
+</script> -->
+
+{% if messages %}
+{% for message in messages %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fadeIn("{{ message.tags }}", "{{ message|escapejs }}");
+        });
+    </script>
+{% endfor %}
+{% endif %}
 </body>
 </html>
