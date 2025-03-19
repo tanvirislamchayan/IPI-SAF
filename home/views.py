@@ -257,9 +257,12 @@ def search_info(request):
     # if all_students:
     #     all_students.check_validity()
     students_count = StudentSaf.objects.all().count()
+    institute = Institute.objects.all().first()
+
     context = {
         'page': 'Apply for SAF',
-        'students_count': students_count
+        'students_count': students_count,
+        'institute': institute
     }
 
     if request.method == 'POST':
@@ -279,6 +282,7 @@ def search_info(request):
 # from django.contrib import messages
 
 def student(request, id):
+
     students_count = StudentSaf.objects.all().count()
     institute = Institute.objects.all().first()
 
@@ -467,6 +471,7 @@ def update_info(request, id):
 
 
 def delete_seasson(request):
+    institute = Institute.objects.all().first()
     # Check if the user is a superuser
     if not request.user.is_authenticated:
         messages.warning(request, 'Please Login first.')
@@ -523,7 +528,8 @@ def delete_seasson(request):
         'seassons': seassons,
         'students': students,
         'selected_seasson': selected_seasson,
-        'students_count': students_count
+        'students_count': students_count,
+        'institute': institute,
     }
     return render(request, 'home/delete.html', context)
 
@@ -561,10 +567,12 @@ def user_login(request):
             messages.warning(request, 'Invalid username or password.')
             return HttpResponseRedirect(request.path_info)
     students_count = StudentSaf.objects.all().count()
+    institute = Institute.objects.all().first()
     
     context = {
         'page': 'Login SAF Admin | API',
-        'students_count': students_count
+        'students_count': students_count,
+        'institute': institute
     }
     return render(request, 'home/login.html', context)
 

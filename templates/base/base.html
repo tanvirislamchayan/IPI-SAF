@@ -6,9 +6,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ page }}</title>
+    {% if institute.institute_logo %}
+    <link rel="icon" type="image/x-icon" href="{{ institute.institute_logo.url }}">
+    {% else %}
     <link rel="icon" type="image/x-icon" href="{% static 'src/image/icon.png' %}">
+    {% endif %}
     <link href="{% static 'src/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'src/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'src/css/loader.css' %}" rel="stylesheet">
     <link href="{% static 'src/css/custom.css' %}" rel="stylesheet">
     <link href="{% static 'src/css/message.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -23,9 +28,16 @@
 
 <nav class="navbar navbar-expand-lg px-lg-5 mb-3 navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="https://jstechbd.com/" target="_blank">
-            <img height="25px" src="{% static 'src/image/icon.png' %}" alt=""> JS Technology
+        {% if institute %}
+        <a class="navbar-brand" href="{% url 'home' %}" >
+            {% if institute.institute_logo %} <img src="{{ institute.institute_logo.url }}" height="25px" alt="InstituteLogo"> {% else %} <img height="25px" src="{% static 'src/image/icon.png' %}" alt=""> {% endif %} {{ institute.institute_name_bn }}
         </a>
+
+        {% else %}
+        <a class="navbar-brand" href="https://jstechbd.com/" target="_blank">
+            {% if institute.institute_logo %} <img src="{{ institute.institute_logo.url }}" height="25px" alt="InstituteLogo"> {% else %} <img height="25px" src="{% static 'src/image/icon.png' %}" alt=""> JS TECHNOLOGY {% endif %} 
+        </a>
+        {% endif %}
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#responsive-navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -49,6 +61,16 @@
     </div>
 </nav>
 
+<div id="loaderBody" class="loader-body">
+    <div class="loader_div">
+        <span class="dot-loader">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </span>
+    </div>
+</div>
+
 {% block start %}
 {% endblock %}
 
@@ -69,6 +91,7 @@
 </footer>
 
 <!-- <script src="{% static 'src/js/fontawesome-all.min.js' %}"></script> -->
+<!-- <script src="{% static 'src/js/loader.js' %}"></script> -->
 <script src="{% static 'src/js/custom.js' %}"></script>
 <script src="{% static 'src/js/pweb.ajax.js' %}"></script>
 <script src="{% static 'src/js/pweb.message.box.js' %}"></script>

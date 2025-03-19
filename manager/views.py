@@ -54,10 +54,11 @@ def auth_login(request):
             messages.warning(request, 'Invalid username or password.')
             return HttpResponseRedirect(request.path_info)
     students_count = StudentSaf.objects.all().count()
-    
+    institute = Institute.objects.all().first()
     context = {
         'page': 'Login SAF Admin',
-        'students_count': students_count
+        'students_count': students_count,
+        'institute': institute
     }
     return render(request, 'home/login.html', context)
 
@@ -72,9 +73,11 @@ def auth_create(request):
         messages.warning(request, 'Please Login first')
         return redirect('auth_login')
     students_count = StudentSaf.objects.all().count()
+    institute = Institute.objects.all().first()
     context = {
         'page': 'Create SAF Admin',
-        'students_count': students_count
+        'students_count': students_count,
+        'institute': institute
     }
 
     if request.method == 'POST':
@@ -150,6 +153,7 @@ def institute(request):
         
         return HttpResponseRedirect(referal_url)
     institute_obj = Institute.objects.all().first()
+    # students_count = StudentSaf.objects.all.count()
     if not institute_obj:
         institute_obj = Institute.objects.create(
             institute_name_bn='JS Polytechnic Institute'
@@ -171,10 +175,14 @@ def departments(request):
     departments = Department.objects.all()
     assigned_users = Department.objects.values_list('head', flat=True)
     users = User.objects.filter(is_staff=True, is_active=True, is_superuser=False).exclude(id__in=assigned_users)
+    students_count = StudentSaf.objects.all().count()
+    institute = Institute.objects.all().first()
     context = {
         'page': 'Departments',
         'departments': departments,
-        'users': users
+        'users': users,
+        'students_count': students_count,
+        'institute': institute
     }
     if request.method == 'POST':
         department_name = request.POST.get('department_name', '').strip()
@@ -226,9 +234,13 @@ def years(request):
         return redirect('home')
     referal_url = request.META.get('HTTP_REFERER', request.path_info)
     years = Year.objects.all()
+    students_count = StudentSaf.objects.all().count()
+    institute = Institute.objects.all().first()
     context = {
         'page': 'Sessions',
-        'sessions': years
+        'sessions': years,
+        'institute': institute,
+        'students_count': students_count
     }
 
     if request.method == 'POST':
@@ -294,6 +306,13 @@ def sifts(request):
         except Exception as e:
             print(e)
         return HttpResponseRedirect(referal_url)
+    students_count = StudentSaf.objects.all().count()
+    institute = Institute.objects.all().first()
+    context.update({
+        'institute': institute,
+        'students_count': students_count
+    })
+
     return render(request, 'home/sifts.html', context)
 
 def delete_shift(request, uid):
@@ -350,7 +369,12 @@ def users(request):
         except Exception as e:
             print(e)
             return HttpResponseRedirect(referal_url)
-
+    students_count = StudentSaf.objects.all().count()
+    institute = Institute.objects.all().first()
+    context.update({
+        'institute': institute,
+        'students_count': students_count
+    })
 
     return render(request, 'home/users.html', context)
 
@@ -399,6 +423,12 @@ def semesters(request):
         except Exception as e:
             print(e)
         return HttpResponseRedirect(referal_url)
+    students_count = StudentSaf.objects.all().count()
+    institute = Institute.objects.all().first()
+    context.update({
+        'institute': institute,
+        'students_count': students_count
+    })
     return render(request, 'home/semesters.html', context)
 
 

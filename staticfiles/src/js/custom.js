@@ -16,6 +16,13 @@
 //     }
 // });
 
+// loader
+
+window.addEventListener("load", function() {
+    const loaderSection = document.getElementById("loaderBody");
+    loaderSection.classList.add('d-none')
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const updateBtn = document.getElementById('updateBtn');
     const saveBtn = document.getElementById('saveBtn');
