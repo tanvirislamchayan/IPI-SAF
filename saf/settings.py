@@ -88,12 +88,13 @@ WSGI_APPLICATION = 'saf.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'jstechbd_demo_saf',
+        'NAME': 'jstechbd_saf_form',
         'USER': 'jstechbd_jstechbd',
         'PASSWORD': 'Hj-c9xb2QY#30T',
         'HOST': 'localhost',  
         'PORT': '3306',
         'OPTIONS': {
+            'charset': 'utf8mb4',
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
     }
