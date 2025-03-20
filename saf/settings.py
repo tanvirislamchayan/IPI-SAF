@@ -94,13 +94,8 @@ DATABASES = {
         'HOST': 'localhost',  
         'PORT': '3306',
         'OPTIONS': {
-            'charset': 'utf8mb4',
-            'init_command': """
-                SET sql_mode='STRICT_TRANS_TABLES';
-                SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
-                SET SESSION innodb_strict_mode=0;
-                SET SESSION innodb_default_row_format='DYNAMIC';
-            """,
+            'charset': 'utf8mb4',  # Add this line
+            'sql_mode': 'STRICT_TRANS_TABLES',  # Corrected syntax
         }
     }
 }
