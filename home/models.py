@@ -76,7 +76,7 @@ class StudentSaf(models.Model):
 
     """Guardians info"""
     guardian = models.CharField(max_length=15, null=True, blank=True)
-    guarName = models.CharField(max_length=50, null=True, blank=True)
+    guardianName = models.CharField(max_length=50, null=True, blank=True)
     guardianNameEng = models.CharField(max_length=50, null=True, blank=True)
     guardianNID = models.CharField(max_length=30, null=True, blank=True)
     guardianDob = models.DateField(null=True, blank=True)
