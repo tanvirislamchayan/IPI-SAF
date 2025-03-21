@@ -111,37 +111,37 @@ class StudentSaf(models.Model):
             last_reg_no = StudentSaf.objects.aggregate(max_reg=models.Max('regNo'))['max_reg']
             self.regNo = 1 if last_reg_no is None else last_reg_no + 1
 
-        def compress_image(image_field):
-            """Compresses an image and returns a new file."""
-            if not image_field:
-                return None
+        # def compress_image(image_field):
+        #     """Compresses an image and returns a new file."""
+        #     if not image_field:
+        #         return None
 
-            # If the image is already stored in the filesystem, open it properly
-            if not isinstance(image_field, InMemoryUploadedFile):
-                image_field.open()
+        #     # If the image is already stored in the filesystem, open it properly
+        #     if not isinstance(image_field, InMemoryUploadedFile):
+        #         image_field.open()
 
-            img = Image.open(image_field)
+        #     img = Image.open(image_field)
 
-            # Convert RGBA and P mode images to RGB to avoid errors
-            if img.mode in ("RGBA", "P"):
-                img = img.convert("RGB")
+        #     # Convert RGBA and P mode images to RGB to avoid errors
+        #     if img.mode in ("RGBA", "P"):
+        #         img = img.convert("RGB")
 
-            img.thumbnail((800, 800))  # Resize while maintaining aspect ratio
+        #     img.thumbnail((800, 800))  # Resize while maintaining aspect ratio
 
-            img_io = BytesIO()
-            img.save(img_io, format='JPEG', quality=70)
+        #     img_io = BytesIO()
+        #     img.save(img_io, format='JPEG', quality=70)
 
-            return ContentFile(img_io.getvalue(), name=image_field.name)
+        #     return ContentFile(img_io.getvalue(), name=image_field.name)
 
-        # Update applicantPhoto if a new one is uploaded
-        if self.applicantPhoto and isinstance(self.applicantPhoto, InMemoryUploadedFile):
-            self.applicantPhoto = compress_image(self.applicantPhoto)
+        # # Update applicantPhoto if a new one is uploaded
+        # if self.applicantPhoto and isinstance(self.applicantPhoto, InMemoryUploadedFile):
+        #     self.applicantPhoto = compress_image(self.applicantPhoto)
 
-        # Update documents if a new one is uploaded
-        if self.documents and isinstance(self.documents, InMemoryUploadedFile):
-            self.documents = compress_image(self.documents)
+        # # Update documents if a new one is uploaded
+        # if self.documents and isinstance(self.documents, InMemoryUploadedFile):
+        #     self.documents = compress_image(self.documents)
 
-        super().save(*args, **kwargs)  # Call the parent class save method
+        # super().save(*args, **kwargs)  # Call the parent class save method
 
 
 
