@@ -298,7 +298,6 @@ def student(request, id):
 
     try:
         student_obj = StudentSaf.objects.get(id=id)
-        print(student_obj)
     except StudentSaf.DoesNotExist:
         messages.warning(request, 'Student not found.')
         return redirect('search')
@@ -500,7 +499,6 @@ def delete_seasson(request):
     
     if request.method == "POST":
         selected_ids = request.POST.getlist('selection')
-        print(selected_ids)  # Debugging print statement
         for student_id in selected_ids:
             try:
                 student = StudentSaf.objects.get(id=student_id)
