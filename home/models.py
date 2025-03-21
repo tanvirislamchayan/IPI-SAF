@@ -1,9 +1,10 @@
 from django.db import models
 from manager.models import Year, Shift, Department, Semester
-from PIL import Image
-from io import BytesIO
 from django.core.files.base import ContentFile
-
+from django.core.files.storage import default_storage
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from io import BytesIO
+from PIL import Image
 """Students"""
 class StudentSaf(models.Model):
     regNo = models.PositiveIntegerField(unique=True, null=True, blank=True)
@@ -110,29 +111,37 @@ class StudentSaf(models.Model):
             last_reg_no = StudentSaf.objects.aggregate(max_reg=models.Max('regNo'))['max_reg']
             self.regNo = 1 if last_reg_no is None else last_reg_no + 1
 
-        # Compress images before saving
-        if self.applicantPhoto:
-            self.applicantPhoto = self.compress_image(self.applicantPhoto)
+        def compress_image(image_field):
+            """Compresses an image and returns a new file."""
+            if not image_field:
+                return None
 
-        if self.documents:
-            self.documents = self.compress_image(self.documents)
+            # If the image is already stored in the filesystem, open it properly
+            if not isinstance(image_field, InMemoryUploadedFile):
+                image_field.open()
 
-        super().save(*args, **kwargs)  # Call the parent class save method
-
-    @staticmethod
-    def compress_image(image_field):
-        """Compresses an image file and converts it to JPEG format."""
-        if image_field:
             img = Image.open(image_field)
 
-            # Convert to RGB if the image has an alpha channel (transparency)
-            if img.mode in ("RGBA", "P"):  
+            # Convert RGBA and P mode images to RGB to avoid errors
+            if img.mode in ("RGBA", "P"):
                 img = img.convert("RGB")
 
             img.thumbnail((800, 800))  # Resize while maintaining aspect ratio
+
             img_io = BytesIO()
-            img.save(img_io, format='JPEG', quality=70)  # Save as JPEG with quality 70
+            img.save(img_io, format='JPEG', quality=70)
+
             return ContentFile(img_io.getvalue(), name=image_field.name)
+
+        # Update applicantPhoto if a new one is uploaded
+        if self.applicantPhoto and isinstance(self.applicantPhoto, InMemoryUploadedFile):
+            self.applicantPhoto = compress_image(self.applicantPhoto)
+
+        # Update documents if a new one is uploaded
+        if self.documents and isinstance(self.documents, InMemoryUploadedFile):
+            self.documents = compress_image(self.documents)
+
+        super().save(*args, **kwargs)  # Call the parent class save method
 
 
 
