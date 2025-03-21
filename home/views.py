@@ -410,21 +410,21 @@ def update_info(request, id):
             student_obj.nrigosti = request.POST.get('nrigosti').strip()
             student_obj.otherScholar = request.POST.get('otherScholarSource')
 
-            """Attachments/Images"""
+            """Attachments/Images Handling"""
             # Check if a new applicantPhoto is uploaded
             if 'applicantPhoto' in request.FILES:
-                if student_obj.applicantPhoto:
-                    # Delete the old applicantPhoto file
-                    if default_storage.exists(student_obj.applicantPhoto.path):
-                        default_storage.delete(student_obj.applicantPhoto.path)
+                # Delete old image
+                if student_obj.applicantPhoto and default_storage.exists(student_obj.applicantPhoto.path):
+                    default_storage.delete(student_obj.applicantPhoto.path)
+                
                 student_obj.applicantPhoto = request.FILES['applicantPhoto']
 
             # Check if a new documents file is uploaded
             if 'documents' in request.FILES:
-                if student_obj.documents:
-                    # Delete the old documents file
-                    if default_storage.exists(student_obj.documents.path):
-                        default_storage.delete(student_obj.documents.path)
+                # Delete old file
+                if student_obj.documents and default_storage.exists(student_obj.documents.path):
+                    default_storage.delete(student_obj.documents.path)
+
                 student_obj.documents = request.FILES['documents']
 
             student_obj.save()

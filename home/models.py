@@ -1,10 +1,17 @@
 from django.db import models
 from manager.models import Year, Shift, Department, Semester
+import os
+import time
+from io import BytesIO
+from django.db import models
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
-from django.core.files.uploadedfile import InMemoryUploadedFile
-from io import BytesIO
+from django.utils.text import slugify
 from PIL import Image
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
+
+
 """Students"""
 class StudentSaf(models.Model):
     regNo = models.PositiveIntegerField(unique=True, null=True, blank=True)
@@ -106,42 +113,46 @@ class StudentSaf(models.Model):
     #     super().save(*args, **kwargs)  # Call the parent class save method
 
     def save(self, *args, **kwargs):
+        """Auto-generate regNo and compress images before saving."""
+
         # Auto-generate regNo if not provided
         if self.regNo is None:
             last_reg_no = StudentSaf.objects.aggregate(max_reg=models.Max('regNo'))['max_reg']
             self.regNo = 1 if last_reg_no is None else last_reg_no + 1
 
-        # def compress_image(image_field):
-        #     """Compresses an image and returns a new file."""
-        #     if not image_field:
-        #         return None
+        # Compress images if a new file is uploaded
+        if self.applicantPhoto and isinstance(self.applicantPhoto, InMemoryUploadedFile):
+            self.applicantPhoto = self.compress_image(self.applicantPhoto)
 
-        #     # If the image is already stored in the filesystem, open it properly
-        #     if not isinstance(image_field, InMemoryUploadedFile):
-        #         image_field.open()
+        if self.documents and isinstance(self.documents, InMemoryUploadedFile):
+            self.documents = self.compress_image(self.documents)
 
-        #     img = Image.open(image_field)
+        super().save(*args, **kwargs)  # Save instance
 
-        #     # Convert RGBA and P mode images to RGB to avoid errors
-        #     if img.mode in ("RGBA", "P"):
-        #         img = img.convert("RGB")
+    def compress_image(self, image_field):
+        """Compress and optimize an uploaded image before saving."""
+        if not image_field:
+            return None
 
-        #     img.thumbnail((800, 800))  # Resize while maintaining aspect ratio
+        # Open image properly
+        image_field.open()
+        img = Image.open(image_field)
 
-        #     img_io = BytesIO()
-        #     img.save(img_io, format='JPEG', quality=70)
+        # Convert RGBA/P mode images to RGB (JPEG does not support transparency)
+        if img.mode in ("RGBA", "P"):
+            img = img.convert("RGB")
 
-        #     return ContentFile(img_io.getvalue(), name=image_field.name)
+        # Resize image while maintaining aspect ratio
+        img.thumbnail((800, 800))
 
-        # # Update applicantPhoto if a new one is uploaded
-        # if self.applicantPhoto and isinstance(self.applicantPhoto, InMemoryUploadedFile):
-        #     self.applicantPhoto = compress_image(self.applicantPhoto)
+        img_io = BytesIO()
+        img.save(img_io, format="JPEG", quality=70)
 
-        # # Update documents if a new one is uploaded
-        # if self.documents and isinstance(self.documents, InMemoryUploadedFile):
-        #     self.documents = compress_image(self.documents)
+        # Generate a unique filename
+        filename, ext = os.path.splitext(image_field.name)
+        new_filename = f"{slugify(filename)}_{int(time.time())}.jpg"
 
-        # super().save(*args, **kwargs)  # Call the parent class save method
+        return ContentFile(img_io.getvalue(), name=new_filename)
 
 
 
