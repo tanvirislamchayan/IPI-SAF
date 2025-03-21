@@ -120,50 +120,11 @@ class StudentSaf(models.Model):
             last_reg_no = StudentSaf.objects.aggregate(max_reg=models.Max('regNo'))['max_reg']
             self.regNo = 1 if last_reg_no is None else last_reg_no + 1
 
-        # Compress images if a new file is uploaded
-        if self.applicantPhoto and isinstance(self.applicantPhoto, InMemoryUploadedFile):
-            self.applicantPhoto = self.compress_image(self.applicantPhoto)
-
-        if self.documents and isinstance(self.documents, InMemoryUploadedFile):
-            self.documents = self.compress_image(self.documents)
-
-        super().save(*args, **kwargs)  # Save instance
-
-    def compress_image(self, image_field):
-        """Compress and optimize an uploaded image before saving."""
-        if not image_field:
-            return None
-
-        # Open image properly
-        image_field.open()
-        img = Image.open(image_field)
-
-        # Convert RGBA/P mode images to RGB (JPEG does not support transparency)
-        if img.mode in ("RGBA", "P"):
-            img = img.convert("RGB")
-
-        # Resize image while maintaining aspect ratio
-        img.thumbnail((800, 800))
-
-        img_io = BytesIO()
-        img.save(img_io, format="JPEG", quality=70)
-
-        # Generate a unique filename
-        filename, ext = os.path.splitext(image_field.name)
-        new_filename = f"{slugify(filename)}_{int(time.time())}.jpg"
-
-        return ContentFile(img_io.getvalue(), name=new_filename)
-
-
-
 
     def __str__(self) -> str:
         return f'{self.presentEduRoll} - {self.name}'
     
     
-
-
-
 
 
 
