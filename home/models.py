@@ -110,25 +110,30 @@ class StudentSaf(models.Model):
             last_reg_no = StudentSaf.objects.aggregate(max_reg=models.Max('regNo'))['max_reg']
             self.regNo = 1 if last_reg_no is None else last_reg_no + 1
 
-        # Function to compress images
-        def compress_image(image_field):
-            if image_field:
-                img = Image.open(image_field)
-                img.convert("RGB")  # Ensure it's in RGB mode
-                img.thumbnail((800, 800))  # Resize while maintaining aspect ratio
-                img_io = BytesIO()
-                img.save(img_io, format='JPEG', quality=70)  # Adjust quality as needed
-                return ContentFile(img_io.getvalue(), name=image_field.name)
-
-        # Compress applicant photo
+        # Compress images before saving
         if self.applicantPhoto:
-            self.applicantPhoto = compress_image(self.applicantPhoto)
+            self.applicantPhoto = self.compress_image(self.applicantPhoto)
 
-        # Compress documents
         if self.documents:
-            self.documents = compress_image(self.documents)
+            self.documents = self.compress_image(self.documents)
 
         super().save(*args, **kwargs)  # Call the parent class save method
+
+    @staticmethod
+    def compress_image(image_field):
+        """Compresses an image file and converts it to JPEG format."""
+        if image_field:
+            img = Image.open(image_field)
+
+            # Convert to RGB if the image has an alpha channel (transparency)
+            if img.mode in ("RGBA", "P"):  
+                img = img.convert("RGB")
+
+            img.thumbnail((800, 800))  # Resize while maintaining aspect ratio
+            img_io = BytesIO()
+            img.save(img_io, format='JPEG', quality=70)  # Save as JPEG with quality 70
+            return ContentFile(img_io.getvalue(), name=image_field.name)
+
 
 
 
