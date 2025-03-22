@@ -85,27 +85,27 @@ WSGI_APPLICATION = 'saf.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'jstechbd_saf_form',
-#         'USER': 'jstechbd_jstechbd',
-#         'PASSWORD': 'Hj-c9xb2QY#30T',
-#         'HOST': 'localhost',  
-#         'PORT': '3306',
-#         'OPTIONS': {
-#             'charset': 'utf8mb4',
-#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-#         }
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR.parent / "db_saf.sqlite3",
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'jstechbd_saf_form',
+        'USER': 'jstechbd_jstechbd',
+        'PASSWORD': 'Hj-c9xb2QY#30T',
+        'HOST': 'localhost',  
+        'PORT': '3306',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR.parent / "db_saf.sqlite3",
+#     }
+# }
 
 
 

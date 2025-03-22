@@ -104,21 +104,21 @@ class StudentSaf(models.Model):
     documents = models.ImageField(upload_to='extraFile', null=True, blank=True)
 
 
-    # def save(self, *args, **kwargs):
-    #     # Auto-generate regNo if not provided
-    #     if self.regNo is None:
-    #         # Get the last regNo and increment it
-    #         last_reg_no = StudentSaf.objects.aggregate(max_reg=models.Max('regNo'))['max_reg']
-    #         self.regNo = 1 if last_reg_no is None else last_reg_no + 1
-    #     super().save(*args, **kwargs)  # Call the parent class save method
-
     def save(self, *args, **kwargs):
-        """Auto-generate regNo and compress images before saving."""
-
         # Auto-generate regNo if not provided
         if self.regNo is None:
+            # Get the last regNo and increment it
             last_reg_no = StudentSaf.objects.aggregate(max_reg=models.Max('regNo'))['max_reg']
             self.regNo = 1 if last_reg_no is None else last_reg_no + 1
+        super().save(*args, **kwargs)  # Call the parent class save method
+
+    # def save(self, *args, **kwargs):
+    #     """Auto-generate regNo and compress images before saving."""
+
+    #     # Auto-generate regNo if not provided
+    #     if self.regNo is None:
+    #         last_reg_no = StudentSaf.objects.aggregate(max_reg=models.Max('regNo'))['max_reg']
+    #         self.regNo = 1 if last_reg_no is None else last_reg_no + 1
 
 
     def __str__(self) -> str:
