@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from manager.models import Institute, Year, Shift, Department, Semester
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -40,7 +41,7 @@ def home(request):
     return render(request, 'home/home.html', context=context)
 
 
-
+@csrf_exempt
 def save_data(request):
     referal_url = request.META.get('HTTP_REFERER', request.path_info)
     # all_students = AllStudent.objects.last()
@@ -251,7 +252,7 @@ def save_data(request):
                 
     return redirect('home')
 
-
+@csrf_exempt
 def search_info(request):
     # all_students = AllStudent.objects.last()
     # if all_students:
@@ -318,6 +319,7 @@ def student(request, id):
 
 
 # update
+@csrf_exempt
 def update_info(request, id):
     # Retrieve existing StudentSaf and PaymentSystem objects
     try:
@@ -468,7 +470,7 @@ def update_info(request, id):
 
 
 
-
+@csrf_exempt
 def delete_seasson(request):
     institute = Institute.objects.all().first()
     # Check if the user is a superuser
@@ -535,44 +537,45 @@ def delete_seasson(request):
 
 
 def user_login(request):
+    return redirect('auth_login')
     # all_students = AllStudent.objects.last()
     # if all_students:
     #     all_students.check_validity()
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+    # if request.method == 'POST':
+    #     username = request.POST.get('username')
+    #     password = request.POST.get('password')
         
-        user = authenticate(request, username=username, password=password)
+    #     user = authenticate(request, username=username, password=password)
         
-        if user is not None:
-            if user.is_authenticated:
-                login(request, user)
-                return redirect('delete')  # Redirect to 'delete' page if login is successful
-            else:
-                # Handle the case where the user is not a superuser
-                context = {
-                    'page': 'Login SAF Admin | API',
-                    'error': 'You are not authorized to access this page.'
-                }
-                messages.warning(request, 'You are not authorized to access this page.')
-                return HttpResponseRedirect(request.path_info)
-        else:
-            # Handle invalid login credentials
-            context = {
-                'page': 'Login SAF Admin | API',
-                'error': 'Invalid username or password.'
-            }
-            messages.warning(request, 'Invalid username or password.')
-            return HttpResponseRedirect(request.path_info)
-    students_count = StudentSaf.objects.all().count()
-    institute = Institute.objects.all().first()
+    #     if user is not None:
+    #         if user.is_authenticated:
+    #             login(request, user)
+    #             return redirect('delete')  # Redirect to 'delete' page if login is successful
+    #         else:
+    #             # Handle the case where the user is not a superuser
+    #             context = {
+    #                 'page': 'Login SAF Admin | API',
+    #                 'error': 'You are not authorized to access this page.'
+    #             }
+    #             messages.warning(request, 'You are not authorized to access this page.')
+    #             return HttpResponseRedirect(request.path_info)
+    #     else:
+    #         # Handle invalid login credentials
+    #         context = {
+    #             'page': 'Login SAF Admin | API',
+    #             'error': 'Invalid username or password.'
+    #         }
+    #         messages.warning(request, 'Invalid username or password.')
+    #         return HttpResponseRedirect(request.path_info)
+    # students_count = StudentSaf.objects.all().count()
+    # institute = Institute.objects.all().first()
     
-    context = {
-        'page': 'Login SAF Admin | API',
-        'students_count': students_count,
-        'institute': institute
-    }
-    return render(request, 'home/login.html', context)
+    # context = {
+    #     'page': 'Login SAF Admin | API',
+    #     'students_count': students_count,
+    #     'institute': institute
+    # }
+    # return render(request, 'home/login.html', context)
 
 
 
@@ -583,7 +586,7 @@ def user_logout(request):
     # if all_students:
     #     all_students.check_validity()
     logout(request)
-    return redirect('login') 
+    return redirect('home') 
 
 
 def delete_sel(request, id):

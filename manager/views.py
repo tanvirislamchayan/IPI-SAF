@@ -5,15 +5,18 @@ from django.contrib import messages
 from home.models import StudentSaf
 from django.contrib.auth.models import User
 from . models import Institute, Year, Department, Shift, Semester
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
 def auth(request):
     if request.user.is_superuser:
         return redirect('manage_college')
-    elif request.user.is_authenticated:
+    elif request.user.is_authenticated and not request.user.is_superuser:
         messages.warning(request, 'You are not allowed to access admin panel')
         return redirect('delete')
+    elif request.user.is_authenticated and request.user.is_superuser:
+        return redirect('manage_college')
     else:
         return redirect('auth_login')
 
@@ -34,9 +37,14 @@ def auth_login(request):
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
-            if user.is_authenticated:
+            if user.is_authenticated and not user.is_superuser:
                 login(request, user)
+                messages.success(request, 'Welcome back! Logged in as User.')
                 return redirect('delete')  # Redirect to 'delete' page if login is successful
+            elif user.is_authenticated and user.is_superuser:
+                login(request, user)
+                messages.success(request, 'Welcome back! Logged in as Super user.')
+                return redirect('manage_college')
             else:
                 # Handle the case where the user is not a superuser
                 context = {
@@ -108,7 +116,7 @@ def auth_create(request):
     
     return render(request, 'home/user_create.html', context)
 
-
+@csrf_exempt
 def institute(request):
     """TODO: Show institute"""
     if not request.user.is_superuser:
@@ -166,7 +174,7 @@ def institute(request):
     
     return render(request, 'home/manage_college.html', context)
 
-
+@csrf_exempt
 def departments(request):
     if not request.user.is_superuser:
         messages.error(request, 'Your are not allowed to Admin panel!')
@@ -227,7 +235,7 @@ def delete_department(request, uid):
         print(e)
     return HttpResponseRedirect(referal_url)
 
-
+@csrf_exempt
 def years(request):
     if not request.user.is_superuser:
         messages.error(request, 'Your are not allowed to Admin panel!')
@@ -282,6 +290,7 @@ def delete_year(request, id):
         print(e)
     return HttpResponseRedirect(referal_url)
 
+@csrf_exempt
 def sifts(request):
     if not request.user.is_superuser:
         messages.error(request, 'Your are not allowed to Admin panel!')
@@ -328,7 +337,7 @@ def delete_shift(request, uid):
         messages.error(request, 'No Shift exists!')
     return HttpResponseRedirect(referal_url)
 
-
+@csrf_exempt
 def users(request):
     if not request.user.is_superuser:
         messages.error(request, 'Your are not allowed to Admin panel!')
